@@ -6,16 +6,16 @@ app = Flask(__name__)
 
 @app.route('/')
 def Menu():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('Genshin Impact Builds Website.db')
     cur = conn.cursor()
-    cur.execute('SELECT * FROM users')
+    cur.execute('SELECT * FROM teams')
     menu = cur.fetchall()
     return render_template('menu.html', menu=menu)
 
 
-@app.route('/teams/')
+@app.route('/teams')
 def Teams():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('Genshin Impact Builds Website.db')
     cur = conn.cursor()
     cur.execute('SELECT * FROM teams')
     teams = cur.fetchall()
@@ -24,8 +24,12 @@ def Teams():
 
 @app.route('/teams/<int:id>')
 def Team(id):
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('Genshin Impact Builds Website.db')
     cur = conn.cursor()
     cur.execute('SELECT * FROM teams WHERE id = ?', (id,))
     team = cur.fetchone()
     return render_template('team.html', team=team)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

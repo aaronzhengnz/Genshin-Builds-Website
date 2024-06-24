@@ -44,8 +44,29 @@ body {
     font-size: 25px;
     background-color: aquamarine;
     padding: 20px 40px;
-    margin: 10px;
+    margin: 10px;   
     border: none;
     cursor: pointer;
     text-decoration: none;
+}
+
+.navigation-bar a:link, a:visited {
+    color: black;
+}
+
+.navigation-bar a:hover {
+    background-color: rgb(177, 255, 229);
+}
+
+.introduction-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Josefin Sans;
+    font-size: 25px;
+    background-color: #a5c0ea;
+    border: 10px solid #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
 }

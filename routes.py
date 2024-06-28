@@ -4,9 +4,15 @@ import sqlite3
 app = Flask(__name__)
 
 
+def get_db_connection():
+    conn = sqlite3.connect('Genshin Impact Builds Website.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
 @app.route('/')
 def Menu():
-    conn = sqlite3.connect('Genshin Impact Builds Website.db')
+    conn = get_db_connection()
     cur = conn.cursor()
     cur.execute('SELECT * FROM teams')
     menu = cur.fetchall()
@@ -15,7 +21,7 @@ def Menu():
 
 @app.route('/teams')
 def Teams():
-    conn = sqlite3.connect('Genshin Impact Builds Website.db')
+    conn = get_db_connection()
     cur = conn.cursor()
     cur.execute('SELECT * FROM teams')
     teams = cur.fetchall()
@@ -24,7 +30,7 @@ def Teams():
 
 @app.route('/teams/<int:id>')
 def Team(id):
-    conn = sqlite3.connect('Genshin Impact Builds Website.db')
+    conn = get_db_connection()
     cur = conn.cursor()
     cur.execute('SELECT * FROM teams WHERE id = ?', (id,))
     team = cur.fetchone()

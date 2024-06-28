@@ -22,10 +22,28 @@ def Menu():
 @app.route('/teams')
 def Teams():
     conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute('SELECT * FROM teams')
-    teams = cur.fetchall()
-    return render_template('teams.html', teams=teams)
+    team_rows = conn.execute('SELECT * FROM teams').fetchall()
+    conn.close()
+
+    teams_data = []
+    for row in team_rows:
+        team = {
+            "id": row["Team_ID"],
+            "team_name": row["Team_Name"],
+            "characters": [
+                {"id": row["Character_ID_1"],
+                    "name": row["Character_ID_1_Name"]},
+                {"id": row["Character_ID_2"],
+                    "name": row["Character_ID_2_Name"]},
+                {"id": row["Character_ID_3"],
+                    "name": row["Character_ID_3_Name"]},
+                {"id": row["Character_ID_4"],
+                    "name": row["Character_ID_4_Name"]}
+            ]
+        }
+    teams_data.append(team)
+
+    return render_template('teams.html', teams=teams_data)
 
 
 @app.route('/teams/<int:id>')

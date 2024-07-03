@@ -22,28 +22,44 @@ def Menu():
 @app.route('/teams')
 def Teams():
     conn = get_db_connection()
-    team_rows = conn.execute('SELECT * FROM teams').fetchall()
+
+    query = """
+        SELECT 
+        Teams.Team_ID,
+        Teams.Team_Name,
+        C1.Character_ID AS Character_1_ID,
+        C1.Character_Name AS Character_1_Name,
+        C2.Character_ID AS Character_2_ID,
+        C2.Character_Name AS Character_2_Name,
+        C3.Character_ID AS Character_3_ID,
+        C3.Character_Name AS Character_3_Name,
+        C4.Character_ID AS Character_4_ID,
+        C4.Character_Name AS Character_4_Name
+    FROM Teams
+    LEFT JOIN Characters C1 ON Teams.Character_ID_1 = C1.Character_ID
+    LEFT JOIN Characters C2 ON Teams.Character_ID_2 = C2.Character_ID
+    LEFT JOIN Characters C3 ON Teams.Character_ID_3 = C3.Character_ID
+    LEFT JOIN Characters C4 ON Teams.Character_ID_4 = C4.Character_ID;
+    """
+
+    team_rows = conn.execute(query).fetchall()
     conn.close()
 
-    teams_data = []
+    teams_list = []
     for row in team_rows:
-        team = {
+        teams_data = {
             "id": row["Team_ID"],
             "team_name": row["Team_Name"],
             "characters": [
-                {"id": row["Character_ID_1"],
-                    "name": row["Character_ID_1_Name"]},
-                {"id": row["Character_ID_2"],
-                    "name": row["Character_ID_2_Name"]},
-                {"id": row["Character_ID_3"],
-                    "name": row["Character_ID_3_Name"]},
-                {"id": row["Character_ID_4"],
-                    "name": row["Character_ID_4_Name"]}
+                {"id": row["Character_1_ID"], "name": row["Character_1_Name"]},
+                {"id": row["Character_2_ID"], "name": row["Character_2_Name"]},
+                {"id": row["Character_3_ID"], "name": row["Character_3_Name"]},
+                {"id": row["Character_4_ID"], "name": row["Character_4_Name"]},
             ]
         }
-    teams_data.append(team)
+        teams_list.append(teams_data)
 
-    return render_template('teams.html', teams=teams_data)
+    return render_template('teams.html', teams=teams_list)
 
 
 @app.route('/teams/<int:id>')

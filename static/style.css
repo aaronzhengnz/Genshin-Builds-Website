@@ -1,6 +1,13 @@
 @font-face {
     font-family: Josefin Sans;
-    src: url(JosefinSans-VariableFont_wght.ttf);
+    src: url('JosefinSans-VariableFont_wght.ttf');
+}
+
+body {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font-family: Josefin Sans;
 }
 
 header {
@@ -8,7 +15,6 @@ header {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
-    font-family: Josefin Sans;
     font-size: 32px;
     background-color: #a5c0ea;
     border-radius: 10px;
@@ -20,20 +26,40 @@ header h2 {
     align-self: end;
 }
 
-body {
-    background-color: #ffffff;
+.navigation-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #a5c0ea;
+    border: 10px solid #c559e8;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    list-style-type: none;
 }
 
-.header-container {
-    font-family: Josefin Sans;
+.navigation-bar li {
+    margin: 15px;
+}
+
+.navigation-bar a {
+    font-size: 25px;
+    background-color: aquamarine;
+    padding: 20px 40px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+
+.navigation-bar a:hover {
+    background-color: rgb(177, 255, 229);
 }
 
 .box-container {    
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
-    font-family: Josefin Sans;
     background-color: #a5c0ea;
     border: 10px solid #c559e8;
     border-radius: 10px;
@@ -42,33 +68,25 @@ body {
     font-size: 26px;
 }
 
-.navigation-bar {
+#all-teams-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.team-item {
+    background-color: #fff;
+    border: 2px solid #c559e8;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 45%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.team-item h3 {
+    display: flex;
     justify-content: center;
-    font-family: Josefin Sans;
-    background-color: #a5c0ea;
-    border: 10px solid #c559e8;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px;
-}
-
-.navigation-bar a {
-    font-family: Josefin Sans;
-    font-size: 25px;
-    background-color: aquamarine;
-    padding: 20px 40px;
-    margin: 10px;   
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.navigation-bar a:link, a:visited {
-    color: black;
-}
-
-.navigation-bar a:hover {
-    background-color: rgb(177, 255, 229);
 }

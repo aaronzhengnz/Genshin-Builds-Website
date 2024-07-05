@@ -11,12 +11,12 @@ def get_db_connection():
 
 
 @app.route('/')
-def Menu():
+def Home():
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute('SELECT * FROM teams')
-    menu = cur.fetchall()
-    return render_template('menu.html', menu=menu)
+    home = cur.fetchall()
+    return render_template('home.html', home=home)
 
 
 @app.route('/teams')

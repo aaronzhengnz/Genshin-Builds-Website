@@ -24,7 +24,7 @@ def Teams():
     conn = get_db_connection()
 
     query = """
-        SELECT 
+        SELECT
         Teams.Team_ID,
         Teams.Team_Name,
         C1.Character_ID AS Character_1_ID,

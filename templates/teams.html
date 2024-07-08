@@ -1,36 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-</head>
-
-<link rel="stylesheet" href="/static/style.css">
-
-<body>
-    <div class="introdution-container">
-        <header>
-            <h1>Genshin Impact Character and Team Building Guide</h1>
-            <h2>By Aso Jaou (Aaron Zheng - 21211)</h2>
-        </header>
-        <nav>
-            <ul class="navigation-bar">
-                <a href="/">Main Menu</a>
-                <a href="/teams">Team Compositions</a>
-                <a href="/characters">Characters</a>
-                <a href="/weapons">Weapons</a>
-                <a href="/artifacts">Artifacts</a>
-            </ul>
-        </nav>
-        <div class="team-compositions-container">
-            <h1>My Team Compositions</h1>
-            <div class="all-teams-container">
-                {% for team in teams %}
-                <div class="team-container">
-                    <h2>{{ team.team_name }}</h2>
-                </div>
-                {% endfor %}
-            </div>
+{% extends "layout.html" %}
+{% block content %}
+<div class="box-container">
+    <h1>My Team Compositions</h1>
+    <div id="all-teams-container">
+        {% for team in teams %}
+        <div class="team-item">
+            <h3>{{ team.team_name }}</h3>
         </div>
+        {% endfor %}
     </div>
-</body>
+</div>
+{% endblock %}

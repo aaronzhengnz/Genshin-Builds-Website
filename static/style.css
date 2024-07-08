@@ -3,6 +3,50 @@
     src: url('JosefinSans-VariableFont_wght.ttf');
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 55px;
+    font-family: Josefin Sans;
+    text-align: center;
+    padding: 20px;
+    margin: 26px;
+}
+
+h2 {
+    font-size: 30px;
+    font-family: Josefin Sans;
+    text-align: center;
+    margin: 20px;
+
+}
+
+p {
+    font-size: 20px;
+    font-family: Josefin Sans;
+    text-align: center;
+    margin: 20px;
+
+}
+
+header {
+    background-color: #a5c0ea;
+    border: 10px solid #c559e8;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+}
+
+header h2 {
+    display: flex;
+    justify-content: end;
+}
+
+#aaa
+
 body {
     background-color: #ffffff;
     margin: 0;
@@ -10,23 +54,7 @@ body {
     font-family: Josefin Sans;
 }
 
-header {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    font-size: 32px;
-    background-color: #a5c0ea;
-    border-radius: 10px;
-    padding-top: 30px;
-}
-
-header h2 {
-    padding-right: 25px;
-    align-self: end;
-}
-
-.navigation-bar {
+#navigation-bar {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -36,13 +64,10 @@ header h2 {
     padding: 20px;
     margin: 20px;
     list-style-type: none;
+    font-family: Josefin Sans;
 }
 
-.navigation-bar li {
-    margin: 15px;
-}
-
-.navigation-bar a {
+#navigation-bar a {
     font-size: 25px;
     background-color: aquamarine;
     padding: 20px 40px;
@@ -52,7 +77,7 @@ header h2 {
     color: black;
 }
 
-.navigation-bar a:hover {
+#navigation-bar a:hover {
     background-color: rgb(177, 255, 229);
 }
 

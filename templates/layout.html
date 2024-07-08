@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Genshin Impact Character and Team Building Guide</title>
-        <h2>By Aso Jaou (Aaron Zheng - 21211)</h2>
         <link rel="stylesheet" href="/static/style.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
+
+    <body>
+        <div id="site-container">
+            <header>{% include "header.html" %}</header>
+            <nav>{% include "nav.html" %}</nav>
+            <main>{% block content %}{% endblock %}</main>
+            <footer>{% include 'footer.html' %}</footer>
+        </div>
+    </body>
 </html>

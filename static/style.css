@@ -21,6 +21,14 @@ h2 {
     font-family: Josefin Sans;
     text-align: center;
     margin: 20px;
+}
+
+h3 {
+    font-size: 25px;
+    font-family: Josefin Sans;
+    text-align: center;
+    margin: 20px;
+
 
 }
 
@@ -52,6 +60,18 @@ body {
     margin: 0;
     padding: 0;
     font-family: Josefin Sans;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #a5c0ea;
+    border: 10px solid #c559e8;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    font-size: 26px;  
 }
 
 #navigation-bar {
@@ -101,7 +121,9 @@ body {
     width: 100%;
 }
 
-.team-item {
+#team-container {
+    display: flex;
+    flex-direction: column;
     background-color: #fff;
     border: 2px solid #c559e8;
     border-radius: 5px;
@@ -111,7 +133,20 @@ body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.team-item h3 {
+#team-characters-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    flex: 1;
+}
+
+#full-team-characters-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.character-image {
+    max-width: 106px;
 }

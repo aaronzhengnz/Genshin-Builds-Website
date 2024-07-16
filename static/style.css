@@ -88,9 +88,6 @@ header h2 {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    background-color: #a5c0ea;
-    border: 10px solid #c559e8;
-    border-radius: 10px;
     padding: 20px;
     margin: 20px;
     font-size: 26px;

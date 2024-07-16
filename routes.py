@@ -68,7 +68,7 @@ def Teams():
     return render_template("teams.html", teams=teams_list)
 
 
-@app.route("/teams/<string:Team_URL>")
+@app.route("/<string:Team_URL>")
 def Team(Team_URL):
     conn = get_db_connection()
     cur = conn.cursor()

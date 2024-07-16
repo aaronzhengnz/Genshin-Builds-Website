@@ -6,6 +6,11 @@
 main {
     display: flex;
     flex-direction: column;
+    background-color: #a5c0ea;
+    border: 10px solid #c559e8;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
 }
 
 h1 {
@@ -17,14 +22,14 @@ h1 {
 }
 
 h2 {
-    font-size: 30px;
+    font-size: 38px;
     font-family: Josefin Sans;
     text-align: center;
     margin: 20px;
 }
 
 h3 {
-    font-size: 25px;
+    font-size: 30px;
     font-family: Josefin Sans;
     text-align: center;
     margin: 20px;
@@ -33,7 +38,7 @@ h3 {
 }
 
 p {
-    font-size: 20px;
+    font-size: 25px;
     font-family: Josefin Sans;
     text-align: center;
     margin: 20px;
@@ -53,16 +58,7 @@ header h2 {
     justify-content: end;
 }
 
-#aaa
-
-body {
-    background-color: #ffffff;
-    margin: 0;
-    padding: 0;
-    font-family: Josefin Sans;
-}
-
-main {
+.box-container {    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,7 +67,28 @@ main {
     border-radius: 10px;
     padding: 20px;
     margin: 20px;
-    font-size: 26px;  
+    font-size: 26px;
+}
+
+.character-image-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    flex: 1;
+}
+
+#all-teams-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #a5c0ea;
+    border: 10px solid #c559e8;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    font-size: 26px;
 }
 
 #navigation-bar {
@@ -101,26 +118,6 @@ main {
     background-color: rgb(177, 255, 229);
 }
 
-.box-container {    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #a5c0ea;
-    border: 10px solid #c559e8;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px;
-    font-size: 26px;
-}
-
-#all-teams-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 100%;
-}
-
 #team-container {
     display: flex;
     flex-direction: column;
@@ -133,20 +130,12 @@ main {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-#team-characters-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    flex: 1;
-}
-
 #full-team-characters-container {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
-.character-image {
-    max-width: 106px;
+#teams-character-image {
+    width: 60%;
 }

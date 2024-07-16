@@ -78,9 +78,11 @@ def Team(id):
 @app.route('/characters')
 def Characters():
     conn = get_db_connection()
+    conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute('SELECT * FROM characters')
-    characters = cur.fetchall()
+    character_rows = cur.fetchall()
+    characters = [dict(row) for row in character_rows]
     return render_template('characters.html', characters=characters)
 
 

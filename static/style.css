@@ -76,6 +76,11 @@ header h2 {
     justify-content: space-around;
     align-items: center;
     flex: 1;
+    padding-top: 10px;
+}
+
+.characters-grid-item {
+    display: grid;
 }
 
 #all-teams-container {
@@ -137,5 +142,11 @@ header h2 {
 }
 
 #teams-character-image {
-    width: 60%;
+    width: 50%;
+}
+
+#characters-grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: auto;
 }

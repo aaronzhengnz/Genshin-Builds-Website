@@ -4,7 +4,7 @@
 <div id="all-teams-container">
     {% for team in teams %}
     <div id="team-container">
-        <a href="/{{ team.team_url }}">{{ team.team_name }}</a>
+        <a href="/teams/{{ team.team_url }}">{{ team.team_name }}</a>
         <div id="full-team-characters-container">
             {% for character in team.characters %}
             <div class="character-image-container">

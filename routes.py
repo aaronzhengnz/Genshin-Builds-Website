@@ -72,17 +72,17 @@ def Teams():
 def Team(Team_URL):
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM teams WHERE Team_URL = ?",
-                (f"teams/{Team_URL}",))
+    cur.execute("SELECT * FROM teams WHERE Team_URL = ?", (Team_URL,))
     team = cur.fetchone()
-    conn.close()
-    return render_template("team.html", team=team)
+    if team is None:
+        return render_template("404.html"), 404
+    team_dict = dict(team)
+    return render_template("team.html", team=team_dict)
 
 
 @app.route("/characters")
 def Characters():
     conn = get_db_connection()
-    conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT * FROM characters ORDER BY Character_Name")
     character_rows = cur.fetchall()
@@ -96,7 +96,7 @@ def Character(Character_URL):
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute("SELECT * FROM characters WHERE Character_URL = ?",
-                (f"characters/{Character_URL}",))
+                (Character_URL,))
     character = cur.fetchone()
     conn.close()
     return render_template("character.html", character=character)

@@ -86,6 +86,7 @@ def Characters():
     cur = conn.cursor()
     cur.execute("SELECT * FROM characters ORDER BY Character_Name")
     character_rows = cur.fetchall()
+    conn.close()
     characters = [dict(row) for row in character_rows]
     return render_template("characters.html", characters=characters)
 

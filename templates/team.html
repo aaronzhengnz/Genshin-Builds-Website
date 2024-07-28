@@ -1,6 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
 <div>
-    <h1>{{ team.Team_Name }}</h1>
+    <h1>{{ team.team_name }}</h1>
+    <div>
+        <h2>Characters In This Team</h2>
+        <div>
+            {% for character in team.characters %}
+            <div class="specific-team-character-container">
+                <img src="{{ character.image }}" alt="{{ character.name }}" class="teams-character-image">
+                <div>
+                    <h3>{{ character.name }}</h3>
+                    <p>{{ character.vision_name }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}

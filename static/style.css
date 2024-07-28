@@ -3,6 +3,10 @@
     src: url('JosefinSans-VariableFont_wght.ttf');
 }
 
+body {
+    font-family: Josefin Sans;
+}
+
 main {
     display: flex;
     flex-direction: column;
@@ -15,7 +19,6 @@ main {
 
 h1 {
     font-size: 55px;
-    font-family: Josefin Sans;
     text-align: center;
     padding: 20px;
     margin: 26px;
@@ -23,26 +26,20 @@ h1 {
 
 h2 {
     font-size: 38px;
-    font-family: Josefin Sans;
     text-align: center;
     margin: 20px;
 }
 
 h3 {
     font-size: 30px;
-    font-family: Josefin Sans;
     text-align: center;
     margin: 20px;
-
-
 }
 
 p {
     font-size: 25px;
-    font-family: Josefin Sans;
     text-align: center;
     margin: 20px;
-
 }
 
 header {
@@ -79,8 +76,29 @@ header h2 {
     padding-top: 10px;
 }
 
+.character-image-container img {
+    padding-top: 10px;
+}
+
 .characters-grid-item {
     display: grid;
+}
+
+.specific-team-character-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;    
+    justify-content: start;
+    background-color: #a5c0ea;
+    border: 10px solid #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    font-size: 26px;
+}
+
+.teams-character-image {
+    width: 160px;
 }
 
 #all-teams-container {
@@ -93,6 +111,35 @@ header h2 {
     font-size: 26px;
 }
 
+#team-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 2px solid #c559e8;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 45%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#team-container a {
+    display: flex;
+    justify-content: center;
+    font-size: 42px;
+    padding: 20px 40px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+
+#team-container a:hover {
+    background-color: rgb(219, 219, 219);
+}
+
+/* nav.html */
+
 #navigation-bar {
     display: flex;
     flex-direction: row;
@@ -103,7 +150,6 @@ header h2 {
     padding: 20px;
     margin: 20px;
     list-style-type: none;
-    font-family: Josefin Sans;
 }
 
 #navigation-bar a {
@@ -120,30 +166,18 @@ header h2 {
     background-color: rgb(177, 255, 229);
 }
 
-#team-container {
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    border: 2px solid #c559e8;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    width: 45%;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
 #full-team-characters-container {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
-#teams-character-image {
-    width: 50%;
-}
-
 #characters-grid-container {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-auto-rows: auto;
+}
+
+#character_image {
+    width: 160px;
 }

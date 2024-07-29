@@ -6,11 +6,11 @@
         <h2>Characters In This Team</h2>
         <div>
             {% for character in team.characters %}
-            <div class="specific-team-character-container">
+            <div id="team_character-container">
                 <img src="{{ character.image }}" alt="{{ character.name }}" class="teams-character-image">
                 <div>
                     <h3>{{ character.name }}</h3>
-                    <p>{{ character.vision_name }}</p>
+                    <p>Vision - {{ character.vision_name }}</p>
                 </div>
             </div>
             {% endfor %}

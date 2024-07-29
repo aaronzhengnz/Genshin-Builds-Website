@@ -85,7 +85,8 @@ def team(Team_URL):
         C1.Character_URL AS Character_1_URL,
         C1.Character_Vision AS Character_1_Vision,
         V1.Vision_Name AS Character_1_Vision_Name,
-
+        CW1.Weapon_ID AS Character_1_Weapon,
+        W1.Weapon_Name AS Character_1_Weapon_Name,
 
         C2.Character_ID AS Character_2_ID,
         C2.Character_Name AS Character_2_Name,
@@ -93,6 +94,8 @@ def team(Team_URL):
         C2.Character_URL AS Character_2_URL,
         C2.Character_Vision AS Character_2_Vision,
         V2.Vision_Name AS Character_2_Vision_Name,
+        CW2.Weapon_ID AS Character_2_Weapon,
+        W2.Weapon_Name AS Character_2_Weapon_Name,
 
         C3.Character_ID AS Character_3_ID,
         C3.Character_Name AS Character_3_Name,
@@ -100,32 +103,44 @@ def team(Team_URL):
         C3.Character_URL AS Character_3_URL,
         C3.Character_Vision AS Character_3_Vision,
         V3.Vision_Name AS Character_3_Vision_Name,
+        CW3.Weapon_ID AS Character_3_Weapon,
+        W3.Weapon_Name AS Character_3_Weapon_Name,
 
         C4.Character_ID AS Character_4_ID,
         C4.Character_Name AS Character_4_Name,
         C4.Character_Image_URI AS Character_4_Image_URI,
         C4.Character_URL AS Character_4_URL,
         C4.Character_Vision AS Character_4_Vision,
-        V4.Vision_Name AS Character_4_Vision_Name
+        V4.Vision_Name AS Character_4_Vision_Name,
+        CW4.Weapon_ID AS Character_4_Weapon,
+        W4.Weapon_Name AS Character_4_Weapon_Name
 
     FROM Teams
 
     -- Join for Character 1
     INNER JOIN Characters C1 ON Teams.Character_ID_1 = C1.Character_ID
     INNER JOIN Visions V1 ON C1.Character_Vision = V1.Vision_ID
+    INNER JOIN CharacterWeapons CW1 ON C1.Character_ID = CW1.Character_ID
+    INNER JOIN Weapons W1 ON CW1.Weapon_ID = W1.Weapon_ID
 
     -- Join for Character 2
     INNER JOIN Characters C2 ON Teams.Character_ID_2 = C2.Character_ID
     INNER JOIN Visions V2 ON C2.Character_Vision = V2.Vision_ID
-
+    INNER JOIN CharacterWeapons CW2 ON C2.Character_ID = CW2.Character_ID
+    INNER JOIN Weapons W2 ON CW2.Weapon_ID = W2.Weapon_ID
 
     -- Join for Character 3
     INNER JOIN Characters C3 ON Teams.Character_ID_3 = C3.Character_ID
     INNER JOIN Visions V3 ON C3.Character_Vision = V3.Vision_ID
+    INNER JOIN CharacterWeapons CW3 ON C3.Character_ID = CW3.Character_ID
+    INNER JOIN Weapons W3 ON CW3.Weapon_ID = W3.Weapon_ID
 
     -- Join for Character 4
     INNER JOIN Characters C4 ON Teams.Character_ID_4 = C4.Character_ID
     INNER JOIN Visions V4 ON C4.Character_Vision = V4.Vision_ID
+    INNER JOIN CharacterWeapons CW4 ON C4.Character_ID = CW4.Character_ID
+    INNER JOIN Weapons W4 ON CW4.Weapon_ID = W4.Weapon_ID
+
     WHERE Teams.Team_URL = ?
     """
 
@@ -149,6 +164,8 @@ def team(Team_URL):
                 "url": team_row["Character_1_URL"],
                 "vision": team_row["Character_1_Vision"],
                 "vision_name": team_row["Character_1_Vision_Name"],
+                "weapon": team_row["Character_1_Weapon"],
+                "weapon_name": team_row["Character_1_Weapon_Name"],
             },
             {
                 "id": team_row["Character_2_ID"],
@@ -157,6 +174,8 @@ def team(Team_URL):
                 "url": team_row["Character_2_URL"],
                 "vision": team_row["Character_2_Vision"],
                 "vision_name": team_row["Character_2_Vision_Name"],
+                "weapon": team_row["Character_2_Weapon"],
+                "weapon_name": team_row["Character_2_Weapon_Name"],
             },
             {
                 "id": team_row["Character_3_ID"],
@@ -165,6 +184,8 @@ def team(Team_URL):
                 "url": team_row["Character_3_URL"],
                 "vision": team_row["Character_3_Vision"],
                 "vision_name": team_row["Character_3_Vision_Name"],
+                "weapon": team_row["Character_3_Weapon"],
+                "weapon_name": team_row["Character_3_Weapon_Name"],
             },
             {
                 "id": team_row["Character_4_ID"],
@@ -173,6 +194,8 @@ def team(Team_URL):
                 "url": team_row["Character_4_URL"],
                 "vision": team_row["Character_4_Vision"],
                 "vision_name": team_row["Character_4_Vision_Name"],
+                "weapon": team_row["Character_4_Weapon"],
+                "weapon_name": team_row["Character_4_Weapon_Name"],
             },
         ],
     }

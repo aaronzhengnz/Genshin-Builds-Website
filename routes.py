@@ -164,8 +164,12 @@ def team(Team_URL):
                 "url": team_row["Character_1_URL"],
                 "vision": team_row["Character_1_Vision"],
                 "vision_name": team_row["Character_1_Vision_Name"],
-                "weapon": team_row["Character_1_Weapon"],
-                "weapon_name": team_row["Character_1_Weapon_Name"],
+                "weapons": [
+                    {
+                        "id": team_row["Character_1_Weapon"],
+                        "name": team_row["Character_1_Weapon_Name"],
+                    }
+                ]
             },
             {
                 "id": team_row["Character_2_ID"],
@@ -174,8 +178,12 @@ def team(Team_URL):
                 "url": team_row["Character_2_URL"],
                 "vision": team_row["Character_2_Vision"],
                 "vision_name": team_row["Character_2_Vision_Name"],
-                "weapon": team_row["Character_2_Weapon"],
-                "weapon_name": team_row["Character_2_Weapon_Name"],
+                "weapons": [
+                    {
+                        "id": team_row["Character_2_Weapon"],
+                        "name": team_row["Character_2_Weapon_Name"],
+                    }
+                ]
             },
             {
                 "id": team_row["Character_3_ID"],
@@ -184,8 +192,12 @@ def team(Team_URL):
                 "url": team_row["Character_3_URL"],
                 "vision": team_row["Character_3_Vision"],
                 "vision_name": team_row["Character_3_Vision_Name"],
-                "weapon": team_row["Character_3_Weapon"],
-                "weapon_name": team_row["Character_3_Weapon_Name"],
+                "weapons": [
+                    {
+                        "id": team_row["Character_3_Weapon"],
+                        "name": team_row["Character_3_Weapon_Name"],
+                    }
+                ]
             },
             {
                 "id": team_row["Character_4_ID"],
@@ -194,8 +206,12 @@ def team(Team_URL):
                 "url": team_row["Character_4_URL"],
                 "vision": team_row["Character_4_Vision"],
                 "vision_name": team_row["Character_4_Vision_Name"],
-                "weapon": team_row["Character_4_Weapon"],
-                "weapon_name": team_row["Character_4_Weapon_Name"],
+                "weapons": [
+                    {
+                        "id": team_row["Character_4_Weapon"],
+                        "name": team_row["Character_4_Weapon_Name"],
+                    }
+                ]
             },
         ],
     }

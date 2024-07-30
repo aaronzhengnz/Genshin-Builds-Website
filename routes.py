@@ -72,151 +72,53 @@ def teams():
 @app.route("/teams/<string:Team_URL>")
 def team(Team_URL):
     conn = get_db_connection()
-
-    query = """
-        SELECT
-        Teams.Team_ID,
-        Teams.Team_Name,
-        Teams.Team_URL,
-
-        C1.Character_ID AS Character_1_ID,
-        C1.Character_Name AS Character_1_Name,
-        C1.Character_Image_URI AS Character_1_Image_URI,
-        C1.Character_URL AS Character_1_URL,
-        C1.Character_Vision AS Character_1_Vision,
-        V1.Vision_Name AS Character_1_Vision_Name,
-        CW1.Weapon_ID AS Character_1_Weapon,
-        W1.Weapon_Name AS Character_1_Weapon_Name,
-
-        C2.Character_ID AS Character_2_ID,
-        C2.Character_Name AS Character_2_Name,
-        C2.Character_Image_URI AS Character_2_Image_URI,
-        C2.Character_URL AS Character_2_URL,
-        C2.Character_Vision AS Character_2_Vision,
-        V2.Vision_Name AS Character_2_Vision_Name,
-        CW2.Weapon_ID AS Character_2_Weapon,
-        W2.Weapon_Name AS Character_2_Weapon_Name,
-
-        C3.Character_ID AS Character_3_ID,
-        C3.Character_Name AS Character_3_Name,
-        C3.Character_Image_URI AS Character_3_Image_URI,
-        C3.Character_URL AS Character_3_URL,
-        C3.Character_Vision AS Character_3_Vision,
-        V3.Vision_Name AS Character_3_Vision_Name,
-        CW3.Weapon_ID AS Character_3_Weapon,
-        W3.Weapon_Name AS Character_3_Weapon_Name,
-
-        C4.Character_ID AS Character_4_ID,
-        C4.Character_Name AS Character_4_Name,
-        C4.Character_Image_URI AS Character_4_Image_URI,
-        C4.Character_URL AS Character_4_URL,
-        C4.Character_Vision AS Character_4_Vision,
-        V4.Vision_Name AS Character_4_Vision_Name,
-        CW4.Weapon_ID AS Character_4_Weapon,
-        W4.Weapon_Name AS Character_4_Weapon_Name
-
-    FROM Teams
-
-    -- Join for Character 1
-    INNER JOIN Characters C1 ON Teams.Character_ID_1 = C1.Character_ID
-    INNER JOIN Visions V1 ON C1.Character_Vision = V1.Vision_ID
-    INNER JOIN CharacterWeapons CW1 ON C1.Character_ID = CW1.Character_ID
-    INNER JOIN Weapons W1 ON CW1.Weapon_ID = W1.Weapon_ID
-
-    -- Join for Character 2
-    INNER JOIN Characters C2 ON Teams.Character_ID_2 = C2.Character_ID
-    INNER JOIN Visions V2 ON C2.Character_Vision = V2.Vision_ID
-    INNER JOIN CharacterWeapons CW2 ON C2.Character_ID = CW2.Character_ID
-    INNER JOIN Weapons W2 ON CW2.Weapon_ID = W2.Weapon_ID
-
-    -- Join for Character 3
-    INNER JOIN Characters C3 ON Teams.Character_ID_3 = C3.Character_ID
-    INNER JOIN Visions V3 ON C3.Character_Vision = V3.Vision_ID
-    INNER JOIN CharacterWeapons CW3 ON C3.Character_ID = CW3.Character_ID
-    INNER JOIN Weapons W3 ON CW3.Weapon_ID = W3.Weapon_ID
-
-    -- Join for Character 4
-    INNER JOIN Characters C4 ON Teams.Character_ID_4 = C4.Character_ID
-    INNER JOIN Visions V4 ON C4.Character_Vision = V4.Vision_ID
-    INNER JOIN CharacterWeapons CW4 ON C4.Character_ID = CW4.Character_ID
-    INNER JOIN Weapons W4 ON CW4.Weapon_ID = W4.Weapon_ID
-
-    WHERE Teams.Team_URL = ?
-    """
-
     cur = conn.cursor()
 
-    cur.execute(query, (Team_URL,))
-    team_row = cur.fetchone()
-    conn.close()
-    if team_row is None:
+    team_character_query = """
+        SELECT Teams.Team_Name,
+            Characters.Character_Name
+
+        FROM TeamCharacters
+        INNER JOIN Teams
+            ON TeamCharacters.Team_ID = Teams.Team_ID
+        INNER JOIN Characters
+            ON TeamCharacters.Character_ID = Characters.Character_ID
+
+        WHERE Teams.Team_URL = ?
+    """
+
+    cur.execute(team_character_query, (Team_URL,))
+    team_character = cur.fetchone()
+
+    if not team_character:
+        conn.close()
         return render_template("404.html"), 404
 
-    team_data = {
-        "id": team_row["Team_ID"],
-        "team_name": team_row["Team_Name"],
-        "team_url": team_row["Team_URL"],
-        "characters": [
-            {
-                "id": team_row["Character_1_ID"],
-                "name": team_row["Character_1_Name"],
-                "image": team_row["Character_1_Image_URI"],
-                "url": team_row["Character_1_URL"],
-                "vision": team_row["Character_1_Vision"],
-                "vision_name": team_row["Character_1_Vision_Name"],
-                "weapons": [
-                    {
-                        "id": team_row["Character_1_Weapon"],
-                        "name": team_row["Character_1_Weapon_Name"],
-                    }
-                ]
-            },
-            {
-                "id": team_row["Character_2_ID"],
-                "name": team_row["Character_2_Name"],
-                "image": team_row["Character_2_Image_URI"],
-                "url": team_row["Character_2_URL"],
-                "vision": team_row["Character_2_Vision"],
-                "vision_name": team_row["Character_2_Vision_Name"],
-                "weapons": [
-                    {
-                        "id": team_row["Character_2_Weapon"],
-                        "name": team_row["Character_2_Weapon_Name"],
-                    }
-                ]
-            },
-            {
-                "id": team_row["Character_3_ID"],
-                "name": team_row["Character_3_Name"],
-                "image": team_row["Character_3_Image_URI"],
-                "url": team_row["Character_3_URL"],
-                "vision": team_row["Character_3_Vision"],
-                "vision_name": team_row["Character_3_Vision_Name"],
-                "weapons": [
-                    {
-                        "id": team_row["Character_3_Weapon"],
-                        "name": team_row["Character_3_Weapon_Name"],
-                    }
-                ]
-            },
-            {
-                "id": team_row["Character_4_ID"],
-                "name": team_row["Character_4_Name"],
-                "image": team_row["Character_4_Image_URI"],
-                "url": team_row["Character_4_URL"],
-                "vision": team_row["Character_4_Vision"],
-                "vision_name": team_row["Character_4_Vision_Name"],
-                "weapons": [
-                    {
-                        "id": team_row["Character_4_Weapon"],
-                        "name": team_row["Character_4_Weapon_Name"],
-                    }
-                ]
-            },
-        ],
-    }
+    team_id = team_character["Team_ID"]
 
-    return render_template("team.html", team=team_data)
+    character_weapons_query = """
+        SELECT Characters.Character_Name,
+            Weapons.Weapon_Name
+
+        FROM CharacterWeapons
+        INNER JOIN Characters
+            ON CharacterWeapons.Character_ID = Characters.Character_ID
+        INNER JOIN Weapons
+            ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
+        
+        WHERE CharacterWeapons.Team_ID = ?
+    """
+
+    cur.execute(character_weapons_query, (team_id,))
+    character_weapons = cur.fetchall()
+
+    conn.close()
+    if team_character is None:
+        return render_template("404.html"), 404
+
+    return render_template("team.html",
+                           team_character=team_character,
+                           character_weapons=character_weapons)
 
 
 @app.route("/characters")

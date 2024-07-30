@@ -105,7 +105,7 @@ def team(Team_URL):
             ON CharacterWeapons.Character_ID = Characters.Character_ID
         INNER JOIN Weapons
             ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
-        
+
         WHERE CharacterWeapons.Team_ID = ?
     """
 

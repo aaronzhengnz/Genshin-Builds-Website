@@ -18,55 +18,50 @@ def home():
 @app.route("/teams")
 def teams():
     conn = get_db_connection()
+    cur = conn.cursor()
 
     query = """
         SELECT
-        Teams.Team_ID,
-        Teams.Team_Name,
-        Teams.Team_URL,
-        C1.Character_ID AS Character_1_ID,
-        C1.Character_Name AS Character_1_Name,
-        C1.Character_Image_URI AS Character_1_Image_URI,
-        C2.Character_ID AS Character_2_ID,
-        C2.Character_Name AS Character_2_Name,
-        C2.Character_Image_URI AS Character_2_Image_URI,
-        C3.Character_ID AS Character_3_ID,
-        C3.Character_Name AS Character_3_Name,
-        C3.Character_Image_URI AS Character_3_Image_URI,
-        C4.Character_ID AS Character_4_ID,
-        C4.Character_Name AS Character_4_Name,
-        C4.Character_Image_URI AS Character_4_Image_URI
-    FROM Teams
-    LEFT JOIN Characters C1 ON Teams.Character_ID_1 = C1.Character_ID
-    LEFT JOIN Characters C2 ON Teams.Character_ID_2 = C2.Character_ID
-    LEFT JOIN Characters C3 ON Teams.Character_ID_3 = C3.Character_ID
-    LEFT JOIN Characters C4 ON Teams.Character_ID_4 = C4.Character_ID;
+        TeamCharacters.Team_ID,
+        Team_Name,
+        Character_Name,
+        Character_Affiliation,
+        Team_URL,
+        Character_URL,
+        Character_Image_URI
+
+        FROM TeamCharacters
+        INNER JOIN Teams
+            ON TeamCharacters.Team_ID = Teams.Team_ID
+        INNER JOIN Characters
+            ON TeamCharacters.Character_ID = Characters.Character_ID
     """
 
-    cur = conn.cursor()
     team_rows = cur.execute(query).fetchall()
     conn.close()
 
-    teams_list = []
-    for row in team_rows:
-        teams_data = {
-            "id": row["Team_ID"],
-            "team_name": row["Team_Name"],
-            "team_url": row["Team_URL"],
-            "characters": [
-                {"id": row["Character_1_ID"], "name": row["Character_1_Name"],
-                    "image": row["Character_1_Image_URI"]},
-                {"id": row["Character_2_ID"], "name": row["Character_2_Name"],
-                    "image": row["Character_2_Image_URI"]},
-                {"id": row["Character_3_ID"], "name": row["Character_3_Name"],
-                    "image": row["Character_3_Image_URI"]},
-                {"id": row["Character_4_ID"], "name": row["Character_4_Name"],
-                    "image": row["Character_4_Image_URI"]},
-            ]
-        }
-        teams_list.append(teams_data)
+    teams_dict = {}
 
-    return render_template("teams.html", teams=teams_list)
+    for row in team_rows:
+        team_id = row["Team_ID"]
+
+        character_details = {
+            "Character_Name": row["Character_Name"],
+            "Character_Affiliation": row["Character_Affiliation"],
+            "Character_URL": row["Character_URL"],
+            "Character_Image_URI": row["Character_Image_URI"]
+        }
+
+        if team_id not in teams_dict:
+            teams_dict[team_id] = {
+                "Team_Name": row["Team_Name"],
+                "Team_URL": row["Team_URL"],
+                "Characters": []
+            }
+
+        teams_dict[team_id]["Characters"].append(character_details)
+
+    return render_template("teams.html", teams=teams_dict)
 
 
 @app.route("/teams/<string:Team_URL>")

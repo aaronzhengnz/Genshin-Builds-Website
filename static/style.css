@@ -58,6 +58,45 @@ header h2 {
 }
 
 /* Classes */
+/* teams.html */
+
+.teams_characters-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.teams_team-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 45%;
+}
+
+.teams_team-container a {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.teams_team-container a:hover {
+    background-color: rgb(219, 219, 219);
+}
+
+.teams_character-image-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding-top: 10px;
+}
+
 .box-container {    
     display: flex;
     flex-direction: column;
@@ -92,6 +131,18 @@ header h2 {
 }
 
 /* IDs */
+/* teams.html */
+
+#teams_teams-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    margin: 20px;
+    font-size: 26px;
+}
+
 /* team.html */
 
 #team_character-container {
@@ -111,15 +162,6 @@ header h2 {
 }
 
 /* */
-#all-teams-container {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 20px;
-    margin: 20px;
-    font-size: 26px;
-}
 
 #team-container {
     display: flex;

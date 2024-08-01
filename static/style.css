@@ -79,9 +79,14 @@ header h2 {
 
 .teams_team-container a {
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     text-decoration: none;
+    font-size: 42px;
+    box-sizing: border-box;
+    padding: 10px;
 }
 
 .teams_team-container a:hover {

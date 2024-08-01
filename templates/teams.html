@@ -4,7 +4,7 @@
 <div id="teams_teams-container">
     {% for team_id, team_info in teams.items() %}
     <div class="teams_team-container">
-        <a href="/teams/{{ team_info['Team_URL'] }}" >{{ team_info['Team_Name'] }}</a>
+        <a href="/teams/{{ team_info['Team_URL'] }}" ><b>{{ team_info['Team_Name'] }}</b></a>
     </div>
     {% endfor %}
 </div>

@@ -63,6 +63,7 @@ header h2 {
 .teams_characters-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    width: 100%;
 }
 
 .teams_team-container {
@@ -72,8 +73,8 @@ header h2 {
     align-items: center;
     background-color: #fff;
     border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
+    padding: 15px;
+    margin: 40px;
     width: 45%;
 }
 
@@ -91,6 +92,14 @@ header h2 {
 
 .teams_team-container a:hover {
     background-color: rgb(219, 219, 219);
+}
+
+.teams_team-container a:active {
+    color: black;
+}
+
+.teams_team-container a:visited {
+    color: black;
 }
 
 .teams_character-image-container {
@@ -131,8 +140,8 @@ header h2 {
     display: grid;
 }
 
-.teams-character-image {
-    width: 160px;
+.teams_character-image {
+    width: 150px;
 }
 
 /* IDs */

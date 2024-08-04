@@ -6,8 +6,8 @@
         <h2>Characters In This Team</h2>
         <div>
             {% for character in team.characters %}
-            <div id="team_character-container">
-                <img src="{{ character.image }}" alt="{{ character.name }}" class="teams-character-image">
+            <div class="team_character-container">
+                <img src="{{ character.image }}" alt="{{ character.name }}">
                 <div>
                     <h3>{{ character.name }}</h3>
                     <p>Vision - {{ character.vision_name }}</p>

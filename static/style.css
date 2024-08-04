@@ -12,9 +12,6 @@ body {
 main {
     display: flex;
     flex-direction: column;
-    background-color: #a5c0ea;
-    border: 10px solid #c559e8;
-    border-radius: 10px;
     padding: 20px;
     margin: 20px;
 }
@@ -45,9 +42,6 @@ p {
 }
 
 header {
-    background-color: #a5c0ea;
-    border: 10px solid #c559e8;
-    border-radius: 10px;
     padding: 20px;
     margin: 20px;
 }
@@ -58,6 +52,20 @@ header h2 {
 }
 
 /* Classes */
+/* General/Default Styling */
+
+.default_box-container {    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #a5c0ea;
+    border: 10px solid #c559e8;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    font-size: 26px;
+}
+
 /* teams.html */
 
 .teams_characters-container {
@@ -76,6 +84,8 @@ header h2 {
     padding: 15px;
     margin: 40px;
     width: 45%;
+    border: 2px solid black;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .teams_team-container a {
@@ -102,28 +112,50 @@ header h2 {
     color: black;
 }
 
-.teams_character-image-container {
+.teams_character-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex: 1;
     padding-top: 10px;
 }
 
-.box-container {    
-    display: flex;
-    flex-direction: column;
+.teams_character-container h3 {
+    font-size: 25px;
+    margin: 10px 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    text-align: center;
+}
+
+.teams_character-image {
+    width: 150px;
+    height: auto;
+    display: block;
+}
+
+/* team.html */
+
+.team_character-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 4fr 2fr;
+    grid-template-rows: 1fr 1fr;
     align-items: center;
     background-color: #a5c0ea;
-    border: 10px solid #c559e8;
+    border: 10px solid #ffffff;
     border-radius: 10px;
     padding: 20px;
     margin: 20px;
     font-size: 26px;
 }
 
-.character-image-container {
+.team_character-container img {
+    width: 200px;
+}
+
+/* characters.html */
+
+.characters_image-container {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -132,19 +164,24 @@ header h2 {
     padding-top: 10px;
 }
 
-.character-image-container img {
+.characters_image-container img {
     padding-top: 10px;
 }
 
-.characters-grid-item {
+.characters_grid-item {
     display: grid;
 }
 
-.teams_character-image {
-    width: 150px;
+/* IDs */
+/* header.html */
+
+#header_site-title {
+    font-size: 70px;
+    text-align: center;
+    padding: 20px;
+    margin: 26px;
 }
 
-/* IDs */
 /* teams.html */
 
 #teams_teams-container {
@@ -159,63 +196,31 @@ header h2 {
 
 /* team.html */
 
-#team_character-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 4fr 2fr;
-    align-items: center;
-    background-color: #a5c0ea;
-    border: 10px solid #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px;
-    font-size: 26px;
-}
 
 #team_character-container img {
     width: 200px;
 }
 
-/* */
+/* characters.html */
 
-#team-container {
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    border: 2px solid #c559e8;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    width: 45%;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-#team-container a {
-    display: flex;
-    justify-content: center;
-    font-size: 42px;
-    padding: 20px 40px;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    color: black;
-}
-
-#team-container a:hover {
-    background-color: rgb(219, 219, 219);
+#characters-grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: auto;
 }
 
 /* nav.html */
 
 #navigation-bar {
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    background-color: #a5c0ea;
-    border: 10px solid #c559e8;
-    border-radius: 10px;
-    padding: 20px;
+    justify-content: center;
+    padding: 10px;
     margin: 20px;
     list-style-type: none;
+}
+
+#navigation-bar li {
+    margin: 0 15px;
 }
 
 #navigation-bar a {
@@ -230,20 +235,4 @@ header h2 {
 
 #navigation-bar a:hover {
     background-color: rgb(177, 255, 229);
-}
-
-#full-team-characters-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-
-#characters-grid-container {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: auto;
-}
-
-#character_image {
-    width: 160px;
 }

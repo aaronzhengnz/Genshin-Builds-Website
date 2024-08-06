@@ -142,17 +142,105 @@ def team(Team_URL):
 
     character_artifact_query = """
     SELECT
-        Characters.Character_ID AS Character_ID,
-        Recommended_Artifact_ID,
-        Best_In_Slot
+        TeamCharacters.Team_ID,
+        Characters.Character_Name,
+        ArtifactSet1.Artifact_Set_Name,
+        ArtifactSet1."2PC_Set_Bonus",
+        ArtifactSet1."4PC_Set_Bonus",
+        ArtifactSet2.Artifact_Set_Name,
+        ArtifactSet2."2PC_Set_Bonus",
+        ArtifactSet2."4PC_Set_Bonus",
+        FlowerName.Artifact_Piece_Name,
+        FlowerMainStats.Stat_Name,
+        PlumeName.Artifact_Piece_Name,
+        PlumeMainStats.Stat_Name,
+        SandsName.Artifact_Piece_Name,
+        SandsMainStats.Stat_Name,
+        AltSandsName.Artifact_Piece_Name,
+        AltSandsMainStats.Stat_Name,
+        GobletName.Artifact_Piece_Name,
+        GobletMainStats.Stat_Name,
+        AltGobletName.Artifact_Piece_Name,
+        AltGobletMainStats.Stat_Name,
+        CircletName.Artifact_Piece_Name,
+        CircletMainStats.Stat_Name,
+        AltCircletName.Artifact_Piece_Name,
+        AltCircletMainStats.Stat_Name
 
-        FROM TeamCharacters
-        INNER JOIN Characters
-            ON TeamCharacters.Character_ID = Characters.Character_ID
-        INNER JOIN CharacterArtifacts
-            ON TeamCharacters.Character_ID = CharacterArtifacts.Character_ID
+    FROM TeamCharacters
+    INNER JOIN Characters
+        ON TeamCharacters.Character_ID = Characters.Character_ID
+    INNER JOIN CharacterArtifacts
+        ON TeamCharacters.Character_ID = CharacterArtifacts.Character_ID
+    INNER JOIN RecommendedArtifacts
+        ON CharacterArtifacts.Recommended_Artifact_ID =
+        RecommendedArtifacts.Recommended_Artifact_ID
 
-        WHERE TeamCharacters.Team_ID = ?
+    INNER JOIN Artifacts AS Flower
+        ON RecommendedArtifacts.Flower_ID = Flower.Artifact_ID
+    INNER JOIN Stats AS FlowerMainStats
+        ON Flower.MainStat_ID = FlowerMainStats.Stat_ID
+    INNER JOIN ArtifactPieces AS FlowerName
+        ON Flower.Artifact_Piece_ID = FlowerName.Artifact_Piece_ID
+
+    INNER JOIN Artifacts AS Plume
+        ON RecommendedArtifacts.Plume_ID = Plume.Artifact_ID
+    INNER JOIN Stats AS PlumeMainStats
+        ON Plume.MainStat_ID = PlumeMainStats.Stat_ID
+    INNER JOIN ArtifactPieces AS PlumeName
+        ON Plume.Artifact_Piece_ID = PlumeName.Artifact_Piece_ID
+
+    INNER JOIN Artifacts AS Sands
+        ON RecommendedArtifacts.Sands_ID = Sands.Artifact_ID
+    INNER JOIN Stats AS SandsMainStats
+        ON Sands.MainStat_ID = SandsMainStats.Stat_ID
+    INNER JOIN ArtifactPieces AS SandsName
+        ON Sands.Artifact_Piece_ID = SandsName.Artifact_Piece_ID
+
+    LEFT JOIN Artifacts AS AltSands
+        ON RecommendedArtifacts.Alternative_Sands_ID = AltSands.Artifact_ID
+    LEFT JOIN Stats AS AltSandsMainStats
+        ON AltSands.MainStat_ID = AltSandsMainStats.Stat_ID
+    LEFT JOIN ArtifactPieces AS AltSandsName
+        ON AltSands.Artifact_Piece_ID = AltSandsName.Artifact_Piece_ID
+
+    INNER JOIN Artifacts AS Goblet
+        ON RecommendedArtifacts.Goblet_ID = Goblet.Artifact_ID
+    INNER JOIN Stats AS GobletMainStats
+        ON Goblet.MainStat_ID = GobletMainStats.Stat_ID
+    INNER JOIN ArtifactPieces AS GobletName
+        ON Goblet.Artifact_Piece_ID = GobletName.Artifact_Piece_ID
+
+    LEFT JOIN Artifacts AS AltGoblet
+        ON RecommendedArtifacts.Alternative_Goblet_ID = AltGoblet.Artifact_ID
+    LEFT JOIN Stats AS AltGobletMainStats
+        ON AltGoblet.MainStat_ID = AltGobletMainStats.Stat_ID
+    LEFT JOIN ArtifactPieces AS AltGobletName
+        ON AltGoblet.Artifact_Piece_ID = AltGobletName.Artifact_Piece_ID
+
+    INNER JOIN Artifacts AS Circlet
+        ON RecommendedArtifacts.Circlet_ID = Circlet.Artifact_ID
+    INNER JOIN Stats AS CircletMainStats
+        ON Circlet.MainStat_ID = CircletMainStats.Stat_ID
+    INNER JOIN ArtifactPieces AS CircletName
+        ON Circlet.Artifact_Piece_ID = CircletName.Artifact_Piece_ID
+
+    INNER JOIN Artifacts AS AltCirclet
+        ON RecommendedArtifacts.Alternative_Circlet_ID = AltCirclet.Artifact_ID
+    INNER JOIN Stats AS AltCircletMainStats
+        ON AltCirclet.MainStat_ID = AltCircletMainStats.Stat_ID
+    INNER JOIN ArtifactPieces AS AltCircletName
+        ON AltCirclet.Artifact_Piece_ID = AltCircletName.Artifact_Piece_ID
+
+
+    LEFT JOIN ArtifactSets AS ArtifactSet1
+        ON RecommendedArtifacts.Artifact_Set_ID_1 =
+        ArtifactSet1.Artifact_Set_ID
+    LEFT JOIN ArtifactSets AS ArtifactSet2
+        ON RecommendedArtifacts.Artifact_Set_ID_2 =
+        ArtifactSet2.Artifact_Set_ID
+
+    WHERE TeamCharacters.Team_ID = ?
     """
 
     cur.execute(character_artifact_query, (Team_ID,))
@@ -160,7 +248,7 @@ def team(Team_URL):
 
     return render_template("team.html",
                            team_character=team_dict,
-                           aaaa=character_artifacts)
+                           character_artifacts=character_artifacts)
 
 
 @app.route("/characters")

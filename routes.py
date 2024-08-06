@@ -69,51 +69,98 @@ def team(Team_URL):
     conn = get_db_connection()
     cur = conn.cursor()
 
+    team_dict = {}
+
     team_character_query = """
-        SELECT Teams.Team_Name,
-            Characters.Character_Name
+    SELECT
+        Teams.Team_ID AS Team_ID,
+        Teams.Team_Name AS Team_Name,
+        Characters.Character_ID AS Character_ID,
+        Characters.Character_Name AS Character_Name,
+        Characters.Character_Vision_ID AS Character_Vision_ID,
+        Characters.Character_Affiliation AS Character_Affiliation,
+        Characters.Character_Image_URI AS Character_Image_URI,
+        Characters.Character_URL AS Character_URL,
+        Visions.Vision_Name AS Character_Vision
 
-        FROM TeamCharacters
-        INNER JOIN Teams
-            ON TeamCharacters.Team_ID = Teams.Team_ID
-        INNER JOIN Characters
-            ON TeamCharacters.Character_ID = Characters.Character_ID
+    FROM TeamCharacters
+    INNER JOIN Teams
+        ON TeamCharacters.Team_ID = Teams.Team_ID
+    INNER JOIN Characters
+        ON TeamCharacters.Character_ID = Characters.Character_ID
+    INNER JOIN Visions
+        ON Vision_ID = Characters.Character_Vision_ID
 
-        WHERE Teams.Team_URL = ?
-    """
+    WHERE Teams.Team_URL = ?
+"""
 
     cur.execute(team_character_query, (Team_URL,))
-    team_character = cur.fetchone()
+    team_characters = cur.fetchall()
 
-    if not team_character:
+    if not team_characters:
         conn.close()
         return render_template("404.html"), 404
 
-    team_id = team_character["Team_ID"]
+    Team_ID = team_characters[0]["Team_ID"]
 
-    character_weapons_query = """
-        SELECT Characters.Character_Name,
-            Weapons.Weapon_Name
+    for row in team_characters:
+        character_id = row["Character_ID"]
 
-        FROM CharacterWeapons
-        INNER JOIN Characters
-            ON CharacterWeapons.Character_ID = Characters.Character_ID
-        INNER JOIN Weapons
-            ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
+        character_details = {
+            "Character_Name": row["Character_Name"],
+            "Character_Vision_ID": row["Character_Vision_ID"],
+            "Character_Affiliation": row["Character_Affiliation"],
+            "Character_Image_URI": row["Character_Image_URI"],
+            "Character_URL": row["Character_URL"]
+        }
 
-        WHERE CharacterWeapons.Team_ID = ?
+        if character_id not in team_dict:
+            team_dict[character_id] = character_details
+
+    character_weapon_query = """
+    SELECT
+        Characters.Character_ID AS Character_ID,
+        Weapon_ID,
+        Best_In_Slot,
+        Free_To_Play
+
+    FROM TeamCharacters
+    INNER JOIN Characters
+        ON TeamCharacters.Character_ID = Characters.Character_ID
+    INNER JOIN CharacterWeapons
+        ON TeamCharacters.Character_ID = CharacterWeapons.Character_ID
+
+    WHERE TeamCharacters.Team_ID = ?
     """
 
-    cur.execute(character_weapons_query, (team_id,))
+    cur.execute(character_weapon_query, (Team_ID,))
     character_weapons = cur.fetchall()
 
-    conn.close()
-    if team_character is None:
+    if not character_weapons:
+        conn.close()
         return render_template("404.html"), 404
 
+    character_artifact_query = """
+    SELECT
+        Characters.Character_ID AS Character_ID,
+        Recommended_Artifact_ID,
+        Best_In_Slot
+
+        FROM TeamCharacters
+        INNER JOIN Characters
+            ON TeamCharacters.Character_ID = Characters.Character_ID
+        INNER JOIN CharacterArtifacts
+            ON TeamCharacters.Character_ID = CharacterArtifacts.Character_ID
+
+        WHERE TeamCharacters.Team_ID = ?
+    """
+
+    cur.execute(character_artifact_query, (Team_ID,))
+    character_artifacts = cur.fetchall()
+
     return render_template("team.html",
-                           team_character=team_character,
-                           character_weapons=character_weapons)
+                           team_character=team_dict,
+                           aaaa=character_artifacts)
 
 
 @app.route("/characters")

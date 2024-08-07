@@ -259,14 +259,9 @@ def team(Team_URL):
     cur.execute(character_artifact_query, (Team_ID,))
     character_artifacts = cur.fetchall()
 
-    if not character_artifacts:
-        conn.close()
-        return render_template("404.html"), 404
-
     character_artifacts_dict = {}
     for row in character_artifacts:
         character_id = row["Character_ID"]
-
         artifact_details = {
             "Artifact_Set_Name_1": row["Artifact_Set_1"],
             "2PC_Set_Bonus_1": row["Artifact_Set_1_2PC_Bonus"],
@@ -309,12 +304,7 @@ def team(Team_URL):
         }
 
         if character_id not in character_artifacts_dict:
-            character_artifacts_dict[character_id] = {
-                "artifacts": [artifact_details]
-            }
-        else:
-            character_artifacts_dict[character_id]["artifacts"].append(
-                artifact_details)
+            character_artifacts_dict[character_id] = artifact_details
 
     return render_template("team.html",
                            team_character=team_dict,

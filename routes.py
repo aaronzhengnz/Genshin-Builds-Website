@@ -69,8 +69,6 @@ def team(Team_URL):
     conn = get_db_connection()
     cur = conn.cursor()
 
-    team_dict = {}
-
     team_character_query = """
     SELECT
         Teams.Team_ID AS Team_ID,
@@ -101,6 +99,7 @@ def team(Team_URL):
         conn.close()
         return render_template("404.html"), 404
 
+    team_dict = {}
     Team_ID = team_characters[0]["Team_ID"]
 
     for row in team_characters:
@@ -140,9 +139,23 @@ def team(Team_URL):
         conn.close()
         return render_template("404.html"), 404
 
+    character_weapon_dict = {}
+    for row in character_weapons:
+        character_id = row["Character_ID"]
+
+        weapon_details = {
+            "Weapon_ID": row["Weapon_ID"],
+            "Best_In_Slot": row["Best_In_Slot"],
+            "Free_To_Play": row["Free_To_Play"]
+        }
+
+        if character_id not in character_weapon_dict:
+            character_weapon_dict[character_id] = weapon_details
+
     character_artifact_query = """
     SELECT
         TeamCharacters.Team_ID,
+        TeamCharacters.Character_ID,
         Characters.Character_Name,
         ArtifactSet1.Artifact_Set_Name,
         ArtifactSet1."2PC_Set_Bonus",
@@ -246,8 +259,56 @@ def team(Team_URL):
     cur.execute(character_artifact_query, (Team_ID,))
     character_artifacts = cur.fetchall()
 
+    character_artifacts_dict = {}
+    for row in character_artifacts:
+        character_id = row["Character_ID"]
+        artifact_details = {
+            "Artifact_Set_Name_1": row["Artifact_Set_Name_1"],
+            "2PC_Set_Bonus_1": row["2PC_Set_Bonus_1"],
+            "4PC_Set_Bonus_1": row["4PC_Set_Bonus_1"],
+            "Artifact_Set_Name_2": row["Artifact_Set_Name_2"],
+            "2PC_Set_Bonus_2": row["2PC_Set_Bonus_2"],
+            "4PC_Set_Bonus_2": row["4PC_Set_Bonus_2"],
+            "Flower": {
+                "Artifact_Piece_Name": row["FlowerName"],
+                "MainStat": row["FlowerStatName"]
+            },
+            "Plume": {
+                "Artifact_Piece_Name": row["PlumeName"],
+                "MainStat": row["PlumeStatName"]
+            },
+            "Sands": {
+                "Artifact_Piece_Name": row["SandsName"],
+                "MainStat": row["SandsStatName"]
+            },
+            "AltSands": {
+                "Artifact_Piece_Name": row["AltSandsName"],
+                "MainStat": row["AltSandsStatName"]
+            },
+            "Goblet": {
+                "Artifact_Piece_Name": row["GobletName"],
+                "MainStat": row["GobletStatName"]
+            },
+            "AltGoblet": {
+                "Artifact_Piece_Name": row["AltGobletName"],
+                "MainStat": row["AltGobletStatName"]
+            },
+            "Circlet": {
+                "Artifact_Piece_Name": row["CircletName"],
+                "MainStat": row["CircletStatName"]
+            },
+            "AltCirclet": {
+                "Artifact_Piece_Name": row["AltCircletName"],
+                "MainStat": row["AltCircletStatName"]
+            }
+        }
+
+        if character_id not in character_artifacts_dict:
+            character_artifacts_dict[character_id] = artifact_details
+
     return render_template("team.html",
                            team_character=team_dict,
+                           character_weapons=character_weapon_dict,
                            character_artifacts=character_artifacts)
 
 

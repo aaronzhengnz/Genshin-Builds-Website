@@ -119,15 +119,20 @@ def team(Team_URL):
     character_weapon_query = """
     SELECT
         Characters.Character_ID AS Character_ID,
-        Weapon_ID,
-        Best_In_Slot,
-        Free_To_Play
+        Weapons.Weapon_ID AS Weapon_ID,
+        Weapons.Weapon_Name AS Weapon_Name,
+        Weapons.Weapon_Rarity AS Weapon_Rarity,
+        Weapons.Weapon_Type_ID AS Weapon_Type,
+        CharacterWeapons.Best_In_Slot AS Best_In_Slot,
+        CharacterWeapons.Free_To_Play AS Free_To_Play
 
     FROM TeamCharacters
     INNER JOIN Characters
         ON TeamCharacters.Character_ID = Characters.Character_ID
     INNER JOIN CharacterWeapons
         ON TeamCharacters.Character_ID = CharacterWeapons.Character_ID
+    INNER JOIN Weapons
+        ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
 
     WHERE TeamCharacters.Team_ID = ?
     """
@@ -145,6 +150,9 @@ def team(Team_URL):
 
         weapon_details = {
             "Weapon_ID": row["Weapon_ID"],
+            "Weapon_Name": row["Weapon_Name"],
+            "Weapon_Rarity": row["Weapon_Rarity"],
+            "Weapon_Type": row["Weapon_Type"],
             "Best_In_Slot": row["Best_In_Slot"],
             "Free_To_Play": row["Free_To_Play"]
         }
@@ -259,9 +267,14 @@ def team(Team_URL):
     cur.execute(character_artifact_query, (Team_ID,))
     character_artifacts = cur.fetchall()
 
+    if not character_artifacts:
+        conn.close()
+        return render_template("404.html"), 404
+
     character_artifacts_dict = {}
     for row in character_artifacts:
         character_id = row["Character_ID"]
+
         artifact_details = {
             "Artifact_Set_Name_1": row["Artifact_Set_1"],
             "2PC_Set_Bonus_1": row["Artifact_Set_1_2PC_Bonus"],
@@ -304,12 +317,17 @@ def team(Team_URL):
         }
 
         if character_id not in character_artifacts_dict:
-            character_artifacts_dict[character_id] = artifact_details
+            character_artifacts_dict[character_id] = {
+                "artifacts": [artifact_details]
+            }
+        else:
+            character_artifacts_dict[character_id]["artifacts"].append(
+                artifact_details)
 
     return render_template("team.html",
                            team_character=team_dict,
                            character_weapons=character_weapon_dict,
-                           character_artifacts=character_artifacts)
+                           character_artifacts=character_artifacts_dict)
 
 
 @app.route("/characters")

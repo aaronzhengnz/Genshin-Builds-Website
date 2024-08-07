@@ -263,43 +263,43 @@ def team(Team_URL):
     for row in character_artifacts:
         character_id = row["Character_ID"]
         artifact_details = {
-            "Artifact_Set_Name_1": row["Artifact_Set_Name_1"],
-            "2PC_Set_Bonus_1": row["2PC_Set_Bonus_1"],
-            "4PC_Set_Bonus_1": row["4PC_Set_Bonus_1"],
-            "Artifact_Set_Name_2": row["Artifact_Set_Name_2"],
-            "2PC_Set_Bonus_2": row["2PC_Set_Bonus_2"],
-            "4PC_Set_Bonus_2": row["4PC_Set_Bonus_2"],
+            "Artifact_Set_Name_1": row["Artifact_Set_1"],
+            "2PC_Set_Bonus_1": row["Artifact_Set_1_2PC_Bonus"],
+            "4PC_Set_Bonus_1": row["Artifact_Set_1_4PC_Bonus"],
+            "Artifact_Set_Name_2": row["Artifact_Set_2"],
+            "2PC_Set_Bonus_2": row["Artifact_Set_2_2PC_Bonus"],
+            "4PC_Set_Bonus_2": row["Artifact_Set_2_4PC_Bonus"],
             "Flower": {
-                "Artifact_Piece_Name": row["FlowerName"],
-                "MainStat": row["FlowerStatName"]
+                "Artifact_Piece_Name": row["Flower_Name"],
+                "MainStat": row["Flower_Stat"]
             },
             "Plume": {
-                "Artifact_Piece_Name": row["PlumeName"],
-                "MainStat": row["PlumeStatName"]
+                "Artifact_Piece_Name": row["Plume_Name"],
+                "MainStat": row["Plume_Stat"]
             },
             "Sands": {
-                "Artifact_Piece_Name": row["SandsName"],
-                "MainStat": row["SandsStatName"]
+                "Artifact_Piece_Name": row["Sands_Name"],
+                "MainStat": row["Sands_Stat"]
             },
             "AltSands": {
-                "Artifact_Piece_Name": row["AltSandsName"],
-                "MainStat": row["AltSandsStatName"]
+                "Artifact_Piece_Name": row["AltSands_Name"],
+                "MainStat": row["AltSands_Stat"]
             },
             "Goblet": {
-                "Artifact_Piece_Name": row["GobletName"],
-                "MainStat": row["GobletStatName"]
+                "Artifact_Piece_Name": row["Goblet_Name"],
+                "MainStat": row["Goblet_Stat"]
             },
             "AltGoblet": {
-                "Artifact_Piece_Name": row["AltGobletName"],
-                "MainStat": row["AltGobletStatName"]
+                "Artifact_Piece_Name": row["AltGoblet_Name"],
+                "MainStat": row["AltGoblet_Stat"]
             },
             "Circlet": {
-                "Artifact_Piece_Name": row["CircletName"],
-                "MainStat": row["CircletStatName"]
+                "Artifact_Piece_Name": row["Circlet_Name"],
+                "MainStat": row["Circlet_Stat"]
             },
             "AltCirclet": {
-                "Artifact_Piece_Name": row["AltCircletName"],
-                "MainStat": row["AltCircletStatName"]
+                "Artifact_Piece_Name": row["AltCirclet_Name"],
+                "MainStat": row["AltCirclet_Stat"]
             }
         }
 

@@ -107,7 +107,7 @@ def team(Team_URL):
 
         character_details = {
             "Character_Name": row["Character_Name"],
-            "Character_Vision_ID": row["Character_Vision_ID"],
+            "Character_Vision": row["Character_Vision"],
             "Character_Affiliation": row["Character_Affiliation"],
             "Character_Image_URI": row["Character_Image_URI"],
             "Character_URL": row["Character_URL"]
@@ -118,11 +118,12 @@ def team(Team_URL):
 
     character_weapon_query = """
     SELECT
-        Characters.Character_ID AS Character_ID,
+        TeamCharacters.Team_ID AS Team_ID,
+        TeamCharacters.Character_ID AS Character_ID,
         Weapons.Weapon_ID AS Weapon_ID,
         Weapons.Weapon_Name AS Weapon_Name,
         Weapons.Weapon_Rarity AS Weapon_Rarity,
-        Weapons.Weapon_Type_ID AS Weapon_Type,
+        WeaponTypes.Weapon_Type_Name AS Weapon_Type,
         CharacterWeapons.Best_In_Slot AS Best_In_Slot,
         CharacterWeapons.Free_To_Play AS Free_To_Play
 
@@ -133,6 +134,8 @@ def team(Team_URL):
         ON TeamCharacters.Character_ID = CharacterWeapons.Character_ID
     INNER JOIN Weapons
         ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
+    INNER JOIN WeaponTypes
+        ON Weapons.Weapon_Type_ID = WeaponTypes.Weapon_Type_ID
 
     WHERE TeamCharacters.Team_ID = ?
     """
@@ -158,7 +161,12 @@ def team(Team_URL):
         }
 
         if character_id not in character_weapon_dict:
-            character_weapon_dict[character_id] = weapon_details
+            character_weapon_dict[character_id] = {
+                "weapons": [weapon_details]
+            }
+        else:
+            character_weapon_dict[character_id]["weapons"].append(
+                weapon_details)
 
     character_artifact_query = """
     SELECT
@@ -166,11 +174,7 @@ def team(Team_URL):
         TeamCharacters.Character_ID AS Character_ID,
         Characters.Character_Name AS Character_Name,
         ArtifactSet1.Artifact_Set_Name AS Artifact_Set_1,
-        ArtifactSet1."2PC_Set_Bonus" AS Artifact_Set_1_2PC_Bonus,
-        ArtifactSet1."4PC_Set_Bonus" AS Artifact_Set_1_4PC_Bonus,
         ArtifactSet2.Artifact_Set_Name AS Artifact_Set_2,
-        ArtifactSet2."2PC_Set_Bonus" AS Artifact_Set_2_2PC_Bonus,
-        ArtifactSet2."4PC_Set_Bonus" AS Artifact_Set_2_4PC_Bonus,
         FlowerName.Artifact_Piece_Name AS Flower_Name,
         FlowerMainStats.Stat_Name AS Flower_Stat,
         PlumeName.Artifact_Piece_Name AS Plume_Name,
@@ -277,11 +281,7 @@ def team(Team_URL):
 
         artifact_details = {
             "Artifact_Set_Name_1": row["Artifact_Set_1"],
-            "2PC_Set_Bonus_1": row["Artifact_Set_1_2PC_Bonus"],
-            "4PC_Set_Bonus_1": row["Artifact_Set_1_4PC_Bonus"],
             "Artifact_Set_Name_2": row["Artifact_Set_2"],
-            "2PC_Set_Bonus_2": row["Artifact_Set_2_2PC_Bonus"],
-            "4PC_Set_Bonus_2": row["Artifact_Set_2_4PC_Bonus"],
             "Flower": {
                 "Artifact_Piece_Name": row["Flower_Name"],
                 "MainStat": row["Flower_Stat"]
@@ -324,10 +324,55 @@ def team(Team_URL):
             character_artifacts_dict[character_id]["artifacts"].append(
                 artifact_details)
 
+    character_substats_query = """
+    SELECT
+        TeamCharacters.Team_ID AS Team_ID,
+        TeamCharacters.Character_ID AS Character_ID,
+        Characters.Character_Name AS Character_Name,
+        Stats.Stat_Name AS SubStat_Name,
+        CharacterSubStats.Rating AS SubStat_Rating
+
+    FROM TeamCharacters
+    INNER JOIN Characters
+        ON TeamCharacters.Character_ID = Characters.Character_ID
+    INNER JOIN CharacterSubStats
+        ON Characters.Character_ID = CharacterSubStats.Character_ID
+    INNER JOIN Stats
+        ON CharacterSubStats.Stat_ID = Stats.Stat_ID
+
+    WHERE TeamCharacters.Team_ID = ?
+    """
+
+    cur.execute(character_substats_query, (Team_ID,))
+    character_artifacts = cur.fetchall()
+
+    if not character_artifacts:
+        conn.close()
+        return render_template("404.html"), 404
+
+    character_substats_dict = {}
+    for row in character_artifacts:
+        character_id = row["Character_ID"]
+
+        substat_details = {
+            "SubStat_Name": row["SubStat_Name"],
+            "SubStat_Rating": row["SubStat_Rating"]
+        }
+
+        if character_id not in character_substats_dict:
+            character_substats_dict[character_id] = {
+                "substats": [substat_details]
+            }
+        else:
+            character_substats_dict[character_id]["substats"].append(
+                substat_details)
+
     return render_template("team.html",
+                           team_name=team_characters[0]["Team_Name"],
                            team_character=team_dict,
                            character_weapons=character_weapon_dict,
-                           character_artifacts=character_artifacts_dict)
+                           character_artifacts=character_artifacts_dict,
+                           character_substats=character_substats_dict)
 
 
 @app.route("/characters")

@@ -368,11 +368,11 @@ def team(Team_URL):
                 substat_details)
 
     team_dict = {
-        "team_name": team_characters[0]["Team_Name"],
-        "team_characters": characters_dict,
-        "character_weapons": character_weapon_dict,
-        "character_artifacts": character_artifacts_dict,
-        "character_substats": character_substats_dict
+        "Team_Name": team_characters[0]["Team_Name"],
+        "Team_Characters": characters_dict,
+        "Character_Weapons": character_weapon_dict,
+        "Character_Artifacts": character_artifacts_dict,
+        "Character_Substats": character_substats_dict
     }
 
     return render_template("team.html", team=team_dict)

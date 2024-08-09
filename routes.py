@@ -99,7 +99,7 @@ def team(Team_URL):
         conn.close()
         return render_template("404.html"), 404
 
-    team_dict = {}
+    characters_dict = {}
     Team_ID = team_characters[0]["Team_ID"]
 
     for row in team_characters:
@@ -113,8 +113,8 @@ def team(Team_URL):
             "Character_URL": row["Character_URL"]
         }
 
-        if character_id not in team_dict:
-            team_dict[character_id] = character_details
+        if character_id not in characters_dict:
+            characters_dict[character_id] = character_details
 
     character_weapon_query = """
     SELECT
@@ -367,12 +367,15 @@ def team(Team_URL):
             character_substats_dict[character_id]["substats"].append(
                 substat_details)
 
-    return render_template("team.html",
-                           team_name=team_characters[0]["Team_Name"],
-                           team_character=team_dict,
-                           character_weapons=character_weapon_dict,
-                           character_artifacts=character_artifacts_dict,
-                           character_substats=character_substats_dict)
+    team_dict = {
+        "team_name": team_characters[0]["Team_Name"],
+        "team_characters": characters_dict,
+        "character_weapons": character_weapon_dict,
+        "character_artifacts": character_artifacts_dict,
+        "character_substats": character_substats_dict
+    }
+
+    return render_template("team.html", team=team_dict)
 
 
 @app.route("/characters")

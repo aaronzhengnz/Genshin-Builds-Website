@@ -250,11 +250,11 @@ def team(Team_URL):
     INNER JOIN ArtifactPieces AS CircletName
         ON Circlet.Artifact_Piece_ID = CircletName.Artifact_Piece_ID
 
-    INNER JOIN Artifacts AS AltCirclet
+    LEFT JOIN Artifacts AS AltCirclet
         ON RecommendedArtifacts.Alternative_Circlet_ID = AltCirclet.Artifact_ID
-    INNER JOIN Stats AS AltCircletMainStats
+    LEFT JOIN Stats AS AltCircletMainStats
         ON AltCirclet.MainStat_ID = AltCircletMainStats.Stat_ID
-    INNER JOIN ArtifactPieces AS AltCircletName
+    LEFT JOIN ArtifactPieces AS AltCircletName
         ON AltCirclet.Artifact_Piece_ID = AltCircletName.Artifact_Piece_ID
 
 

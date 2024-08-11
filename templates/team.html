@@ -1,31 +1,79 @@
 {% extends "layout.html" %}
 {% block content %}
+<h1>{{ team.Team_Name }}</h1>
 <div>
-    <h1>{{ team.team_name }}</h1>
-    <div>
-        <h2>Characters In This Team</h2>
+    {% for character_id, characters in team.Team_Characters.items() %}
+        {% if character_id in team.Character_Weapons %}
+            {% set character_weapons = team.Character_Weapons[character_id]['weapons'] %}
+        {% else %}
+            <p>No weapons found for character ID {{ character_id }}</p>
+            {% set character_weapons = [] %}
+        {% endif %}
+
+        {% if character_id in team.Character_Artifacts and 'artifacts' in team.Character_Artifacts[character_id] %}
+            {% set character_artifacts = team.Character_Artifacts[character_id]['artifacts'] %}
+        {% else %}
+            <p>No artifacts found for character ID {{ character_id }}</p>
+            {% set character_artifacts = [] %}
+        {% endif %}
+
+        {% if character_id in team.Character_Substats and 'substats' in team.Character_Substats[character_id] %}
+            {% set character_substats = team.Character_Substats[character_id]['substats'] %}
+        {% else %}
+            <p>No substats found for character ID {{ character_id }}</p>
+            {% set character_substats = [] %}
+        {% endif %}
+
         <div>
-            {% for character in team.characters %}
-            <div class="team_character-container">
-                <img src="{{ character.image }}" alt="{{ character.name }}">
+            <img src="{{ characters['Character_Image_URI'] }}" alt="{{ characters['Character_Name'] }}">
+            <h2>{{ characters["Character_Name"] }}</h2>
+        </div>
+        <div>
+            <p>Vision - {{ characters['Character_Vision'] }}</p>
+            <p>Affiliation - {{ characters['Character_Affiliation'] }}</p>
+            {% if character_weapons %}
+                <p>Weapon - {{ character_weapons[0]['Weapon_Type'] }}</p>
+            {% else %}
+                <p>No weapon information available</p>
+            {% endif %}
+        </div>
+        <div>
+            <h3>Weapon</h3>
+            {% for weapon in character_weapons %}
                 <div>
-                    <h3>{{ character.name }}</h3>
-                    <p>Vision - {{ character.vision_name }}</p>
+                    <img src="{{ weapon['Weapon_Image_URI'] }}" alt="{{ weapon['Weapon_Name'] }}">
+                    {% if weapon['Best_In_Slot'] %} 
+                        <p>Best In Slot - {{ weapon['Weapon_Name'] }}</p>
+                    {% else %}
+                        <p>{{ weapon['Weapon_Name'] }}</p>
+                    {% endif %}
                 </div>
-                <div>
-                    <p>Best Artifacts</p>
-                </div>
-                <div>
-                    <p>Best Weapons</p>
-                    <div>
-                        {% for weapon in character.weapons %}
-                        <p>{{ weapon.name }}</p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
             {% endfor %}
         </div>
-    </div>
+        <div>
+            <h3>Artifacts</h3>
+            {% for artifact in character_artifacts %}
+                {% if artifact['Artifact_Set_Name_2'] is not none %}
+                    {% if artifact['Best_In_Slot'] %}
+                        <p>Best In Slot - 2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
+                    {% else %}
+                        <p>2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
+                    {% endif %}
+                {% else %}
+                    {% if artifact['Best_In_Slot'] %}
+                        <p>Best In Slot - 4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
+                    {% else %}
+                        <p>4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if character_substats %}
+                <h3>Substats</h3>
+                {% for substat in character_substats %}
+                    <p>{{ substat['SubStat_Name'] }} - {{ substat['SubStat_Rating'] }}★</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

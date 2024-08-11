@@ -314,7 +314,8 @@ def team(Team_URL):
             "AltCirclet": {
                 "Artifact_Piece_Name": row["AltCirclet_Name"],
                 "MainStat": row["AltCirclet_Stat"]
-            }
+            },
+            "Best_In_Slot": row["Best_In_Slot"]
         }
 
         if character_id not in character_artifacts_dict:

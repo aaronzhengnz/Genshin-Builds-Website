@@ -190,7 +190,8 @@ def team(Team_URL):
         CircletName.Artifact_Piece_Name AS Circlet_Name,
         CircletMainStats.Stat_Name AS Circlet_Stat,
         AltCircletName.Artifact_Piece_Name AS AltCirclet_Name,
-        AltCircletMainStats.Stat_Name AS AltCirclet_Stat
+        AltCircletMainStats.Stat_Name AS AltCirclet_Stat,
+        CharacterArtifacts.Best_In_Slot AS Best_In_Slot
 
     FROM TeamCharacters
     INNER JOIN Characters

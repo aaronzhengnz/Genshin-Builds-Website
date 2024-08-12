@@ -124,6 +124,7 @@ def team(Team_URL):
         Weapons.Weapon_Name AS Weapon_Name,
         Weapons.Weapon_Rarity AS Weapon_Rarity,
         WeaponTypes.Weapon_Type_Name AS Weapon_Type,
+        Weapons.Weapon_Image_URI AS Weapon_Image_URI,
         CharacterWeapons.Best_In_Slot AS Best_In_Slot,
         CharacterWeapons.Free_To_Play AS Free_To_Play
 
@@ -156,6 +157,7 @@ def team(Team_URL):
             "Weapon_Name": row["Weapon_Name"],
             "Weapon_Rarity": row["Weapon_Rarity"],
             "Weapon_Type": row["Weapon_Type"],
+            "Weapon_Image_URI": row["Weapon_Image_URI"],
             "Best_In_Slot": row["Best_In_Slot"],
             "Free_To_Play": row["Free_To_Play"]
         }

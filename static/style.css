@@ -138,9 +138,9 @@ header h2 {
 
 .team_character-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 4fr 2fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 4fr 2fr;
     align-items: center;
+    justify-content: center;
     background-color: #a5c0ea;
     border: 10px solid #ffffff;
     border-radius: 10px;
@@ -149,7 +149,16 @@ header h2 {
     font-size: 26px;
 }
 
-.team_character-container img {
+.team_character-image-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    flex: 1;
+    padding-top: 10px;
+}
+
+.team_character-image-container img {
     width: 200px;
 }
 
@@ -197,9 +206,6 @@ header h2 {
 /* team.html */
 
 
-#team_character-container img {
-    width: 200px;
-}
 
 /* characters.html */
 

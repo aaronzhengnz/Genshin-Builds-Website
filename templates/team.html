@@ -27,28 +27,32 @@
         <div class="team_character-container">
             <div class="team_character-image-container">
                 <img src="{{ characters['Character_Image_URI'] }}" alt="{{ characters['Character_Name'] }}" class="team_character-image">
-                <h2>{{ characters["Character_Name"] }}</h2>
-                <p>Vision - {{ characters['Character_Vision'] }}</p>
-                <p>Affiliation - {{ characters['Character_Affiliation'] }}</p>
-                {% if character_weapons %}
+                <div>
+                    <h2>{{ characters["Character_Name"] }}</h2>
+                    <p>Vision - {{ characters['Character_Vision'] }}</p>
+                    <p>Affiliation - {{ characters['Character_Affiliation'] }}</p>
                     <p>Weapon - {{ character_weapons[0]['Weapon_Type'] }}</p>
-                {% else %}
-                    <p>No weapon information available</p>
-                {% endif %}
+                </div>
             </div>
             <div>
                 <h3>Artifacts</h3>
                 {% for artifact in character_artifacts %}
                     {% if artifact['Artifact_Set_Name_2'] is not none %}
                         {% if artifact['Best_In_Slot'] %}
+                            <img src="{{ artifact['Artifact_Set_Image_URI_1'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
+                            <img src="{{ artifact['Artifact_Set_Image_URI_2'] }}" alt="{{ artifact['Artifact_Set_Name_2'] }}" class="team_artifact-image">
                             <p>Best In Slot - 2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
                         {% else %}
+                            <img src="{{ artifact['Artifact_Set_Image_URI_1'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
+                            <img src="{{ artifact['Artifact_Set_Image_URI_2'] }}" alt="{{ artifact['Artifact_Set_Name_2'] }}" class="team_artifact-image">
                             <p>2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
                         {% endif %}
                     {% else %}
                         {% if artifact['Best_In_Slot'] %}
+                            <img src="{{ artifact['Artifact_Set_Image_URI_1'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
                             <p>Best In Slot - 4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
                         {% else %}
+                            <img src="{{ artifact['Artifact_Set_Image_URI_1'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
                             <p>4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
                         {% endif %}
                     {% endif %}

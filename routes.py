@@ -90,7 +90,7 @@ def team(Team_URL):
         ON Vision_ID = Characters.Character_Vision_ID
 
     WHERE Teams.Team_URL = ?
-"""
+    """
 
     cur.execute(team_character_query, (Team_URL,))
     team_characters = cur.fetchall()

@@ -5,11 +5,13 @@
     {% for character in characters %}
     <div class="characters_grid-item">
         <div class="characters_image-container">
-            <div>
-                <a href="/characters/{{ character.Character_URL }}"><img src="{{ character.Character_Image_URI }}" alt="{{ character.Character_Name }}"></a>
-                <h2>{{ character.Character_Name }}</h2>
-            </div>
+            <a href="/characters/{{ character.Character_URL }}">
+                <div>
+                    <img src="{{ character.Character_Image_URI }}" alt="{{ character.Character_Name }}">
+                    <h2>{{ character.Character_Name }}</h2>
+                </div>
+            </a>
         </div>
-    {% endfor %}
-</div>
-{% endblock %}
+        {% endfor %}
+    </div>
+    {% endblock %}

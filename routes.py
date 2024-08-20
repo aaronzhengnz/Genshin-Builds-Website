@@ -79,6 +79,7 @@ def team(Team_URL):
         Characters.Character_Affiliation AS Character_Affiliation,
         Characters.Character_Image_URI AS Character_Image_URI,
         Characters.Character_URL AS Character_URL,
+        WeaponTypes.Weapon_Type_Name AS Character_Weapon_Type,
         Visions.Vision_Name AS Character_Vision
 
     FROM TeamCharacters
@@ -88,6 +89,8 @@ def team(Team_URL):
         ON TeamCharacters.Character_ID = Characters.Character_ID
     INNER JOIN Visions
         ON Vision_ID = Characters.Character_Vision_ID
+    INNER JOIN WeaponTypes
+        ON Characters.Character_Weapon_Type_ID = WeaponTypes.Weapon_Type_ID
 
     WHERE Teams.Team_URL = ?
     """
@@ -110,7 +113,8 @@ def team(Team_URL):
             "Character_Vision": row["Character_Vision"],
             "Character_Affiliation": row["Character_Affiliation"],
             "Character_Image_URI": row["Character_Image_URI"],
-            "Character_URL": row["Character_URL"]
+            "Character_URL": row["Character_URL"],
+            "Character_Weapon_Type": row["Character_Weapon_Type"]
         }
 
         if character_id not in characters_dict:
@@ -123,7 +127,6 @@ def team(Team_URL):
         Weapons.Weapon_ID AS Weapon_ID,
         Weapons.Weapon_Name AS Weapon_Name,
         Weapons.Weapon_Rarity AS Weapon_Rarity,
-        WeaponTypes.Weapon_Type_Name AS Weapon_Type,
         Weapons.Weapon_Image_URI AS Weapon_Image_URI,
         CharacterWeapons.Best_In_Slot AS Best_In_Slot,
         CharacterWeapons.Free_To_Play AS Free_To_Play
@@ -135,8 +138,6 @@ def team(Team_URL):
         ON TeamCharacters.Character_ID = CharacterWeapons.Character_ID
     INNER JOIN Weapons
         ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
-    INNER JOIN WeaponTypes
-        ON Weapons.Weapon_Type_ID = WeaponTypes.Weapon_Type_ID
 
     WHERE TeamCharacters.Team_ID = ?
     """
@@ -156,7 +157,6 @@ def team(Team_URL):
             "Weapon_ID": row["Weapon_ID"],
             "Weapon_Name": row["Weapon_Name"],
             "Weapon_Rarity": row["Weapon_Rarity"],
-            "Weapon_Type": row["Weapon_Type"],
             "Weapon_Image_URI": row["Weapon_Image_URI"],
             "Best_In_Slot": row["Best_In_Slot"],
             "Free_To_Play": row["Free_To_Play"]
@@ -404,122 +404,50 @@ def character(Character_URL):
     conn = get_db_connection()
     cur = conn.cursor()
 
-    artifacts_query = """
+    character_query = """
     SELECT
-        Teams.Team_Name AS Team_Name,
-        ArtifactSet1.Artifact_Set_Name AS Artifact_Set_1,
-        ArtifactSet2.Artifact_Set_Name AS Artifact_Set_2,
-        FlowerName.Artifact_Piece_Name AS Flower_Name,
-        FlowerMainStats.Stat_Name AS Flower_Stat,
-        PlumeName.Artifact_Piece_Name AS Plume_Name,
-        PlumeMainStats.Stat_Name AS Plume_Stat,
-        SandsName.Artifact_Piece_Name AS Sands_Name,
-        SandsMainStats.Stat_Name AS Sands_Stat,
-        AltSandsName.Artifact_Piece_Name AS AltSands_Name,
-        AltSandsMainStats.Stat_Name AS AltSands_Stat,
-        GobletName.Artifact_Piece_Name AS Goblet_Name,
-        GobletMainStats.Stat_Name AS Goblet_Stat,
-        AltGobletName.Artifact_Piece_Name AS AltGoblet_Name,
-        AltGobletMainStats.Stat_Name AS AltGoblet_Stat,
-        CircletName.Artifact_Piece_Name AS Circlet_Name,
-        CircletMainStats.Stat_Name AS Circlet_Stat,
-        AltCircletName.Artifact_Piece_Name AS AltCirclet_Name,
-        AltCircletMainStats.Stat_Name AS AltCirclet_Stat,
-        CharacterArtifacts.Best_In_Slot AS Best_In_Slot,
-        ArtifactSet1.Flower_Image_URI AS Artifact_Set_1_Flower_Image_URI,
-        ArtifactSet2.Flower_Image_URI AS Artifact_Set_2_Flower_Image_URI
+        Characters.Character_ID AS Character_ID,
+        Characters.Character_Name AS Character_Name,
+        Visions.Vision_Name AS Character_Vision,
+        Characters.Character_Affiliation AS Character_Affiliation,
+        Characters.Character_Image_URI AS Character_Image_URI,
+        Characters.Character_URL AS Character_URL,
+        WeaponTypes.Weapon_Type_Name AS Character_Weapon_Type
 
     FROM Characters
     INNER JOIN Visions
-        ON Characters.Character_Vision_ID = Vision_ID
-    INNER JOIN TeamCharacters
-        ON Characters.Character_ID = TeamCharacters.Character_ID
-
-    INNER JOIN CharacterArtifacts
-        ON TeamCharacters.Team_ID = CharacterArtifacts.Team_ID
-
-    INNER JOIN Teams
-        ON TeamCharacters.Team_ID = Teams.Team_ID
-
-    INNER JOIN RecommendedArtifacts
-        ON CharacterArtifacts.Recommended_Artifact_ID =
-        RecommendedArtifacts.Recommended_Artifact_ID
-
-    INNER JOIN Artifacts AS Flower
-        ON RecommendedArtifacts.Flower_ID = Flower.Artifact_ID
-    INNER JOIN Stats AS FlowerMainStats
-        ON Flower.MainStat_ID = FlowerMainStats.Stat_ID
-    INNER JOIN ArtifactPieces AS FlowerName
-        ON Flower.Artifact_Piece_ID = FlowerName.Artifact_Piece_ID
-
-    INNER JOIN Artifacts AS Plume
-        ON RecommendedArtifacts.Plume_ID = Plume.Artifact_ID
-    INNER JOIN Stats AS PlumeMainStats
-        ON Plume.MainStat_ID = PlumeMainStats.Stat_ID
-    INNER JOIN ArtifactPieces AS PlumeName
-        ON Plume.Artifact_Piece_ID = PlumeName.Artifact_Piece_ID
-
-    INNER JOIN Artifacts AS Sands
-        ON RecommendedArtifacts.Sands_ID = Sands.Artifact_ID
-    INNER JOIN Stats AS SandsMainStats
-        ON Sands.MainStat_ID = SandsMainStats.Stat_ID
-    INNER JOIN ArtifactPieces AS SandsName
-        ON Sands.Artifact_Piece_ID = SandsName.Artifact_Piece_ID
-
-    LEFT JOIN Artifacts AS AltSands
-        ON RecommendedArtifacts.Alternative_Sands_ID = AltSands.Artifact_ID
-    LEFT JOIN Stats AS AltSandsMainStats
-        ON AltSands.MainStat_ID = AltSandsMainStats.Stat_ID
-    LEFT JOIN ArtifactPieces AS AltSandsName
-        ON AltSands.Artifact_Piece_ID = AltSandsName.Artifact_Piece_ID
-
-    INNER JOIN Artifacts AS Goblet
-        ON RecommendedArtifacts.Goblet_ID = Goblet.Artifact_ID
-    INNER JOIN Stats AS GobletMainStats
-        ON Goblet.MainStat_ID = GobletMainStats.Stat_ID
-    INNER JOIN ArtifactPieces AS GobletName
-        ON Goblet.Artifact_Piece_ID = GobletName.Artifact_Piece_ID
-
-    LEFT JOIN Artifacts AS AltGoblet
-        ON RecommendedArtifacts.Alternative_Goblet_ID = AltGoblet.Artifact_ID
-    LEFT JOIN Stats AS AltGobletMainStats
-        ON AltGoblet.MainStat_ID = AltGobletMainStats.Stat_ID
-    LEFT JOIN ArtifactPieces AS AltGobletName
-        ON AltGoblet.Artifact_Piece_ID = AltGobletName.Artifact_Piece_ID
-
-    INNER JOIN Artifacts AS Circlet
-        ON RecommendedArtifacts.Circlet_ID = Circlet.Artifact_ID
-    INNER JOIN Stats AS CircletMainStats
-        ON Circlet.MainStat_ID = CircletMainStats.Stat_ID
-    INNER JOIN ArtifactPieces AS CircletName
-        ON Circlet.Artifact_Piece_ID = CircletName.Artifact_Piece_ID
-
-    LEFT JOIN Artifacts AS AltCirclet
-        ON RecommendedArtifacts.Alternative_Circlet_ID = AltCirclet.Artifact_ID
-    LEFT JOIN Stats AS AltCircletMainStats
-        ON AltCirclet.MainStat_ID = AltCircletMainStats.Stat_ID
-    LEFT JOIN ArtifactPieces AS AltCircletName
-        ON AltCirclet.Artifact_Piece_ID = AltCircletName.Artifact_Piece_ID
-
-    INNER JOIN ArtifactSets AS ArtifactSet1
-        ON RecommendedArtifacts.Artifact_Set_ID_1 =
-        ArtifactSet1.Artifact_Set_ID
-    LEFT JOIN ArtifactSets AS ArtifactSet2
-        ON RecommendedArtifacts.Artifact_Set_ID_2 =
-        ArtifactSet2.Artifact_Set_ID
+        ON Characters.Character_Vision_ID = Visions.Vision_ID
+    INNER JOIN WeaponTypes
+        ON Characters.Character_Weapon_Type_ID = WeaponTypes.Weapon_Type_ID
 
     WHERE Characters.Character_URL = ?
-        AND Characters.Character_ID = CharacterArtifacts.Character_ID
     """
 
-    cur.execute(artifacts_query, (Character_URL,))
+    cur.execute(character_query, (Character_URL,))
+    character = cur.fetchone()
 
-    if not cur.fetchone():
+    if not character:
         conn.close()
         return render_template("404.html"), 404
 
+    character_dict = {}
+    character_id = character["Character_ID"]
+
+    character_details = {
+        "Character_Name": character["Character_Name"],
+        "Character_Vision": character["Character_Vision"],
+        "Character_Affiliation": character["Character_Affiliation"],
+        "Character_Image_URI": character["Character_Image_URI"],
+        "Character_URL": character["Character_URL"],
+        "Character_Weapon_Type": character["Character_Weapon_Type"]
+    }
+
+    character_dict[character_id] = character_details
+
     conn.close()
-    return render_template("character.html", character=character)
+    return render_template("character.html",
+                           character_id=character_id,
+                           character=character_dict)
 
 
 if __name__ == "__main__":

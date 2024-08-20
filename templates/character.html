@@ -1,3 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
+{% for info in character %}
+<h1>{{ character[info]['Character_Name'] }}</h1>
+{% endfor %}
+<div>
+    {% for info in character %}
+    <div>
+        <img src="{{ character[info]['Character_Image_URI'] }}" alt="{{ character[info]['Character_Name'] }}" class="character_image">
+        <div>
+            <p>Vision - {{ character[info]['Character_Vision'] }}</p>
+            <p>Affiliation - {{ character[info]['Character_Affiliation'] }}</p>
+            <p>Weapon - {{ character[info]['Character_Weapon_Type'] }}</p>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}

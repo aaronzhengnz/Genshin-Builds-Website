@@ -592,7 +592,7 @@ def character(Character_URL):
 
         if team_id not in team_artifacts_dict:
             team_artifacts_dict[team_id] = {
-                "artifacts": [team_artifact_details]
+                "team_artifacts": [team_artifact_details]
             }
         else:
             team_artifacts_dict[team_id]["artifacts"].append(

@@ -429,10 +429,10 @@ def character(Character_URL):
         conn.close()
         return render_template("404.html"), 404
 
-    character_dict = {}
     character_id = character["Character_ID"]
 
-    character_details = {
+    character_dict = {
+        "Character_ID": character["Character_ID"],
         "Character_Name": character["Character_Name"],
         "Character_Vision": character["Character_Vision"],
         "Character_Affiliation": character["Character_Affiliation"],
@@ -440,8 +440,6 @@ def character(Character_URL):
         "Character_URL": character["Character_URL"],
         "Character_Weapon_Type": character["Character_Weapon_Type"]
     }
-
-    character_dict[character_id] = character_details
 
     team_artifacts_query = """
     SELECT
@@ -547,12 +545,11 @@ def character(Character_URL):
     for row in team_artifacts:
         team_id = row["Team_ID"]
 
-        team_artifact_details = {
-            "Team_Name": row["Team_Name"],
-            "Artifact_Set_Name_1": row["Artifact_Set_1"],
+        artifact_details = {
+            "Artifact_Set_1": row["Artifact_Set_1"],
             "Artifact_Set_1_Flower_Image_URI":
                 row["Artifact_Set_1_Flower_Image_URI"],
-            "Artifact_Set_Name_2": row["Artifact_Set_2"],
+            "Artifact_Set_2": row["Artifact_Set_2"],
             "Artifact_Set_2_Flower_Image_URI":
                 row["Artifact_Set_2_Flower_Image_URI"],
             "Flower": {
@@ -592,17 +589,22 @@ def character(Character_URL):
 
         if team_id not in team_artifacts_dict:
             team_artifacts_dict[team_id] = {
-                "team_artifacts": [team_artifact_details]
+                "team_name": row["Team_Name"],
+                "artifacts": [artifact_details]
             }
         else:
-            team_artifacts_dict[team_id]["artifacts"].append(
-                team_artifact_details)
+            team_artifacts_dict[team_id]["artifacts"].append(artifact_details)
+
+    character_dict = {
+        "Character_ID": character["Character_ID"],
+        "Character": character_dict,
+        "Team_Artifacts": team_artifacts_dict
+    }
 
     conn.close()
     return render_template("character.html",
-                           character_id=character_id,
                            character=character_dict,
-                           team_artifacts=team_artifacts_dict)
+                           character_=character_id)
 
 
 if __name__ == "__main__":

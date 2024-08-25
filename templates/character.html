@@ -1,20 +1,40 @@
 {% extends "layout.html" %}
 {% block content %}
-{% for info in character %}
-<h1>{{ character[info]['Character_Name'] }}</h1>
-{% endfor %}
+<h1>{{ character['Character'].Character_Name }}</h1>
 <div>
-    {% for info in character %}
-    <div>
-        <img src="{{ character[info]['Character_Image_URI'] }}" alt="{{ character[info]['Character_Name'] }}" class="character_image">
-        <div>
-            <p>Vision - {{ character[info]['Character_Vision'] }}</p>
-            <p>Affiliation - {{ character[info]['Character_Affiliation'] }}</p>
-            <p>Weapon - {{ character[info]['Character_Weapon_Type'] }}</p>
-        </div>
-        <div>
-            {{ team_artifacts }}
-        </div>
-    {% endfor %}
+    <img src="{{ character['Character'].Character_Image_URI }}" alt="{{ character['Character'].Character_Name }}">
+    <p>Vision - {{ character['Character'].Character_Vision }}</p>
+    <p>Affiliation - {{ character['Character'].Character_Affiliation }}</p>
+    <p>Weapon - {{ character['Character'].Character_Weapon_Type }}</p>
 </div>
-{% endblock %}
+<div>
+    {% for team_id, team_info in character['Team_Artifacts'].items() %}
+    <div>
+        <h2>{{ team_info.team_name }}</h2>
+
+        {% for artifact in team_info['artifacts'] %}
+        <div>
+            {% if artifact['Best_In_Slot'] %}
+            <div>
+                <p><b>Best In Slot</b></p>
+                <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}">
+                <p>{{ artifact['Artifact_Set_1'] }}</p>
+                {% if artifact['Artifact_Set_2'] is not none %}
+                <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_2'] }}">
+                <p>{{ artifact['Artifact_Set_2'] }}</p>
+                {% endif %}
+            </div>
+            {% else %}
+            <div>
+                <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}">
+                <p>{{ artifact['Artifact_Set_1'] }}</p>
+                {% if artifact['Artifact_Set_2'] is not none %}
+                <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_2'] }}">
+                <p>{{ artifact['Artifact_Set_2'] }}</p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>    {% endfor %}
+    {% endblock %}i

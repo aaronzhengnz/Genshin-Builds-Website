@@ -686,5 +686,16 @@ def character(Character_URL):
                            character_=character_id)
 
 
+@app.route("/weapons")
+def weapons():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM weapons ORDER BY Weapon_Name")
+    weapon_rows = cur.fetchall()
+    conn.close()
+    weapons = [dict(row) for row in weapon_rows]
+    return render_template("weapons.html", weapons=weapons)
+
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -638,11 +638,46 @@ def character(Character_URL):
             character_weapon_dict[character_id]["weapons"].append(
                 weapon_details)
 
+    substats_query = """
+    SELECT
+        Characters.Character_ID AS Character_ID,
+        Characters.Character_Name AS Character_Name,
+        Stats.Stat_Name AS SubStat_Name,
+        CharacterSubStats.Rating AS SubStat_Rating
+
+    FROM Characters
+    INNER JOIN CharacterSubStats
+        ON Characters.Character_ID = CharacterSubStats.Character_ID
+    INNER JOIN Stats
+        ON CharacterSubStats.Stat_ID = Stats.Stat_ID
+
+    WHERE
+    Characters.Character_URL = ?
+    """
+
+    cur.execute(substats_query, (Character_URL,))
+    substats = cur.fetchall()
+
+    substats_dict = {}
+    for row in substats:
+        substat_details = {
+            "SubStat_Name": row["SubStat_Name"],
+            "SubStat_Rating": row["SubStat_Rating"]
+        }
+
+        if character_id not in substats_dict:
+            substats_dict[character_id] = {
+                "substats": [substat_details]
+            }
+        else:
+            substats_dict[character_id]["substats"].append(substat_details)
+
     character_dict = {
         "Character_ID": character["Character_ID"],
         "Character": character_dict,
         "Team_Artifacts": team_artifacts_dict,
-        "Character_Weapons": character_weapon_dict
+        "Character_Weapons": character_weapon_dict,
+        "Character_Substats": substats_dict
     }
 
     conn.close()

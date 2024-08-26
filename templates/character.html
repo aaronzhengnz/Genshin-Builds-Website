@@ -64,4 +64,15 @@
     </div>
     {% endfor %}
 </div>
+<div>
+    {% for character_id, character_substats in character['Character_Substats'].items() %}
+    <div>
+        {% for substat in character_substats['substats'] %}
+        <div>
+            <p>{{ substat.SubStat_Name }} - {{ substat.SubStat_Rating }}★</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

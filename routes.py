@@ -595,10 +595,54 @@ def character(Character_URL):
         else:
             team_artifacts_dict[team_id]["artifacts"].append(artifact_details)
 
+    character_weapons_query = """
+    SELECT
+        Characters.Character_ID,
+        Characters.Character_Name,
+        Weapons.Weapon_ID AS Weapon_ID,
+        Weapons.Weapon_Name AS Weapon_Name,
+        Weapons.Weapon_Rarity AS Weapon_Rarity,
+        Weapons.Weapon_Image_URI AS Weapon_Image_URI,
+        CharacterWeapons.Best_In_Slot AS Best_In_Slot,
+        CharacterWeapons.Free_To_Play AS Free_To_Play
+
+    FROM Characters
+        INNER JOIN CharacterWeapons
+            ON Characters.Character_ID = CharacterWeapons.Character_ID
+        INNER JOIN Weapons
+            ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
+
+    WHERE
+    Characters.Character_URL = ?
+    """
+
+    cur.execute(character_weapons_query, (Character_URL,))
+    character_weapons = cur.fetchall()
+
+    character_weapon_dict = {}
+    for row in character_weapons:
+        weapon_details = {
+            "Weapon_ID": row["Weapon_ID"],
+            "Weapon_Name": row["Weapon_Name"],
+            "Weapon_Rarity": row["Weapon_Rarity"],
+            "Weapon_Image_URI": row["Weapon_Image_URI"],
+            "Best_In_Slot": row["Best_In_Slot"],
+            "Free_To_Play": row["Free_To_Play"]
+        }
+
+        if character_id not in character_weapon_dict:
+            character_weapon_dict[character_id] = {
+                "weapons": [weapon_details]
+            }
+        else:
+            character_weapon_dict[character_id]["weapons"].append(
+                weapon_details)
+
     character_dict = {
         "Character_ID": character["Character_ID"],
         "Character": character_dict,
-        "Team_Artifacts": team_artifacts_dict
+        "Team_Artifacts": team_artifacts_dict,
+        "Character_Weapons": character_weapon_dict
     }
 
     conn.close()

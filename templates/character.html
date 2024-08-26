@@ -17,24 +17,51 @@
             {% if artifact['Best_In_Slot'] %}
             <div>
                 <p><b>Best In Slot</b></p>
-                <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}">
+                <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}"
+                    alt="{{ artifact['Artifact_Set_Name_1'] }}">
                 <p>{{ artifact['Artifact_Set_1'] }}</p>
                 {% if artifact['Artifact_Set_2'] is not none %}
-                <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_2'] }}">
+                <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}"
+                    alt="{{ artifact['Artifact_Set_Name_2'] }}">
                 <p>{{ artifact['Artifact_Set_2'] }}</p>
                 {% endif %}
             </div>
             {% else %}
             <div>
-                <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}">
+                <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}"
+                    alt="{{ artifact['Artifact_Set_Name_1'] }}">
                 <p>{{ artifact['Artifact_Set_1'] }}</p>
                 {% if artifact['Artifact_Set_2'] is not none %}
-                <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_2'] }}">
+                <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}"
+                    alt="{{ artifact['Artifact_Set_Name_2'] }}">
                 <p>{{ artifact['Artifact_Set_2'] }}</p>
                 {% endif %}
             </div>
             {% endif %}
         </div>
         {% endfor %}
-    </div>    {% endfor %}
-    {% endblock %}i
+    </div>
+    {% endfor %}
+</div>
+<div>
+    {% for team_id, character_weapons in character['Character_Weapons'].items() %}
+    <div>
+        {% for weapon in character_weapons['weapons'] %}
+        {% if weapon['Best_In_Slot'] %}
+        <div>
+            <img src="{{ weapon['Weapon_Image_URI'] }}" alt="{{ weapon['Weapon_Name'] }}">
+            <p><b>Best In Slot - </b>{{ weapon['Weapon_Name'] }}</p>
+            <p>{{ weapon['Weapon_Type'] }}</p>
+        </div>
+        {% else %}
+        <div>
+            <img src="{{ weapon['Weapon_Image_URI'] }}" alt="{{ weapon['Weapon_Name'] }}">
+            <p>{{ weapon['Weapon_Name'] }}</p>
+            <p>{{ weapon['Weapon_Type'] }}</p>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

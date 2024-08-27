@@ -697,5 +697,57 @@ def weapons():
     return render_template("weapons.html", weapons=weapons)
 
 
+@app.route("/weapons/<string:Weapon_URL>")
+def weapon(Weapon_URL):
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    weapon_query = """
+    SELECT
+        Weapons.Weapon_ID AS Weapon_ID,
+        Weapons.Weapon_Name AS Weapon_Name,
+        WeaponTypes.Weapon_Type_Name AS Weapon_Type,
+        MainStat.Stat_Name AS MainStat,
+        Weapons.Weapon_MainStat_Value AS MainStat_Value,
+        SubStat.Stat_Name AS SubStat,
+        Weapons.Weapon_SubStat_Value AS SubStat_Value,
+        Weapons.Weapon_Ability_Name AS Weapon_Ability_Name,
+        Weapons.Weapon_Ability AS Weapon_Ability,
+        Weapons.Weapon_Rarity AS Weapon_Rarity,
+        Weapons.Weapon_Image_URI
+
+
+    FROM Weapons
+    LEFT JOIN WeaponTypes
+        ON Weapons.Weapon_Type_ID = WeaponTypes.Weapon_Type_ID
+    LEFT JOIN Stats AS MainStat
+        ON Weapons.Weapon_MainStat = MainStat.Stat_ID
+    LEFT JOIN Stats AS SubStat
+        ON Weapons.Weapon_SubStat = SubStat.Stat_ID
+
+    WHERE Weapon_URL = ?
+    """
+
+    cur.execute(weapon_query, (Weapon_URL,))
+    weapon = cur.fetchone()
+
+    weapon_info = {
+        "Weapon_ID": weapon["Weapon_ID"],
+        "Weapon_Name": weapon["Weapon_Name"],
+        "Weapon_Type": weapon["Weapon_Type"],
+        "MainStat": weapon["MainStat"],
+        "MainStat_Value": weapon["MainStat_Value"],
+        "SubStat": weapon["SubStat"],
+        "SubStat_Value": weapon["SubStat_Value"],
+        "Weapon_Ability_Name": weapon["Weapon_Ability_Name"],
+        "Weapon_Ability": weapon["Weapon_Ability"],
+        "Weapon_Rarity": weapon["Weapon_Rarity"] * "★",
+        "Weapon_Image_URI": weapon["Weapon_Image_URI"]
+    }
+
+    conn.close()
+    return render_template("weapon.html", weapon=weapon_info)
+
+
 if __name__ == "__main__":
     app.run(debug=True)

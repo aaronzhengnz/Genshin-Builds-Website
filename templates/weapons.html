@@ -1,3 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
+<h1>Characters</h1>
+<div>
+    {% for weapon in weapons %}
+    <div>
+        <div>
+            <a href="/weapons/{{ weapon.Weapon_URL }}">
+                <div>
+                    <img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}">
+                    <h2>{{ weapon.Weapon_Name }}</h2>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

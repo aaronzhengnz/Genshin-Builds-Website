@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>{{ weapon.Weapon_Name }}</h1>
+<img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}">
+<p>Weapon Type - {{ weapon.Weapon_Type }}</p>
+<p>Base Attack - {{ weapon.MainStat_Value }}</p>
+<p>Rarity - {{ weapon.Weapon_Rarity }}</p>
+<p>Substat - {{ weapon.SubStat | replace('%', '') }} + {{ weapon.SubStat_Value }}</p>
+<h3>{{ weapon.Weapon_Ability_Name }}</h3>
+<p>{{ weapon.Weapon_Ability }}</p>
+{% endblock %}

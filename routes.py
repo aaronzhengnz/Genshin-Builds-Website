@@ -749,5 +749,16 @@ def weapon(Weapon_URL):
     return render_template("weapon.html", weapon=weapon_info)
 
 
+@app.route("/artifacts")
+def artifacts():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM ArtifactSets ORDER BY Artifact_Set_Name")
+    artifact_rows = cur.fetchall()
+    conn.close()
+    artifacts = [dict(row) for row in artifact_rows]
+    return render_template("artifacts.html", artifacts=artifacts)
+
+
 if __name__ == "__main__":
     app.run(debug=True)

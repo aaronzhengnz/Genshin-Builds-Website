@@ -690,7 +690,7 @@ def character(Character_URL):
 def weapons():
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM weapons ORDER BY Weapon_Name")
+    cur.execute("SELECT * FROM Weapons ORDER BY Weapon_Name")
     weapon_rows = cur.fetchall()
     conn.close()
     weapons = [dict(row) for row in weapon_rows]
@@ -758,6 +758,71 @@ def artifacts():
     conn.close()
     artifacts = [dict(row) for row in artifact_rows]
     return render_template("artifacts.html", artifacts=artifacts)
+
+
+@app.route("/artifacts/<string:Artifact_Set_URL>")
+def artifact(Artifact_Set_URL):
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    artifact_query = """
+    SELECT
+        ArtifactSets.Artifact_Set_ID,
+        ArtifactSets.Artifact_Set_Name,
+        ArtifactSets."2PC_Set_Bonus",
+        ArtifactSets."4PC_Set_Bonus",
+        ArtifactSets.Flower_Image_URI,
+        ArtifactSets.Plume_Image_URI,
+        ArtifactSets.Sands_Image_URI,
+        ArtifactSets.Goblet_Image_URI,
+        ArtifactSets.Circlet_Image_URI,
+        Flower_Piece_ID.Artifact_Piece_Name AS Flower_Piece,
+        Plume_Piece_ID.Artifact_Piece_Name AS Plume_Piece,
+        Sands_Piece_ID.Artifact_Piece_Name AS Sands_Piece,
+        Goblet_Piece_ID.Artifact_Piece_Name AS Goblet_Piece,
+        Circlet_Piece_ID.Artifact_Piece_Name AS Circlet_Piece,
+        ArtifactSets.Artifact_Set_URL
+
+    FROM ArtifactSets
+    INNER JOIN ArtifactPieces AS Flower_Piece_ID
+        ON ArtifactSets.Flower_Piece_ID = Flower_Piece_ID.Artifact_Piece_ID
+
+    INNER JOIN ArtifactPieces AS Plume_Piece_ID
+        ON ArtifactSets.Plume_Piece_ID = Plume_Piece_ID.Artifact_Piece_ID
+
+    INNER JOIN ArtifactPieces AS Sands_Piece_ID
+        ON ArtifactSets.Sands_Piece_ID = Sands_Piece_ID.Artifact_Piece_ID
+
+    INNER JOIN ArtifactPieces AS Goblet_Piece_ID
+        ON ArtifactSets.Goblet_Piece_ID = Goblet_Piece_ID.Artifact_Piece_ID
+
+    INNER JOIN ArtifactPieces AS Circlet_Piece_ID
+        ON ArtifactSets.Circlet_Piece_ID = Circlet_Piece_ID.Artifact_Piece_ID
+
+    WHERE ArtifactSets.Artifact_Set_URL = ?
+    """
+
+    cur.execute(artifact_query, (Artifact_Set_URL,))
+    artifact_rows = cur.fetchall()
+    conn.close()
+
+    artifacts = {
+        "Artifact_Set_ID": artifact_rows[0]["Artifact_Set_ID"],
+        "Artifact_Set_Name": artifact_rows[0]["Artifact_Set_Name"],
+        "2PC_Set_Bonus": artifact_rows[0]["2PC_Set_Bonus"],
+        "4PC_Set_Bonus": artifact_rows[0]["4PC_Set_Bonus"],
+        "Flower_Piece": artifact_rows[0]["Flower_Piece"],
+        "Plume_Piece": artifact_rows[0]["Plume_Piece"],
+        "Sands_Piece": artifact_rows[0]["Sands_Piece"],
+        "Goblet_Piece": artifact_rows[0]["Goblet_Piece"],
+        "Circlet_Piece": artifact_rows[0]["Circlet_Piece"],
+        "Flower_Image_URI": artifact_rows[0]["Flower_Image_URI"],
+        "Plume_Image_URI": artifact_rows[0]["Plume_Image_URI"],
+        "Sands_Image_URI": artifact_rows[0]["Sands_Image_URI"],
+        "Goblet_Image_URI": artifact_rows[0]["Goblet_Image_URI"],
+        "Circlet_Image_URI": artifact_rows[0]["Circlet_Image_URI"]
+    }
+    return render_template("artifact.html", artifacts=artifacts)
 
 
 if __name__ == "__main__":

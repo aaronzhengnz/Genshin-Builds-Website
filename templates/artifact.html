@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>{{ artifacts.Artifact_Set_Name }}</h1>
+<p>Set Bonus (2) - {{ artifacts['2PC_Set_Bonus'] }}</p>
+<p>Set Bonus (4) - {{ artifacts['4PC_Set_Bonus'] }}</p>
+<div>
+    <div>
+        <img src="{{ artifacts.Flower_Image_URI }}" alt="{{ artifacts.Artifact_Name }}">
+        <p>{{ artifacts.Flower_Piece }}</p>
+    </div>
+    <div>
+        <img src="{{ artifacts.Plume_Image_URI }}" alt="{{ artifacts.Artifact_Name }}">
+        <p>{{ artifacts.Plume_Piece }}</p>
+    </div>
+    <div>
+        <img src="{{ artifacts.Sands_Image_URI }}" alt="{{ artifacts.Artifact_Name }}">
+        <p>{{ artifacts.Sands_Piece }}</p>
+    </div>
+    <div>
+        <img src="{{ artifacts.Goblet_Image_URI }}" alt="{{ artifacts.Artifact_Name }}">
+        <p>{{ artifacts.Goblet_Piece }}</p>
+    </div>
+    <div>
+        <img src="{{ artifacts.Circlet_Image_URI }}" alt="{{ artifacts.Artifact_Name }}">
+        <p>{{ artifacts.Circlet_Piece }}</p>
+    </div>
+</div>
+{% endblock %} 

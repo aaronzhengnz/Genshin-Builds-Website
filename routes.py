@@ -854,8 +854,47 @@ def artifact(Artifact_Set_URL):
         "Goblet_Image_URI": artifact_rows[0]["Goblet_Image_URI"],
         "Circlet_Image_URI": artifact_rows[0]["Circlet_Image_URI"]
     }
+
+    characters_query = """
+    SELECT DISTINCT
+        Characters.Character_ID,
+        Characters.Character_Name,
+        Characters.Character_Image_URI,
+        Characters.Character_URL
+
+    FROM ArtifactSets
+    LEFT JOIN RecommendedArtifacts
+        ON ArtifactSets.Artifact_Set_ID =
+        RecommendedArtifacts.Artifact_Set_ID_1
+    OR
+        ArtifactSets.Artifact_Set_ID =
+        RecommendedArtifacts.Artifact_Set_ID_2
+
+    LEFT JOIN CharacterArtifacts
+        ON RecommendedArtifacts.Recommended_Artifact_ID =
+        CharacterArtifacts.Recommended_Artifact_ID
+
+    LEFT JOIN Characters
+        ON CharacterArtifacts.Character_ID = Characters.Character_ID
+
+    WHERE ArtifactSets.Artifact_Set_URL = ?
+    """
+
+    cur.execute(characters_query, (Artifact_Set_URL,))
+    characters = cur.fetchall()
+
+    characters_dict = {}
+    for row in characters:
+        characters_dict[row["Character_ID"]] = {    
+            "Character_Name": row["Character_Name"],
+            "Character_Image_URI": row["Character_Image_URI"],
+            "Character_URL": row["Character_URL"]
+        }
+
     conn.close()
-    return render_template("artifact.html", artifacts=artifacts)
+    return render_template("artifact.html",
+                           artifacts=artifacts,
+                           characters=characters_dict)
 
 
 if __name__ == "__main__":

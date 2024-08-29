@@ -25,4 +25,14 @@
         <p>{{ artifacts.Circlet_Piece }}</p>
     </div>
 </div>
+<h2>Characters who use {{ artifacts.Artifact_Set_Name }}</h2>
+{% for character_id, character_details in characters.items() %}
+<div>
+    <a href="/characters/{{ character_details.Character_URL }}">
+        <div>
+            <img src="{{ character_details.Character_Image_URI }}" alt="{{ character_id }}">
+            <h2>{{ character_details.Character_Name }}</h2>
+        </div>
+    </a>
+{% endfor %}
 {% endblock %} 

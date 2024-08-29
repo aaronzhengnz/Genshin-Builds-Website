@@ -745,8 +745,41 @@ def weapon(Weapon_URL):
         "Weapon_Image_URI": weapon["Weapon_Image_URI"]
     }
 
+    characters_query = """
+    SELECT
+        Weapons.Weapon_ID AS Weapon_ID,
+        Weapons.Weapon_Name AS Weapon_Name,
+        Characters.Character_Name AS Character_Name,
+        Characters.Character_Image_URI AS Character_Image_URI,
+        Characters.Character_URL AS Character_URL
+
+    FROM Weapons
+    LEFT JOIN CharacterWeapons
+        ON Weapons.Weapon_ID = CharacterWeapons.Weapon_ID
+    LEFT JOIN Characters
+        ON CharacterWeapons.Character_ID = Characters.Character_ID
+
+    WHERE Weapons.Weapon_URL = ?
+    """
+
+    cur.execute(characters_query, (Weapon_URL,))
+    characters = cur.fetchall()
+
+    characters_dict = {}
+    for row in characters:
+        character_details = {
+            "Character_Name": row["Character_Name"],
+            "Character_Image_URI": row["Character_Image_URI"],
+            "Character_URL": row["Character_URL"]
+        }
+
+        if row["Character_Name"] not in characters_dict:
+            characters_dict[row["Character_Name"]] = character_details
+
     conn.close()
-    return render_template("weapon.html", weapon=weapon_info)
+    return render_template("weapon.html",
+                           weapon=weapon_info,
+                           characters=characters_dict)
 
 
 @app.route("/artifacts")
@@ -804,7 +837,6 @@ def artifact(Artifact_Set_URL):
 
     cur.execute(artifact_query, (Artifact_Set_URL,))
     artifact_rows = cur.fetchall()
-    conn.close()
 
     artifacts = {
         "Artifact_Set_ID": artifact_rows[0]["Artifact_Set_ID"],
@@ -822,6 +854,7 @@ def artifact(Artifact_Set_URL):
         "Goblet_Image_URI": artifact_rows[0]["Goblet_Image_URI"],
         "Circlet_Image_URI": artifact_rows[0]["Circlet_Image_URI"]
     }
+    conn.close()
     return render_template("artifact.html", artifacts=artifacts)
 
 

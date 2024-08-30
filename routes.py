@@ -470,13 +470,13 @@ def character(Character_URL):
         ArtifactSet2.Flower_Image_URI AS Artifact_Set_2_Flower_Image_URI
     FROM Characters
     INNER JOIN TeamCharacters
-    ON Characters.Character_ID = TeamCharacters.Character_ID
+        ON Characters.Character_ID = TeamCharacters.Character_ID
     INNER JOIN Teams
-    ON TeamCharacters.Team_ID = Teams.Team_ID
+        ON TeamCharacters.Team_ID = Teams.Team_ID
     INNER JOIN CharacterArtifacts
-    ON Teams.Team_ID = CharacterArtifacts.Team_ID
+        ON Teams.Team_ID = CharacterArtifacts.Team_ID
     LEFT JOIN RecommendedArtifacts
-    ON CharacterArtifacts.Recommended_Artifact_ID =
+        ON CharacterArtifacts.Recommended_Artifact_ID =
         RecommendedArtifacts.Recommended_Artifact_ID
     INNER JOIN Artifacts AS Flower
         ON RecommendedArtifacts.Flower_ID = Flower.Artifact_ID
@@ -885,7 +885,7 @@ def artifact(Artifact_Set_URL):
 
     characters_dict = {}
     for row in characters:
-        characters_dict[row["Character_ID"]] = {    
+        characters_dict[row["Character_ID"]] = {
             "Character_Name": row["Character_Name"],
             "Character_Image_URI": row["Character_Image_URI"],
             "Character_URL": row["Character_URL"]

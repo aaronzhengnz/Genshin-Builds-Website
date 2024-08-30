@@ -7,10 +7,12 @@
         <a href="/teams/{{ team_info['Team_URL'] }}"><b>{{ team_info['Team_Name'] }}</b></a>
         <div class="teams_characters-container">
             {% for character_info in team_info['Characters'] %}
-            <div class="teams_character-container">
-                <img src="{{ character_info['Character_Image_URI'] }}" alt="{{ character_info['Character_Name'] }}" class="teams_character-image">
-                <h3>{{ character_info['Character_Name'] }}</h3>
-            </div>
+            <a href="/characters/{{ character_info['Character_URL'] }}">
+                <div class="teams_character-container">
+                    <img src="{{ character_info['Character_Image_URI'] }}" alt="{{ character_info['Character_Name'] }}" class="teams_character-image">
+                    <h3>{{ character_info['Character_Name'] }}</h3>
+                </div>
+            </a>
             {% endfor %}
         </div>
     </div>

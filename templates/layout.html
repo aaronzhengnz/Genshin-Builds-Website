@@ -8,12 +8,12 @@
 
     <body>
         <div>
-            <div class="default_box-container">
+            <div>
                 <header>{% include "header.html" %}</header>
                 <nav>{% include "nav.html" %}</nav>
             </div>
-            <main class="default_box-container">{% block content %}{% endblock %}</main>
-            <footer class="default_box-container">{% include 'footer.html' %}</footer>
+            <main>{% block content %}{% endblock %}</main>
+            <footer>{% include 'footer.html' %}</footer>
         </div>
     </body>
 </html>

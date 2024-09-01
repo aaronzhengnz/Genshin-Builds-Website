@@ -614,6 +614,7 @@ def character(Character_URL):
         Weapons.Weapon_Name AS Weapon_Name,
         Weapons.Weapon_Rarity AS Weapon_Rarity,
         Weapons.Weapon_Image_URI AS Weapon_Image_URI,
+        Weapons.Weapon_URL AS Weapon_URL,
         CharacterWeapons.Best_In_Slot AS Best_In_Slot,
         CharacterWeapons.Free_To_Play AS Free_To_Play
 
@@ -638,6 +639,7 @@ def character(Character_URL):
             "Weapon_Rarity": row["Weapon_Rarity"],
             "Weapon_Image_URI": row["Weapon_Image_URI"],
             "Best_In_Slot": row["Best_In_Slot"],
+            "Weapon_URL": row["Weapon_URL"],
             "Free_To_Play": row["Free_To_Play"]
         }
 

@@ -39,20 +39,32 @@
                 {% for artifact in character_artifacts %}
                     {% if artifact['Artifact_Set_Name_2'] is not none %}
                         {% if artifact['Best_In_Slot'] %}
+                        <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
                             <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
+                        </a>
+                        <a href="/artifacts/{{ artifact['Artifact_Set_2_URL'] }}">
                             <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_2'] }}" class="team_artifact-image">
+                        </a>
                             <p>Best In Slot - 2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
                         {% else %}
+                        <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
                             <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
+                        </a>
+                        <a href="/artifacts/{{ artifact['Artifact_Set_2_URL'] }}">
                             <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_2'] }}" class="team_artifact-image">
+                        </a>
                             <p>2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
                         {% endif %}
                     {% else %}
                         {% if artifact['Best_In_Slot'] %}
+                        <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
                             <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
+                        </a>
                             <p>Best In Slot - 4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
                         {% else %}
+                        <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
                             <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
+                        </a>
                             <p>4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
                         {% endif %}
                     {% endif %}

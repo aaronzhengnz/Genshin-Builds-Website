@@ -454,7 +454,9 @@ def character(Character_URL):
         Characters.Character_ID AS Character_ID,
         Characters.Character_Name AS Character_Name,
         ArtifactSet1.Artifact_Set_Name AS Artifact_Set_1,
+        ArtifactSet1.Artifact_Set_URL as Artifact_Set_1_URL,
         ArtifactSet2.Artifact_Set_Name AS Artifact_Set_2,
+        ArtifactSet2.Artifact_Set_URL as Artifact_Set_2_URL,
         FlowerName.Artifact_Piece_Name AS Flower_Name,
         FlowerMainStats.Stat_Name AS Flower_Stat,
         PlumeName.Artifact_Piece_Name AS Plume_Name,
@@ -474,6 +476,7 @@ def character(Character_URL):
         CharacterArtifacts.Best_In_Slot AS Best_In_Slot,
         ArtifactSet1.Flower_Image_URI AS Artifact_Set_1_Flower_Image_URI,
         ArtifactSet2.Flower_Image_URI AS Artifact_Set_2_Flower_Image_URI
+
     FROM Characters
     INNER JOIN TeamCharacters
         ON Characters.Character_ID = TeamCharacters.Character_ID
@@ -555,9 +558,11 @@ def character(Character_URL):
             "Artifact_Set_1": row["Artifact_Set_1"],
             "Artifact_Set_1_Flower_Image_URI":
                 row["Artifact_Set_1_Flower_Image_URI"],
+            "Artifact_Set_1_URL": row["Artifact_Set_1_URL"],
             "Artifact_Set_2": row["Artifact_Set_2"],
             "Artifact_Set_2_Flower_Image_URI":
                 row["Artifact_Set_2_Flower_Image_URI"],
+            "Artifact_Set_2_URL": row["Artifact_Set_2_URL"],
             "Flower": {
                 "Artifact_Piece_Name": row["Flower_Name"],
                 "MainStat": row["Flower_Stat"],

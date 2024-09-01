@@ -17,23 +17,31 @@
             {% if artifact['Best_In_Slot'] %}
             <div>
                 <p><b>Best In Slot</b></p>
-                <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}"
-                    alt="{{ artifact['Artifact_Set_Name_1'] }}">
+                <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
+                    <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}"
+                        alt="{{ artifact['Artifact_Set_Name_1'] }}">
+                </a>
                 <p>{{ artifact['Artifact_Set_1'] }}</p>
                 {% if artifact['Artifact_Set_2'] is not none %}
-                <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}"
-                    alt="{{ artifact['Artifact_Set_Name_2'] }}">
+                <a href="/artifacts/{{ artifact['Artifact_Set_2_URL'] }}">
+                    <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}"
+                        alt="{{ artifact['Artifact_Set_Name_2'] }}">
+                </a>
                 <p>{{ artifact['Artifact_Set_2'] }}</p>
                 {% endif %}
             </div>
             {% else %}
             <div>
-                <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}"
-                    alt="{{ artifact['Artifact_Set_Name_1'] }}">
+                <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
+                    <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}"
+                        alt="{{ artifact['Artifact_Set_Name_1'] }}">
+                </a>
                 <p>{{ artifact['Artifact_Set_1'] }}</p>
                 {% if artifact['Artifact_Set_2'] is not none %}
-                <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}"
-                    alt="{{ artifact['Artifact_Set_Name_2'] }}">
+                <a href="/artifacts/{{ artifact['Artifact_Set_2_URL'] }}">
+                    <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}"
+                        alt="{{ artifact['Artifact_Set_Name_2'] }}">
+                </a>
                 <p>{{ artifact['Artifact_Set_2'] }}</p>
                 {% endif %}
             </div>

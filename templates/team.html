@@ -67,14 +67,16 @@
             <div>
                 <h3>Weapon</h3>
                 {% for weapon in character_weapons %}
-                    <div>
+                <div>
+                    <a href="{{ weapon['Weapon_URL'] }}">
                         <img src="{{ weapon['Weapon_Image_URI'] }}" alt="{{ weapon['Weapon_Name'] }}">
                         {% if weapon['Best_In_Slot'] %} 
                             <p>Best In Slot - {{ weapon['Weapon_Name'] }}</p>
                         {% else %}
                             <p>{{ weapon['Weapon_Name'] }}</p>
                         {% endif %}
-                    </div>
+                    </a>
+                </div>
                 {% endfor %}
             </div>
         </div>

@@ -128,6 +128,7 @@ def team(Team_URL):
         Weapons.Weapon_Name AS Weapon_Name,
         Weapons.Weapon_Rarity AS Weapon_Rarity,
         Weapons.Weapon_Image_URI AS Weapon_Image_URI,
+        Weapons.Weapon_URL AS Weapon_URL,
         CharacterWeapons.Best_In_Slot AS Best_In_Slot,
         CharacterWeapons.Free_To_Play AS Free_To_Play
 
@@ -159,6 +160,7 @@ def team(Team_URL):
             "Weapon_Rarity": row["Weapon_Rarity"],
             "Weapon_Image_URI": row["Weapon_Image_URI"],
             "Best_In_Slot": row["Best_In_Slot"],
+            "Weapon_URL": row["Weapon_URL"],
             "Free_To_Play": row["Free_To_Play"]
         }
 
@@ -176,7 +178,9 @@ def team(Team_URL):
         TeamCharacters.Character_ID AS Character_ID,
         Characters.Character_Name AS Character_Name,
         ArtifactSet1.Artifact_Set_Name AS Artifact_Set_1,
+        ArtifactSet1.Artifact_Set_URL as Artifact_Set_1_URL,
         ArtifactSet2.Artifact_Set_Name AS Artifact_Set_2,
+        ArtifactSet2.Artifact_Set_URL as Artifact_Set_2_URL,
         FlowerName.Artifact_Piece_Name AS Flower_Name,
         FlowerMainStats.Stat_Name AS Flower_Stat,
         PlumeName.Artifact_Piece_Name AS Plume_Name,
@@ -288,9 +292,11 @@ def team(Team_URL):
             "Artifact_Set_Name_1": row["Artifact_Set_1"],
             "Artifact_Set_1_Flower_Image_URI":
                 row["Artifact_Set_1_Flower_Image_URI"],
+            "Artifact_Set_1_URL": row["Artifact_Set_1_URL"],
             "Artifact_Set_Name_2": row["Artifact_Set_2"],
             "Artifact_Set_2_Flower_Image_URI":
                 row["Artifact_Set_2_Flower_Image_URI"],
+            "Artifact_Set_2_URL": row["Artifact_Set_2_URL"],
             "Flower": {
                 "Artifact_Piece_Name": row["Flower_Name"],
                 "MainStat": row["Flower_Stat"],

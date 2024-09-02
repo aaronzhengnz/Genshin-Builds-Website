@@ -2,19 +2,19 @@
 <html lang="en">
     <head>
         <title>Genshin Impact Build Website</title>
-        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="/static/style.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
 
-    <body>
+    <body id="default">
         <div>
-            <div>
-                <header>{% include "header.html" %}</header>
-                <nav>{% include "nav.html" %}</nav>
-            </div>
+            <header>{% include "header.html" %}</header>
+            <nav>{% include "nav.html" %}</nav>
             <main>{% block content %}{% endblock %}</main>
             <footer>{% include 'footer.html' %}</footer>
         </div>
+
+        <script src="/static/nav.js"></script>
     </body>
 </html>

@@ -3,7 +3,74 @@
     font-family: Josefin Sans;
     src: url('JosefinSans-VariableFont_wght.ttf');
 }
+/* General */
 
-body {
+body#default {
     font-family: Josefin Sans;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Nav.html */
+
+.hidden-menu {
+    background-color: #ffde65;
+    height: 100vh;
+    width: 100%;
+    max-width: 450px;
+    position: fixed;
+    top: 0;
+    right: -450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+.hidden-menu.active {
+    right: 0;
+}
+
+.stack-menu {
+    height: 50px;
+    width: 50px;
+    margin-left: auto;
+    position: relative;
+    cursor: pointer;
+}
+
+.stack-menu span {
+    height: 5px;
+    width: 100%;
+    background-color: #000;
+    border-radius: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.3s ease;
+}
+
+.stack-menu span:nth-child(1) {
+    top: 25%;
+}
+
+.stack-menu span:nth-child(3) {
+    top: 75%;
+}
+
+.stack-menu.active span:nth-child(1) {
+    top: 50%;
+    transform: rotate(45deg);
+}
+
+.stack-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.stack-menu.active span:nth-child(3) {
+    top: 50%;
+    transform: rotate(-45deg);
 }

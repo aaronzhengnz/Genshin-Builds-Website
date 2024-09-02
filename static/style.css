@@ -26,7 +26,8 @@ body#default {
     justify-content: center;
     align-items: center;
     text-align: center;
-    transition: 0.3s ease;
+    transition: right 0.3s ease;
+    z-index: 1000;
 }
 
 .hidden-menu.active {
@@ -36,9 +37,10 @@ body#default {
 .stack-menu {
     height: 50px;
     width: 50px;
-    margin-left: auto;
-    position: relative;
-    cursor: pointer;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1010;
 }
 
 .stack-menu span {
@@ -50,7 +52,7 @@ body#default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .stack-menu span:nth-child(1) {
@@ -63,7 +65,7 @@ body#default {
 
 .stack-menu.active span:nth-child(1) {
     top: 50%;
-    transform: rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .stack-menu.active span:nth-child(2) {
@@ -72,5 +74,5 @@ body#default {
 
 .stack-menu.active span:nth-child(3) {
     top: 50%;
-    transform: rotate(-45deg);
+    transform: translate(-50%, -50%) rotate(-45deg);
 }

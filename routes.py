@@ -396,11 +396,23 @@ def team(Team_URL):
 
 @app.route("/characters")
 def characters():
+    query = request.args.get('query', '')
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM characters ORDER BY Character_Name")
+
+    if query:
+        # Execute a query to filter results based on the search query
+        cur.execute("""
+                    SELECT * FROM characters WHERE Character_Name LIKE ?
+                    ORDER BY Character_Name
+                    """, ('%' + query + '%',))
+    else:
+        # Execute a query to get all results if no query is provided
+        cur.execute("SELECT * FROM characters ORDER BY Character_Name")
+
     character_rows = cur.fetchall()
     conn.close()
+
     characters = [dict(row) for row in character_rows]
     return render_template("characters.html", characters=characters)
 
@@ -814,7 +826,8 @@ def artifacts():
     if query:
         cur.execute("""
                     SELECT * FROM ArtifactSets WHERE Artifact_Set_Name LIKE ?
-                    ORDER BY Artifact_Set_Name""", ('%' + query + '%',))
+                    ORDER BY Artifact_Set_Name
+                    """, ('%' + query + '%',))
     else:
         cur.execute("SELECT * FROM ArtifactSets ORDER BY Artifact_Set_Name")
 

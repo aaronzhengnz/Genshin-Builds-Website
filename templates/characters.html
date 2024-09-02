@@ -1,6 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 <h2>Characters</h2>
+
+<!-- Search Form -->
+<form method="GET" action="{{ url_for('characters') }}">
+    <input type="text" name="query" placeholder="Search characters..." value="{{ request.args.get('query', '') }}">
+    <button type="submit">Search</button>
+</form>
+
+<!-- Characters Grid -->
 <div id="characters_grid-container">
     {% for character in characters %}
     <div class="characters_grid-item">
@@ -13,6 +21,8 @@
             </a>
         </div>
     </div>
+    {% else %}
+    <p>No characters found matching your query.</p>
     {% endfor %}
 </div>
 {% endblock %}

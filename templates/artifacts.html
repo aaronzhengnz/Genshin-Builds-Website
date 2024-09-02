@@ -1,6 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 <h2>Artifacts</h2>
+
+<!-- Search Form -->
+<form method="GET" action="{{ url_for('artifacts') }}">
+    <input type="text" name="query" placeholder="Search artifacts..." value="{{ request.args.get('query', '') }}">
+    <button type="submit">Search</button>
+</form>
+
+<!-- Artifacts Grid -->
 <div id="artifacts_grid-container">
     {% for artifact in artifacts %}
     <div class="artifacts_grid_item">
@@ -13,6 +21,8 @@
             </a>
         </div>
     </div>
+    {% else %}
+    <p>No artifacts found matching your query.</p>
     {% endfor %}
 </div>
 {% endblock %}

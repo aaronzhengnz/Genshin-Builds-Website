@@ -807,11 +807,20 @@ def weapon(Weapon_URL):
 
 @app.route("/artifacts")
 def artifacts():
+    query = request.args.get('query', '')
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM ArtifactSets ORDER BY Artifact_Set_Name")
+
+    if query:
+        cur.execute("""
+                    SELECT * FROM ArtifactSets WHERE Artifact_Set_Name LIKE ?
+                    ORDER BY Artifact_Set_Name""", ('%' + query + '%',))
+    else:
+        cur.execute("SELECT * FROM ArtifactSets ORDER BY Artifact_Set_Name")
+
     artifact_rows = cur.fetchall()
     conn.close()
+
     artifacts = [dict(row) for row in artifact_rows]
     return render_template("artifacts.html", artifacts=artifacts)
 

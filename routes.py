@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import sqlite3
 
 app = Flask(__name__)
@@ -699,13 +699,23 @@ def character(Character_URL):
                            character_=character_id)
 
 
-@app.route("/weapons")
+@app.route("/weapons", methods=['GET'])
 def weapons():
+    search_query = request.args.get('query', '')
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM Weapons ORDER BY Weapon_Name")
+
+    query = """
+    SELECT *
+    FROM Weapons
+    WHERE Weapon_Name LIKE ? ORDER BY Weapon_Name
+    """
+
+    # Modify the SQL query to include a search filter
+    cur.execute(query, ('%' + search_query + '%',))
     weapon_rows = cur.fetchall()
     conn.close()
+
     weapons = [dict(row) for row in weapon_rows]
     return render_template("weapons.html", weapons=weapons)
 

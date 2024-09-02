@@ -1,6 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 <h2>Weapons</h2>
+
+<!-- Search Form -->
+<form method="GET" action="{{ url_for('weapons') }}">
+    <input type="text" name="query" placeholder="Search weapons..." value="{{ request.args.get('query', '') }}">
+    <button type="submit">Search</button>
+</form>
+
+<!-- Weapons Grid -->
 <div id="weapons_grid-container">
     {% for weapon in weapons %}
     <div class="weapons_grid-item">
@@ -13,6 +21,8 @@
             </a>
         </div>
     </div>
+    {% else %}
+    <p>No weapons found matching your query.</p>
     {% endfor %}
 </div>
 {% endblock %}

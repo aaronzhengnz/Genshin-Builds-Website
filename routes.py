@@ -699,20 +699,20 @@ def character(Character_URL):
                            character_=character_id)
 
 
-@app.route("/weapons", methods=['GET'])
+@app.route("/weapons")
 def weapons():
-    search_query = request.args.get('query', '')
+    query = request.args.get('query', '')
     conn = get_db_connection()
     cur = conn.cursor()
 
-    query = """
-    SELECT *
-    FROM Weapons
-    WHERE Weapon_Name LIKE ? ORDER BY Weapon_Name
-    """
+    if query:
+        cur.execute("""
+                    SELECT * FROM Weapons WHERE Weapon_Name LIKE ?
+                    ORDER BY Weapon_Name
+                    """, ('%' + query + '%',))
+    else:
+        cur.execute("SELECT * FROM Weapons ORDER BY Weapon_Name")
 
-    # Modify the SQL query to include a search filter
-    cur.execute(query, ('%' + search_query + '%',))
     weapon_rows = cur.fetchall()
     conn.close()
 

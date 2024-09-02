@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>Characters</h1>
-<div>
+<h2>Weapons</h2>
+<div id="weapons_grid-container">
     {% for weapon in weapons %}
-    <div>
+    <div class="weapons_grid-item">
         <div>
             <a href="/weapons/{{ weapon.Weapon_URL }}">
                 <div>
@@ -12,7 +12,7 @@
                 </div>
             </a>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
 </div>
 {% endblock %}

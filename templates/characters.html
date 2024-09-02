@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>Characters</h1>
+<h2>Characters</h2>
 <div id="characters_grid-container">
     {% for character in characters %}
     <div class="characters_grid-item">
-        <div class="characters_image-container">
+        <div>
             <a href="/characters/{{ character.Character_URL }}">
                 <div>
                     <img src="{{ character.Character_Image_URI }}" alt="{{ character.Character_Name }}">
@@ -12,6 +12,7 @@
                 </div>
             </a>
         </div>
-        {% endfor %}
     </div>
-    {% endblock %}
+    {% endfor %}
+</div>
+{% endblock %}

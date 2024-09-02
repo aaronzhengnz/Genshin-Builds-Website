@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 <h2>Artifacts</h2>
-<div>
+<div id="artifacts_grid-container">
     {% for artifact in artifacts %}
-    <div>
+    <div class="artifacts_grid_item">
         <div>
             <a href="/artifacts/{{ artifact.Artifact_Set_URL }}">
                 <div>
@@ -12,7 +12,7 @@
                 </div>
             </a>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
 </div>
 {% endblock %}

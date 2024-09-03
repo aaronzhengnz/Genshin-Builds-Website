@@ -3,7 +3,7 @@
     font-family: Josefin Sans;
     src: url('JosefinSans-VariableFont_wght.ttf');
 }
-/* General */
+/* Layout.html */
 
 body#default {
     font-family: Josefin Sans;
@@ -17,6 +17,11 @@ html, body {
 }
 
 #head {
+    background-color: #ffde65;
+    width: 100%;
+}
+
+#foot {
     background-color: #ffde65;
     width: 100%;
 }

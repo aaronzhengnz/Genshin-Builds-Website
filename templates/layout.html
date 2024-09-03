@@ -9,8 +9,10 @@
 
     <body id="default">
         <div>
-            <header>{% include "header.html" %}</header>
-            <nav>{% include "nav.html" %}</nav>
+            <div id="head">
+                <header>{% include "header.html" %}</header>
+                <nav>{% include "nav.html" %}</nav>
+            </div>
             <main>{% block content %}{% endblock %}</main>
             <footer>{% include 'footer.html' %}</footer>
         </div>

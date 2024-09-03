@@ -8,13 +8,25 @@
 body#default {
     font-family: Josefin Sans;
     text-align: center;
-    padding: 10px;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#head {
+    background-color: #ffde65;
+    width: 100%;
 }
 
 /* Nav.html */
 
 .hidden-menu {
     background-color: #ffde65;
+    border-width: 3px;
+    border-color: #d9b42f;
     height: 100vh;
     width: 100%;
     max-width: 450px;
@@ -45,7 +57,7 @@ body#default {
 
 .stack-menu span {
     height: 5px;
-    width: 100%;
+    width: 90%;
     background-color: #000;
     border-radius: 25px;
     position: absolute;

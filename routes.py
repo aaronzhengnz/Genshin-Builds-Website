@@ -15,12 +15,14 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/teams")
+@app.route("/teams", methods=["GET"])
 def teams():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    query = """
+    selected_character = request.args.get("query", None)
+
+    teams_query = """
         SELECT
         TeamCharacters.Team_ID,
         Team_Name,
@@ -37,8 +39,18 @@ def teams():
             ON TeamCharacters.Character_ID = Characters.Character_ID
     """
 
-    team_rows = cur.execute(query).fetchall()
-    conn.close()
+    if selected_character:
+        teams_query += """
+            WHERE TeamCharacters.Team_ID IN (
+                SELECT Team_ID FROM TeamCharacters
+                INNER JOIN Characters
+                    ON TeamCharacters.Character_ID = Characters.Character_ID
+                WHERE Character_Name = ?
+            )
+        """
+        team_rows = cur.execute(teams_query, (selected_character,)).fetchall()
+    else:
+        team_rows = cur.execute(teams_query).fetchall()
 
     teams_dict = {}
 
@@ -61,7 +73,29 @@ def teams():
 
         teams_dict[team_id]["Characters"].append(character_details)
 
-    return render_template("teams.html", teams=teams_dict)
+    # Fetch all characters for the filter dropdown
+    characters_query = "SELECT * FROM Characters ORDER BY Character_Name"
+    character_rows = cur.execute(characters_query).fetchall()
+
+    characters_dict = {}
+
+    for row in character_rows:
+        character_id = row["Character_ID"]
+
+        character_details = {
+            "Character_Name": row["Character_Name"],
+            "Character_Affiliation": row["Character_Affiliation"],
+            "Character_Image_URI": row["Character_Image_URI"],
+        }
+
+        if character_id not in characters_dict:
+            characters_dict[character_id] = character_details
+
+    conn.close()
+    return render_template("teams.html",
+                           teams=teams_dict,
+                           characters=characters_dict,
+                           selected_character=selected_character)
 
 
 @app.route("/teams/<string:Team_URL>")

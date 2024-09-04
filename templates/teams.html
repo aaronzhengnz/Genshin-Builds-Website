@@ -1,14 +1,34 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>My Team Compositions</h1>
-<div id="teams_teams-container">
+<h1 class="text-3xl pt-4 font-bold">My Team Compositions</h1>
+
+<div>
+    <form method="GET" action="{{ url_for('teams') }}">
+        <label for="character">Filter by Characters:</label>
+        <select name="query" id="character">
+            <option value="">None</option>
+            {% for character_id, character_info in characters.items() %}
+            <option value="{{ character_info.Character_Name }}" {% if selected_character == character_info.Character_Name %}selected{% endif %}>
+                {{ character_info.Character_Name }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+
+<!-- Teams Display -->
+<div class="p-3">
     {% for team_id, team_info in teams.items() %}
-    <div class="teams_team-container">
-        <a href="/teams/{{ team_info['Team_URL'] }}"><b>{{ team_info['Team_Name'] }}</b></a>
-        <div class="teams_characters-container">
+    <div class="border-2 rounded-r-sm ring-2 ring-gray-300 mb-4">
+        <a href="/teams/{{ team_info['Team_URL'] }}">
+            <h2 class="text-2xl p-2.5 font-medium">{{ team_info['Team_Name'] }}</h2>
+        </a>
+        <div class="grid grid-cols-2 gap-4">
             {% for character_info in team_info['Characters'] %}
             <a href="/characters/{{ character_info['Character_URL'] }}">
-                <div class="teams_character-container">
+                <div class="flex flex-col items-center justify-center p-4">
                     <img src="{{ character_info['Character_Image_URI'] }}" alt="{{ character_info['Character_Name'] }}" class="teams_character-image">
                     <h3>{{ character_info['Character_Name'] }}</h3>
                 </div>

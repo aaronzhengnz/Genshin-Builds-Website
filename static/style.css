@@ -32,7 +32,7 @@ html, body {
     background-color: #ffde65;
     border-width: 3px;
     border-color: #d9b42f;
-    height: 100vh;
+    height: 35vh;
     width: 100%;
     max-width: 450px;
     position: fixed;
@@ -43,7 +43,7 @@ html, body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    transition: right 0.3s ease;
+    transition: right 1s ease;
     z-index: 1000;
 }
 

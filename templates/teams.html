@@ -4,21 +4,24 @@
 
 <div>
     <form method="GET" action="{{ url_for('teams') }}">
-        <label for="character">Filter by Characters:</label>
-        <select name="query" id="character">
-            <option value="">None</option>
-            {% for character_id, character_info in characters.items() %}
-            <option value="{{ character_info.Character_Name }}" {% if selected_character == character_info.Character_Name %}selected{% endif %}>
-                {{ character_info.Character_Name }}
-            </option>
-            {% endfor %}
-        </select>
-        <button type="submit">Search</button>
+        <div class="flex flex-col items-center justify-center">
+            <label for="character" class="text-2xl text-center self-center pt-2 font-medium">Filter by Characters:</label>
+            <select name="query" class="p-4 text-center focus:outline-none">
+                <option value="">None</option>
+                {% for character_id, character_info in characters.items() %}
+                <option value="{{ character_info.Character_Name }}"
+                {% if selected_character == character_info.Character_Name %}
+                selected
+                {% endif %}>
+                        {{ character_info.Character_Name }}
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="text-center self-center border-2 p-2 bg-amber-300 font-medium :bg-amber-400">Search</button>
+        </div>
     </form>
 </div>
 
-
-<!-- Teams Display -->
 <div class="p-3">
     {% for team_id, team_info in teams.items() %}
     <div class="border-2 rounded-r-sm ring-2 ring-gray-300 mb-4">

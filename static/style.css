@@ -17,22 +17,22 @@ html, body {
 }
 
 #head {
-    background-color: #ffde65;
+    background-color: #fcd34d;
     width: 100%;
 }
 
 #foot {
-    background-color: #ffde65;
+    background-color: #fcd34d;
     width: 100%;
 }
 
 /* Nav.html */
 
 .hidden-menu {
-    background-color: #ffde65;
+    background-color: #fcd34d;
     border-width: 3px;
     border-color: #d9b42f;
-    height: 35vh;
+    height: 100;
     width: 100%;
     max-width: 450px;
     position: fixed;
@@ -40,10 +40,10 @@ html, body {
     right: -450px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     text-align: center;
-    transition: right 1s ease;
+    transition: right 0.4s ease;
     z-index: 1000;
 }
 

@@ -435,13 +435,11 @@ def characters():
     cur = conn.cursor()
 
     if query:
-        # Execute a query to filter results based on the search query
         cur.execute("""
                     SELECT * FROM characters WHERE Character_Name LIKE ?
                     ORDER BY Character_Name
                     """, ('%' + query + '%',))
     else:
-        # Execute a query to get all results if no query is provided
         cur.execute("SELECT * FROM characters ORDER BY Character_Name")
 
     character_rows = cur.fetchall()
@@ -453,6 +451,70 @@ def characters():
 
 @app.route("/characters/<string:Character_URL>")
 def character(Character_URL):
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    character_query = """
+    SELECT
+        Characters.Character_ID AS Character_ID,
+        Characters.Character_Name AS Character_Name,
+        Visions.Vision_Name AS Character_Vision,
+        Characters.Character_Affiliation AS Character_Affiliation,
+        Characters.Character_Image_URI AS Character_Image_URI,
+        Characters.Character_URL AS Character_URL,
+        WeaponTypes.Weapon_Type_Name AS Character_Weapon_Type
+
+    FROM Characters
+    INNER JOIN Visions
+        ON Characters.Character_Vision_ID = Visions.Vision_ID
+    INNER JOIN WeaponTypes
+        ON Characters.Character_Weapon_Type_ID = WeaponTypes.Weapon_Type_ID
+    WHERE Characters.Character_URL = ?
+    """
+
+    cur.execute(character_query, (Character_URL,))
+    character = cur.fetchone()
+
+    if not character:
+        conn.close()
+        return render_template("404.html"), 404
+
+    teams_query = """
+    SELECT
+        Teams.Team_ID AS Team_ID,
+        Teams.Team_Name AS Team_Name,
+        Teams.Team_URL AS Team_URL
+
+    FROM Characters
+    INNER JOIN TeamCharacters
+        ON Characters.Character_ID = TeamCharacters.Character_ID
+    INNER JOIN Teams
+        ON TeamCharacters.Team_ID = Teams.Team_ID
+
+    WHERE Characters.Character_URL = ?
+    """
+
+    cur.execute(teams_query, (Character_URL,))
+    teams = cur.fetchall()
+
+    teams_dict = {}
+    for row in teams:
+        team_id = row["Team_ID"]
+
+        if team_id not in teams_dict:
+            teams_dict[team_id] = {
+                "Team_Name": row["Team_Name"],
+                "Team_URL": row["Team_URL"]
+            }
+
+    conn.close()
+    return render_template("character.html",
+                           character=character,
+                           teams=teams_dict)
+
+
+@app.route("/teams/<string:Team_URL>/<string:Character_URL>")
+def teamcharacter(Team_URL, Character_URL):
     conn = get_db_connection()
     cur = conn.cursor()
 

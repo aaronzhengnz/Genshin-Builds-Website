@@ -560,9 +560,54 @@ def teamcharacter(Team_URL, Character_URL):
         "Team_URL": team_character["Team_URL"]
     }
 
+    character_weapon_query = """
+    SELECT
+        Weapons.Weapon_ID AS Weapon_ID,
+        Weapons.Weapon_Name AS Weapon_Name,
+        WeaponTypes.Weapon_Type_Name AS Weapon_Type_Name,
+        Weapons.Weapon_Rarity AS Weapon_Rarity,
+        Weapons.Weapon_Image_URI AS Weapon_Image_URI,
+        Weapons.Weapon_URL AS Weapon_URL,
+        CharacterWeapons.Best_In_Slot AS Best_In_Slot
+
+    FROM TeamCharacters
+    INNER JOIN Characters
+        ON TeamCharacters.Character_ID = Characters.Character_ID
+    INNER JOIN Teams
+        ON TeamCharacters.Team_ID = Teams.Team_ID
+    INNER JOIN CharacterWeapons
+        ON Characters.Character_ID = CharacterWeapons.Character_ID
+    INNER JOIN Weapons
+        ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
+    INNER JOIN WeaponTypes
+        ON Weapons.Weapon_Type_ID = WeaponTypes.Weapon_Type_ID
+
+    WHERE
+        Teams.Team_URL = ?
+        AND Characters.Character_URL = ?
+    """
+
+    cur.execute(character_weapon_query, (Team_URL, Character_URL))
+    character_weapons = cur.fetchall()
+
+    character_weapon_dict = {}
+    for row in character_weapons:
+        weapon_details = {
+            "Weapon_ID": row["Weapon_ID"],
+            "Weapon_Name": row["Weapon_Name"],
+            "Weapon_Type_Name": row["Weapon_Type_Name"],
+            "Weapon_Rarity": row["Weapon_Rarity"],
+            "Weapon_Image_URI": row["Weapon_Image_URI"],
+            "Weapon_URL": row["Weapon_URL"],
+            "Best_In_Slot": row["Best_In_Slot"]
+        }
+
+        character_weapon_dict[row["Weapon_ID"]] = weapon_details
+
     conn.close()
     return render_template("teamcharacter.html",
-                           team_character=team_character_dict)
+                           team_character=team_character_dict,
+                           character_weapons=character_weapon_dict)
 
 
 @app.route("/weapons")

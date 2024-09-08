@@ -301,7 +301,7 @@ def team(Team_URL):
         ON AltCirclet.Artifact_Piece_ID = AltCircletName.Artifact_Piece_ID
 
 
-    LEFT JOIN ArtifactSets AS ArtifactSet1
+    INNER JOIN ArtifactSets AS ArtifactSet1
         ON RecommendedArtifacts.Artifact_Set_ID_1 =
         ArtifactSet1.Artifact_Set_ID
     LEFT JOIN ArtifactSets AS ArtifactSet2
@@ -532,11 +532,11 @@ def teamcharacter(Team_URL, Character_URL):
         Teams.Team_URL AS Team_URL
 
     FROM TeamCharacters
-    LEFT JOIN Characters
+    INNER JOIN Characters
         ON TeamCharacters.Character_ID = Characters.Character_ID
-    LEFT JOIN Visions
+    INNER JOIN Visions
         ON Characters.Character_Vision_ID = Visions.Vision_ID
-    LEFT JOIN Teams
+    INNER JOIN Teams
         ON TeamCharacters.Team_ID = Teams.Team_ID
 
     WHERE
@@ -607,11 +607,11 @@ def weapon(Weapon_URL):
 
 
     FROM Weapons
-    LEFT JOIN WeaponTypes
+    INNER JOIN WeaponTypes
         ON Weapons.Weapon_Type_ID = WeaponTypes.Weapon_Type_ID
-    LEFT JOIN Stats AS MainStat
+    INNER JOIN Stats AS MainStat
         ON Weapons.Weapon_MainStat = MainStat.Stat_ID
-    LEFT JOIN Stats AS SubStat
+    INNER JOIN Stats AS SubStat
         ON Weapons.Weapon_SubStat = SubStat.Stat_ID
 
     WHERE Weapon_URL = ?
@@ -643,9 +643,9 @@ def weapon(Weapon_URL):
         Characters.Character_URL AS Character_URL
 
     FROM Weapons
-    LEFT JOIN CharacterWeapons
+    INNER JOIN CharacterWeapons
         ON Weapons.Weapon_ID = CharacterWeapons.Weapon_ID
-    LEFT JOIN Characters
+    INNER JOIN Characters
         ON CharacterWeapons.Character_ID = Characters.Character_ID
 
     WHERE Weapons.Weapon_URL = ?
@@ -762,18 +762,18 @@ def artifact(Artifact_Set_URL):
         Characters.Character_URL
 
     FROM ArtifactSets
-    LEFT JOIN RecommendedArtifacts
+    INNER JOIN RecommendedArtifacts
         ON ArtifactSets.Artifact_Set_ID =
         RecommendedArtifacts.Artifact_Set_ID_1
     OR
         ArtifactSets.Artifact_Set_ID =
         RecommendedArtifacts.Artifact_Set_ID_2
 
-    LEFT JOIN CharacterArtifacts
+    INNER JOIN CharacterArtifacts
         ON RecommendedArtifacts.Recommended_Artifact_ID =
         CharacterArtifacts.Recommended_Artifact_ID
 
-    LEFT JOIN Characters
+    INNER JOIN Characters
         ON CharacterArtifacts.Character_ID = Characters.Character_ID
 
     WHERE ArtifactSets.Artifact_Set_URL = ?

@@ -48,7 +48,6 @@
     <div>
         <h2>Best Weapons</h2>
         {% for weapon_id, weapon in character_weapons.items() %}
-        <p>{{ weapon }}</p>
         <div>
             {% if weapon.Best_In_Slot %}
             <a href="/weapons/{{ weapon.Weapon_URL }}">

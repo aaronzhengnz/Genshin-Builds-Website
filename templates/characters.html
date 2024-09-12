@@ -1,20 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
-<h2>Characters</h2>
+<h1 class="text-3xl pt-6 pb-2 font-bold">Characters</h1>
 
 <!-- Search Form -->
-<form method="GET" action="{{ url_for('characters') }}">
-    <input type="text" name="query" placeholder="Search characters..." value="{{ request.args.get('query', '') }}">
-    <button type="submit">Search</button>
+<form method="GET" action="{{ url_for('characters') }}" class="flex flex-col items-center justify-center">
+    <input type="text" name="query" placeholder="Search characters" value="{{ request.args.get('query', '') }}" class="p-3 m-2.5 text-center border-2">
+    <button type="submit" class="text-center self-center border-2 p-2 bg-amber-300 font-medium hover:bg-amber-400">Search</button>
 </form>
 
 <!-- Characters Grid -->
-<div id="characters_grid-container">
+<div class="grid grid-cols-2">
     {% for character in characters %}
-    <div class="characters_grid-item">
-        <div>
+    <div class="flex flex-col self-center justify-self-center">
+        <div class="p-3">
             <a href="/characters/{{ character.Character_URL }}">
-                <div>
+                <div class="flex flex-col items-center justify-center">
                     <img src="{{ character.Character_Image_URI }}" alt="{{ character.Character_Name }}">
                     <h2>{{ character.Character_Name }}</h2>
                 </div>
@@ -22,7 +22,7 @@
         </div>
     </div>
     {% else %}
-    <p>No characters found matching your query.</p>
+    <p class="flex self-center justify-self-center">No characters found matching your query.</p>
     {% endfor %}
 </div>
 {% endblock %}

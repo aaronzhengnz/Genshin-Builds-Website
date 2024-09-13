@@ -3,7 +3,7 @@
 <h1 class="text-3xl pt-6 pb-2 font-bold">Weapons</h1>
 
 <!-- Search Form -->
-<form method="GET" action="{{ url_for('weapons') }}" class="flex flex-col items-center justify-center" class="p-3 m-2.5 text-center border-2">
+<form method="GET" action="{{ url_for('weapons') }}" class="flex flex-col items-center justify-center" class="p-3 m-2.5 text-center">
     <input type="text" name="query" placeholder="Search weapons..." value="{{ request.args.get('query', '') }}" class="p-3 m-2.5 text-center border-2">
     <button type="submit" class="text-center self-center border-2 p-2 bg-amber-300 font-medium hover:bg-amber-400">Search</button>
 </form>
@@ -29,5 +29,4 @@
     <p class="flex self-center justify-self-center">No weapons found matching your query.</p>
 </div>
 {% endif %}
-
 {% endblock %}

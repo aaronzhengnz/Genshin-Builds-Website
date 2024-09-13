@@ -9,6 +9,7 @@
 </form>
 
 <!-- Characters Grid -->
+{% if characters|length > 0 %}
 <div class="grid grid-cols-2">
     {% for character in characters %}
     <div class="flex flex-col self-center justify-self-center">
@@ -21,8 +22,11 @@
             </a>
         </div>
     </div>
-    {% else %}
-    <p class="flex self-center justify-self-center">No characters found matching your query.</p>
     {% endfor %}
 </div>
+{% else %}
+<div class="grid grid-cols-1 p-4">
+    <p class="flex self-center justify-self-center">No characters found matching your query.</p>
+</div>
+{% endif %}
 {% endblock %}

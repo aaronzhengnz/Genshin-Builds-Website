@@ -6,7 +6,7 @@
     <form method="GET" action="{{ url_for('teams') }}">
         <div class="flex flex-col items-center justify-center">
             <label for="character" class="text-2xl text-center self-center pt-2 font-medium">Filter by Characters:</label>
-            <select name="query" class="p-4 text-center focus:outline-none">
+            <select name="query" class="p-2 m-2 text-center focus:outline-none">
                 <option value="">None</option>
                 {% for character_id, character_info in characters.items() %}
                 <option value="{{ character_info.Character_Name }}"
@@ -24,7 +24,7 @@
 
 <div class="p-4">
     {% for team_id, team_info in teams.items() %}
-    <div class="border-2 rounded-r-sm ring-2 ring-gray-300 mb-4">
+    <div class="bg-white shadow mb-4">
         <a href="/teams/{{ team_info['Team_URL'] }}">
             <h2 class="text-2xl p-2.5 font-medium">{{ team_info['Team_Name'] }}</h2>
         </a>

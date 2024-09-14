@@ -97,7 +97,7 @@
                 <div class="grid grid-cols-1 pt-4">
                     {% for weapon in character_weapons %}
                     <div class="flex flex-col items-center">
-                        <a href="{{ weapon['Weapon_URL'] }}" class="flex flex-col items-center justify-center">
+                        <a href="/weapons/{{ weapon['Weapon_URL'] }}" class="flex flex-col items-center justify-center">
                             <img src="{{ weapon['Weapon_Image_URI'] }}" alt="{{ weapon['Weapon_Name'] }}" class="img_icon">
                             {% if weapon['Best_In_Slot'] %} 
                                 <p class="p-2"><b>Best In Slot - </b>{{ weapon['Weapon_Name'] }}</p>

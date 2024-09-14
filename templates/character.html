@@ -10,7 +10,7 @@
 <div>
     <p>{{ character.Character_Name }} Team Compositions</p>
     {% for team_id, team_info in teams.items() %}
-    <a href="/teams/{{ team_info.Team_URL }}/{{ character.Character_URL }}">{{ team_info.Team_Name }}</a>
+    <a href="/teams/{{ team_info.Team_URL }}">{{ team_info.Team_Name }}</a>
     {% endfor %}
 </div>
 {% endblock %}

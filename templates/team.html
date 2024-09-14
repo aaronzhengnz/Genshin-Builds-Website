@@ -26,7 +26,9 @@
 
         <div class="bg-white my-6 mx-3.5 shadow-xl">
             <div class="flex items-center justify-center p-3">
-                <img src="{{ characters['Character_Image_URI'] }}" alt="{{ characters['Character_Name'] }}" class="p-2">
+                <a href="/characters/{{ characters['Character_URL'] }}">
+                    <img src="{{ characters['Character_Image_URI'] }}" alt="{{ characters['Character_Name'] }}" class="p-2">
+                </a>
                 <div class="p-2">
                     <h2 class="text-2xl font-bold">{{ characters["Character_Name"] }}</h2>
                     <p><b>Vision - </b>{{ characters['Character_Vision'] }}</p>

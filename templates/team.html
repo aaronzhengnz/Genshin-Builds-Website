@@ -48,7 +48,7 @@
                                         <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_2'] }}" class="team_artifact-image">
                                     </a>
                                 </div>
-                                    <p class="p-2">Best In Slot - 2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
+                                    <p class="p-2"><b>Best In Slot - </b>2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
                             </div>
                             {% else %}
                             <div class="flex flex-col items-center justify-self-center pt-3">
@@ -69,7 +69,7 @@
                             <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
                                 <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
                             </a>
-                                <p class="p-2">Best In Slot - 4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
+                                <p class="p-2"><b>Best In Slot - </b>4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
                         </div>
                         {% else %}
                         <div class="flex flex-col items-center justify-self-center pt-3">
@@ -82,27 +82,32 @@
                     {% endif %}
                 {% endfor %}
                 {% if character_substats %}
-                    <h3>Substats</h3>
-                    {% for substat in character_substats %}
-                        <p>{{ substat['SubStat_Name'] }} - {{ substat['SubStat_Rating'] }}★</p>
-                    {% endfor %}
+                    <h3 class="text-2xl font-medium">Substats</h3>
+                    <div class="py-2">
+                        {% for substat in character_substats %}
+                            <p>{{ substat['SubStat_Name'] }} - {{ substat['SubStat_Rating'] }}★</p>
+                        {% endfor %}
+                    </div>
                 {% endif %}
             </div>
             <div>
-                <h3>Weapon</h3>
-                {% for weapon in character_weapons %}
-                <div>
-                    <a href="{{ weapon['Weapon_URL'] }}">
-                        <img src="{{ weapon['Weapon_Image_URI'] }}" alt="{{ weapon['Weapon_Name'] }}">
-                        {% if weapon['Best_In_Slot'] %} 
-                            <p>Best In Slot - {{ weapon['Weapon_Name'] }}</p>
-                        {% else %}
-                            <p>{{ weapon['Weapon_Name'] }}</p>
-                        {% endif %}
-                    </a>
+                <h3 class="text-2xl font-medium">Weapons</h3>
+                <div class="grid grid-cols-1 pt-4">
+                    {% for weapon in character_weapons %}
+                    <div class="flex flex-col items-center">
+                        <a href="{{ weapon['Weapon_URL'] }}" class="flex flex-col items-center justify-center">
+                            <img src="{{ weapon['Weapon_Image_URI'] }}" alt="{{ weapon['Weapon_Name'] }}" class="img_icon">
+                            {% if weapon['Best_In_Slot'] %} 
+                                <p class="p-2"><b>Best In Slot - </b>{{ weapon['Weapon_Name'] }}</p>
+                            {% else %}
+                                <p class="p-2">{{ weapon['Weapon_Name'] }}</p>
+                            {% endif %}
+                        </a>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
+            
         </div>
     {% endfor %}
 </div>

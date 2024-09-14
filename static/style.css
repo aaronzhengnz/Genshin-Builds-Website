@@ -1,8 +1,17 @@
 /* Font */
+
 @font-face {
     font-family: Josefin Sans;
     src: url('JosefinSans-VariableFont_wght.ttf');
 }
+
+/* General */
+
+.img_icon {
+    width: 106px;
+    height: auto;
+}
+
 /* Layout.html */
 
 body#default {

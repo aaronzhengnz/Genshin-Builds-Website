@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1 class="text-3xl pt-6 pb-2 font-bold">{{ team.Team_Name }}</h1>
+<h1 class="text-3xl pt-6 font-bold">{{ team.Team_Name }}</h1>
 <div>
     {% for character_id, characters in team.Team_Characters.items() %}
         {% if character_id in team.Character_Weapons %}

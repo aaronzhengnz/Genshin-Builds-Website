@@ -1,24 +1,42 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>{{ weapon.Weapon_Name }}</h1>
-<img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}">
-<p>Weapon Type - {{ weapon.Weapon_Type }}</p>
-<p>Base Attack - {{ weapon.MainStat_Value }}</p>
-<p>Rarity - {{ weapon.Weapon_Rarity }}</p>
-<p>Substat - {{ weapon.SubStat | replace('%', '') }} + {{ weapon.SubStat_Value }}</p>
-<h3>{{ weapon.Weapon_Ability_Name }}</h3>
-<p>{{ weapon.Weapon_Ability }}</p>
-<h2>Character who use {{ weapon.Weapon_Name }}</h2>
-{% for character, character_details in characters.items() %}
-{% if character != None %}
-<div>
-    <a href="/characters/{{ character_details.Character_URL }}">
-        <div>
-            <img src="{{ character_details.Character_Image_URI }}" alt="{{ character_details.Character_Name }}">
-            <h2>{{ character }}</h2>
+<div class="flex flex-col bg-white m-4 shadow">
+    <h1 class="text-3xl font-bold p-4">{{ weapon.Weapon_Name }}</h1>
+    <div class="flex items-center justify-center p-4">
+        <img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}" class="img_icon">
+        <div class="pl-2">
+            <p><b>Weapon Type -</b> {{ weapon.Weapon_Type }}</p>
+            <p><b>Base Attack -</b> {{ weapon.MainStat_Value }}</p>
+            <p><b>Rarity -</b> {{ weapon.Weapon_Rarity }}</p>
+            <p><b>Substat -</b> {{ weapon.SubStat | replace('%', '') }} + {{ weapon.SubStat_Value }}</p>
         </div>
-    </a>
+    </div>
 </div>
-{% endif %}
-{% endfor %}
+<div class="flex flex-col bg-white m-4 shadow p-3">
+    <h3 class="text-2xl font-bold p-2">{{ weapon.Weapon_Ability_Name }}</h3>
+    <p>{{ weapon.Weapon_Ability }}</p>
+</div>
+<div class="bg-white m-4 shadow p-3">
+    <h2 class="text-2xl font-bold p-2 pt-3">Character who use<br>{{ weapon.Weapon_Name }}</h2>
+    {% if characters|length > 0 %}
+    <div class="grid grid-cols-2 pt-5">
+        {% for character, character_details in characters.items() %}
+            {% if character != None %}
+            <div class="flex flex-col self-start justify-self-center">
+                <a href="/characters/{{ character_details.Character_URL }}">
+                    <div class="flex flex-col items-center justify-center">
+                        <img src="{{ character_details.Character_Image_URI }}" alt="{{ character_details.Character_Name }}">
+                        <h2>{{ character }}</h2>
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="grid grid-cols-1 p-2">
+        <p class="flex self-center justify-self-center">No characters found using this weapon.</p>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}

@@ -1,32 +1,33 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1 class="text-3xl pt-6 pb-2 font-bold">Weapons</h1>
+<div class="bg-white m-4 shadow">
+    <h1 class="text-3xl pt-6 pb-2 font-bold">Weapons</h1>
+    <form method="GET" action="{{ url_for('weapons') }}" class="flex flex-col items-center justify-center pb-5">
+        <input type="text" name="query" placeholder="Search weapons..." value="{{ request.args.get('query', '') }}" class="p-3 m-2.5 text-center border-2">
+        <button type="submit" class="text-center self-center border-2 p-2 bg-amber-300 font-medium hover:bg-amber-400">Search</button>
+    </form>
+</div>
 
-<!-- Search Form -->
-<form method="GET" action="{{ url_for('weapons') }}" class="flex flex-col items-center justify-center" class="p-3 m-2.5 text-center">
-    <input type="text" name="query" placeholder="Search weapons..." value="{{ request.args.get('query', '') }}" class="p-3 m-2.5 text-center border-2">
-    <button type="submit" class="text-center self-center border-2 p-2 bg-amber-300 font-medium hover:bg-amber-400">Search</button>
-</form>
-
-<!-- Weapons Grid -->
-{% if weapons|length > 0 %}
-<div class="grid grid-cols-2">
-    {% for weapon in weapons %}
-    <div class="flex flex-col self-start justify-self-center">
-        <div class="p-3">
-            <a href="/weapons/{{ weapon.Weapon_URL }}">
-                <div class="flex flex-col items-center justify-center">
-                    <img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}" class="img_icon">
-                    <h2>{{ weapon.Weapon_Name }}</h2>
-                </div>
-            </a>
+<div class="bg-white m-4 shadow">
+    {% if weapons|length > 0 %}
+    <div class="grid grid-cols-2 pt-5">
+        {% for weapon in weapons %}
+        <div class="flex flex-col self-start justify-self-center">
+            <div class="p-3">
+                <a href="/weapons/{{ weapon.Weapon_URL }}">
+                    <div class="flex flex-col items-center justify-center">
+                        <img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}" class="img_icon">
+                        <h2>{{ weapon.Weapon_Name }}</h2>
+                    </div>
+                </a>
+            </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+    {% else %}
+    <div class="grid grid-cols-1 p-4">
+        <p class="flex self-center justify-self-center">No weapons found matching your query.</p>
+    </div>
+    {% endif %}
 </div>
-{% else %}
-<div class="grid grid-cols-1 p-4">
-    <p class="flex self-center justify-self-center">No weapons found matching your query.</p>
-</div>
-{% endif %}
 {% endblock %}

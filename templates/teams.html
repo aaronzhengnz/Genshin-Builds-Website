@@ -27,7 +27,7 @@
     {% for team_id, team_info in teams.items() %}
     <div class="bg-white shadow mb-4">
         <a href="/teams/{{ team_info['Team_URL'] }}">
-            <h2 class="text-2xl p-2.5 font-medium">{{ team_info['Team_Name'] }}</h2>
+            <h2 class="text-2xl font-medium p-4 hover:bg-gray-100">{{ team_info['Team_Name'] }}</h2>
         </a>
         <div class="grid grid-cols-2 gap-4">
             {% for character_info in team_info['Characters'] %}

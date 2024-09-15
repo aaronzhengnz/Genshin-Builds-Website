@@ -10,9 +10,9 @@
 
 <div class="bg-white m-4 shadow">
     {% if artifacts|length > 0 %}
-    <div class="grid grid-cols-2">
+    <div class="grid grid-cols-2 pt-5">
         {% for artifact in artifacts %}
-        <div class="flex flex-col self-start justify-self-center">
+        <div class="flex flex-col self-start items-center justify-evenly">
             <div class="p-3">
                 <a href="/artifacts/{{ artifact.Artifact_Set_URL }}">
                     <div class="flex flex-col items-center justify-center">

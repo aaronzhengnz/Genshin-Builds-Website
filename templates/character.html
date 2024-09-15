@@ -1,16 +1,34 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>{{ character.Character_Name }}</h1>
-<div>
-    <img src="{{ character.Character_Image_URI }}" alt="{{ character.Character_Name }}">
-    <p>Vision - {{ character.Character_Vision }}</p>
-    <p>Affiliation - {{ character.Character_Affiliation }}</p>
-    <p>Weapon - {{ character.Character_Weapon_Type }}</p>
+<div class="bg-white m-4 shadow">
+    <h1 class="text-3xl font-bold pt-6">{{ character.Character_Name }}</h1>
+    <div class="flex items-center justify-evenly p-3">
+        <img src="{{ character.Character_Image_URI }}" alt="{{ character.Character_Name }}">
+        <div>
+            <p>Vision - {{ character.Character_Vision }}</p>
+            <p>Affiliation - {{ character.Character_Affiliation }}</p>
+            <p>Weapon - {{ character.Character_Weapon_Type }}</p>
+        </div>
+    </div>
 </div>
-<div>
-    <p>{{ character.Character_Name }} Team Compositions</p>
+<h2 class="text-3xl font-bold p-3">{{ character.Character_Name }} Team Compositions</h2>
+<div class="bg-white m-4 shadow">
     {% for team_id, team_info in teams.items() %}
-    <a href="/teams/{{ team_info.Team_URL }}">{{ team_info.Team_Name }}</a>
+    <div>
+        <a href="/teams/{{ team_info['Team_URL'] }}">
+            <h3 class="text-2xl font-medium pt-2">{{ team_info['Team_Name'] }}</h3>
+        </a>
+        <div class="grid grid-cols-2 gap-1 p-5">
+            {% for character_info in team_info['Characters'] %}
+            <a href="/characters/{{ character_info['Character_URL'] }}">
+                <div class="flex flex-col items-center justify-center p-1">
+                    <img src="{{ character_info['Character_Image_URI'] }}" alt="{{ character_info['Character_Name'] }}" class="img_icon">
+                    <h3>{{ character_info['Character_Name'] }}</h3>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}

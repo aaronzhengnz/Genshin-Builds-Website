@@ -483,15 +483,27 @@ def character(Character_URL):
     SELECT
         Teams.Team_ID AS Team_ID,
         Teams.Team_Name AS Team_Name,
-        Teams.Team_URL AS Team_URL
+        Teams.Team_URL AS Team_URL,
+        Characters.Character_ID AS Character_ID,
+        Characters.Character_Name AS Character_Name,
+        Characters.Character_URL AS Character_URL,
+        Characters.Character_Image_URI AS Character_Image_URI
 
-    FROM Characters
+    FROM Teams
     INNER JOIN TeamCharacters
-        ON Characters.Character_ID = TeamCharacters.Character_ID
-    INNER JOIN Teams
-        ON TeamCharacters.Team_ID = Teams.Team_ID
+        ON Teams.Team_ID = TeamCharacters.Team_ID
+    INNER JOIN Characters
+        ON TeamCharacters.Character_ID = Characters.Character_ID
 
-    WHERE Characters.Character_URL = ?
+    WHERE Teams.Team_ID IN (
+        SELECT Teams.Team_ID
+        FROM Characters
+        INNER JOIN TeamCharacters
+            ON Characters.Character_ID = TeamCharacters.Character_ID
+        INNER JOIN Teams
+            ON TeamCharacters.Team_ID = Teams.Team_ID
+        WHERE Characters.Character_URL = ?
+    )
     """
 
     cur.execute(teams_query, (Character_URL,))
@@ -504,8 +516,17 @@ def character(Character_URL):
         if team_id not in teams_dict:
             teams_dict[team_id] = {
                 "Team_Name": row["Team_Name"],
-                "Team_URL": row["Team_URL"]
+                "Team_URL": row["Team_URL"],
+                "Characters": []
             }
+
+        character_details = {
+            "Character_Name": row["Character_Name"],
+            "Character_URL": row["Character_URL"],
+            "Character_Image_URI": row["Character_Image_URI"]
+        }
+
+        teams_dict[team_id]["Characters"].append(character_details)
 
     conn.close()
     return render_template("character.html",

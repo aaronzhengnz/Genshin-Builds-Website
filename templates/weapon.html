@@ -22,7 +22,7 @@
     <div class="grid grid-cols-2 pt-5">
         {% for character, character_details in characters.items() %}
             {% if character != None %}
-            <div class="flex flex-col self-start justify-self-center">
+            <div class="flex flex-col self-start justify-self-center p-3">
                 <a href="/characters/{{ character_details.Character_URL }}">
                     <div class="flex flex-col items-center justify-center">
                         <img src="{{ character_details.Character_Image_URI }}" alt="{{ character_details.Character_Name }}">

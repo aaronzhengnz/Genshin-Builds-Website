@@ -102,3 +102,13 @@ html, body {
     top: 50%;
     transform: translate(-50%, -50%) rotate(-45deg);
 }
+
+@media (min-width: 1024px) {
+    .hidden-menu {
+        display: none;
+    }
+
+    .stack-menu {
+        display: none;
+    }
+}

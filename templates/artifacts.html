@@ -3,7 +3,7 @@
 <div class="bg-white m-4 shadow">
     <h1 class="text-3xl pt-6 pb-2 font-bold">Artifacts</h1>
     <form method="GET" action="{{ url_for('artifacts') }}" class="flex flex-col items-center justify-center pb-5">
-        <input type="text" name="query" placeholder="Search artifacts" value="{{ request.args.get('query', '') }}" class="p-3 m-2.5 text-center border-2">
+        <input type="text" name="query" placeholder="Search artifacts" maxlength="20" value="{{ request.args.get('query', '') }}" class="p-3 m-2.5 text-center border-2">
         <button type="submit" class="text-center self-center border-2 p-2 bg-amber-300 rounded-2xl hover:bg-amber-400">Search</button>
     </form>
 </div>

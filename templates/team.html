@@ -24,7 +24,7 @@
             {% set character_substats = [] %}
         {% endif %}
 
-        <div class="bg-white my-6 mx-3.5 shadow-xl">
+        <div class="bg-white my-6 mx-3.5 shadow-xl lg:grid grid-cols-[1fr_2fr_1fr_2fr]">
             <div class="flex items-center justify-center p-3">
                 <a href="/characters/{{ characters['Character_URL'] }}">
                     <img src="{{ characters['Character_Image_URI'] }}" alt="{{ characters['Character_Name'] }}" class="p-2">
@@ -83,6 +83,8 @@
                         {% endif %}
                     {% endif %}
                 {% endfor %}
+            </div>
+            <div>
                 {% if character_substats %}
                     <h3 class="text-2xl font-medium">Substats</h3>
                     <div class="py-2">

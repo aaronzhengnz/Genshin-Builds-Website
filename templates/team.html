@@ -3,116 +3,123 @@
 <h1 class="text-3xl pt-6 font-bold">{{ team.Team_Name }}</h1>
 <div>
     {% for character_id, characters in team.Team_Characters.items() %}
-        {% if character_id in team.Character_Weapons %}
-            {% set character_weapons = team.Character_Weapons[character_id]['weapons'] %}
-        {% else %}
-            <p>No weapons found for character ID {{ character_id }}</p>
-            {% set character_weapons = [] %}
-        {% endif %}
+    {% if character_id in team.Character_Weapons %}
+    {% set character_weapons = team.Character_Weapons[character_id]['weapons'] %}
+    {% else %}
+    <p>No weapons found for character ID {{ character_id }}</p>
+    {% set character_weapons = [] %}
+    {% endif %}
 
-        {% if character_id in team.Character_Artifacts and 'artifacts' in team.Character_Artifacts[character_id] %}
-            {% set character_artifacts = team.Character_Artifacts[character_id]['artifacts'] %}
-        {% else %}
-            <p>No artifacts found for character ID {{ character_id }}</p>
-            {% set character_artifacts = [] %}
-        {% endif %}
+    {% if character_id in team.Character_Artifacts and 'artifacts' in team.Character_Artifacts[character_id] %}
+    {% set character_artifacts = team.Character_Artifacts[character_id]['artifacts'] %}
+    {% else %}
+    <p>No artifacts found for character ID {{ character_id }}</p>
+    {% set character_artifacts = [] %}
+    {% endif %}
 
-        {% if character_id in team.Character_Substats and 'substats' in team.Character_Substats[character_id] %}
-            {% set character_substats = team.Character_Substats[character_id]['substats'] %}
-        {% else %}
-            <p>No substats found for character ID {{ character_id }}</p>
-            {% set character_substats = [] %}
-        {% endif %}
+    {% if character_id in team.Character_Substats and 'substats' in team.Character_Substats[character_id] %}
+    {% set character_substats = team.Character_Substats[character_id]['substats'] %}
+    {% else %}
+    <p>No substats found for character ID {{ character_id }}</p>
+    {% set character_substats = [] %}
+    {% endif %}
 
-        <div class="bg-white my-6 mx-3.5 shadow-xl lg:grid grid-cols-[1fr_2fr_1fr_2fr]">
-            <div class="flex items-center justify-center p-3">
-                <a href="/characters/{{ characters['Character_URL'] }}">
-                    <img src="{{ characters['Character_Image_URI'] }}" alt="{{ characters['Character_Name'] }}" class="p-2">
-                </a>
-                <div class="p-2">
-                    <h2 class="text-2xl font-bold">{{ characters["Character_Name"] }}</h2>
-                    <p><b>Vision - </b>{{ characters['Character_Vision'] }}</p>
-                    <p><b>Affiliation - </b>{{ characters['Character_Affiliation'] }}</p>
-                    <p><b>Weapon - </b>{{ characters['Character_Weapon_Type'] }}</p>
-                </div>
+    <div class="bg-white my-6 mx-3.5 shadow-xl lg:grid grid-cols-[2fr_3fr_2fr_2fr] justify-items-center p-6">
+        <div class="flex items-center justify-center p-3 lg:flex-col">
+            <a href="/characters/{{ characters['Character_URL'] }}">
+                <img src="{{ characters['Character_Image_URI'] }}" alt="{{ characters['Character_Name'] }}"
+                    class="p-2 lg:p-4">
+            </a>
+            <div class="p-2">
+                <h2 class="text-2xl font-bold lg:text-3xl">{{ characters["Character_Name"] }}</h2>
+                <p class="lg:text-2xl p-2"><b>Vision - </b>{{ characters['Character_Vision'] }}</p>
+                <p class="lg:text-2xl p-2"><b>Affiliation - </b>{{ characters['Character_Affiliation'] }}</p>
+                <p class="lg:text-2xl p-2"><b>Weapon - </b>{{ characters['Character_Weapon_Type'] }}</p>
             </div>
-            <div class="flex flex-col items-center">
-                <h3 class="text-2xl font-medium">Artifacts</h3>
-                {% for artifact in character_artifacts %}
-                    {% if artifact['Artifact_Set_Name_2'] is not none %}
-                        {% if artifact['Best_In_Slot'] %}
-                            <div class="flex flex-col items-center justify-self-center pt-3">
-                                <div class="flex flex-row justify-evenly p-2 w-full">
-                                    <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
-                                        <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
-                                    </a>
-                                    <a href="/artifacts/{{ artifact['Artifact_Set_2_URL'] }}">
-                                        <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_2'] }}" class="team_artifact-image">
-                                    </a>
-                                </div>
-                                    <p class="p-2"><b>Best In Slot - </b>2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
-                            </div>
-                            {% else %}
-                            <div class="flex flex-col items-center justify-self-center pt-3">
-                                <div class="flex flex-row justify-evenly p-2 w-full">
-                                    <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
-                                        <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
-                                    </a>
-                                    <a href="/artifacts/{{ artifact['Artifact_Set_2_URL'] }}">
-                                        <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_2'] }}" class="team_artifact-image">
-                                    </a>
-                                </div>
-                                    <p class="p-2">2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
-                            </div>
-                        {% endif %}
-                    {% else %}
-                        {% if artifact['Best_In_Slot'] %}
-                        <div class="flex flex-col items-center justify-self-center pt-3">
-                            <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
-                                <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
-                            </a>
-                                <p class="p-2"><b>Best In Slot - </b>4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
-                        </div>
-                        {% else %}
-                        <div class="flex flex-col items-center justify-self-center pt-3">
-                            <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
-                                <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}" alt="{{ artifact['Artifact_Set_Name_1'] }}" class="team_artifact-image">
-                            </a>
-                                <p class="p-2">4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
-                        </div>
-                        {% endif %}
-                    {% endif %}
+        </div>
+        <div class="flex flex-col items-center lg:justify-center p-5">
+            <h3 class="text-2xl lg:text-4xl font-bold p-5">Artifacts</h3>
+            {% for artifact in character_artifacts %}
+            {% if artifact['Artifact_Set_Name_2'] is not none %}
+            {% if artifact['Best_In_Slot'] %}
+            <div class="flex flex-col items-center justify-self-center w-full pt-3">
+                <div class="grid grid-cols-2 gap-14 p-2 justify-items-center">
+                    <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}" class="flex flex-col items-center w-full text-center">
+                        <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}"
+                            alt="{{ artifact['Artifact_Set_Name_1'] }}" class="img_icon">
+                    </a>
+                    <a href="/artifacts/{{ artifact['Artifact_Set_2_URL'] }}" class="flex flex-col items-center w-full text-center">
+                        <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}"
+                            alt="{{ artifact['Artifact_Set_Name_2'] }}" class="img_icon">
+                    </a>
+                </div>
+                <p class="p-2 lg:col-span-2 text-center"><b>Best In Slot - </b>2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
+            </div>
+            {% else %}
+            <div class="flex flex-col items-center justify-self-center w-full pt-3">
+                <div class="grid grid-cols-2 gap-14 p-2 justify-items-center">
+                    <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
+                        <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}"
+                            alt="{{ artifact['Artifact_Set_Name_1'] }}" class="img_icon">
+                    </a>
+                    <a href="/artifacts/{{ artifact['Artifact_Set_2_URL'] }}">
+                        <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}"
+                            alt="{{ artifact['Artifact_Set_Name_2'] }}" class="img_icon">
+                    </a>
+                </div>
+                <p class="p-2 lg:col-span-2 text-center">2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
+            </div>
+            {% endif %}
+            {% else %}
+            {% if artifact['Best_In_Slot'] %}
+            <div class="flex flex-col items-center justify-self-center w-full pt-3">
+                <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
+                    <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}"
+                        alt="{{ artifact['Artifact_Set_Name_1'] }}" class="img_icon">
+                </a>
+                <p class="p-2"><b>Best In Slot - </b>4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
+            </div>
+            {% else %}
+            <div class="flex flex-col items-center justify-self-center w-full pt-3">
+                <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}">
+                    <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}"
+                        alt="{{ artifact['Artifact_Set_Name_1'] }}" class="img_icon">
+                </a>
+                <p class="p-2">4PC {{ artifact['Artifact_Set_Name_1'] }}</p>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="flex flex-col items-center lg:justify-center p-5">
+            {% if character_substats %}
+            <h3 class="text-2xl lg:text-4xl font-bold p-5">Substats</h3>
+            <div class="py-2">
+                {% for substat in character_substats %}
+                <p class="lg:p-2">{{ substat['SubStat_Name'] }} - {{ substat['SubStat_Rating'] }}★</p>
                 {% endfor %}
             </div>
-            <div>
-                {% if character_substats %}
-                    <h3 class="text-2xl font-medium">Substats</h3>
-                    <div class="py-2">
-                        {% for substat in character_substats %}
-                            <p>{{ substat['SubStat_Name'] }} - {{ substat['SubStat_Rating'] }}★</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-            <div>
-                <h3 class="text-2xl font-medium">Weapons</h3>
-                <div class="grid grid-cols-1 pt-4">
-                    {% for weapon in character_weapons %}
-                    <div class="flex flex-col items-center">
-                        <a href="/weapons/{{ weapon['Weapon_URL'] }}" class="flex flex-col items-center justify-center">
-                            <img src="{{ weapon['Weapon_Image_URI'] }}" alt="{{ weapon['Weapon_Name'] }}" class="img_icon">
-                            {% if weapon['Best_In_Slot'] %} 
-                                <p class="p-2"><b>Best In Slot - </b>{{ weapon['Weapon_Name'] }}</p>
-                            {% else %}
-                                <p class="p-2">{{ weapon['Weapon_Name'] }}</p>
-                            {% endif %}
-                        </a>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            
+            {% endif %}
         </div>
+        <div class="flex flex-col items-center lg:justify-center p-5">
+            <h3 class="text-2xl lg:text-4xl font-bold p-5">Weapons</h3>
+            <div class="grid grid-cols-1 pt-4 lg:grid-cols-2 justify-items-center">
+                {% for weapon in character_weapons %}
+                <div class="flex flex-col items-center lg: py-4">
+                    <a href="/weapons/{{ weapon['Weapon_URL'] }}" class="flex flex-col items-center justify-center">
+                        <img src="{{ weapon['Weapon_Image_URI'] }}" alt="{{ weapon['Weapon_Name'] }}" class="img_icon">
+                        {% if weapon['Best_In_Slot'] %}
+                        <p class="pt-3"><b>Best In Slot - </b>{{ weapon['Weapon_Name'] }}</p>
+                        {% else %}
+                        <p class="pt-3">{{ weapon['Weapon_Name'] }}</p>
+                        {% endif %}
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
     {% endfor %}
 </div>
 {% endblock %}

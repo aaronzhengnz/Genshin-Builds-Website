@@ -462,6 +462,7 @@ def character(Character_URL):
         Characters.Character_Affiliation AS Character_Affiliation,
         Characters.Character_Image_URI AS Character_Image_URI,
         Characters.Character_URL AS Character_URL,
+        Characters.Character_Rarity AS Character_Rarity,
         WeaponTypes.Weapon_Type_Name AS Character_Weapon_Type
 
     FROM Characters
@@ -478,6 +479,17 @@ def character(Character_URL):
     if not character:
         conn.close()
         return render_template("404.html"), 404
+
+    character_info = {
+        "Character_ID": character["Character_ID"],
+        "Character_Name": character["Character_Name"],
+        "Character_Vision": character["Character_Vision"],
+        "Character_Affiliation": character["Character_Affiliation"],
+        "Character_Image_URI": character["Character_Image_URI"],
+        "Character_URL": character["Character_URL"],
+        "Character_Rarity": character["Character_Rarity"] * "★",
+        "Character_Weapon_Type": character["Character_Weapon_Type"]
+    }
 
     teams_query = """
     SELECT
@@ -530,7 +542,7 @@ def character(Character_URL):
 
     conn.close()
     return render_template("character.html",
-                           character=character,
+                           character=character_info,
                            teams=teams_dict)
 
 

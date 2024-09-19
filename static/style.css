@@ -12,6 +12,11 @@
     height: 106px;
 }
 
+.img_splash {
+    width: auto;
+    height: 420px;
+}
+
 /* Layout.html */
 
 body#default {

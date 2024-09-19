@@ -1,16 +1,19 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="flex flex-col bg-white m-4 shadow">
-    <h1 class="text-3xl font-bold pt-6 lg:text-4xl pt-9">{{ character.Character_Name }}</h1>
-    <div class="flex items-center justify-evenly p-3 lg:justify-center">
-        <img src="{{ character.Character_Image_URI }}" alt="{{ character.Character_Name }}" class="img_icon lg:m-5">
-        <div class="lg:p-5">
-            <p>Vision - {{ character.Character_Vision }}</p>
-            <p>Affiliation - {{ character.Character_Affiliation }}</p>
-            <p>Rarity - {{ character.Character_Rarity }}</p>
-            <p>Weapon - {{ character.Character_Weapon_Type }}</p>
+<div class="flex items-center justify-center bg-white m-4 shadow lg:grid grid-cols-2">
+    <div class="flex flex-col items-center justify-center">
+        <h1 class="text-3xl font-bold pt-6 lg:text-4xl pt-9">{{ character.Character_Name }}</h1>
+        <div class="flex items-center justify-evenly p-3 lg:justify-center">
+            <img src="{{ character.Character_Image_URI }}" alt="{{ character.Character_Name }}" class="img_icon lg:m-5">
+            <div class="p-3 lg:p-5">
+                <p>Vision - {{ character.Character_Vision }}</p>
+                <p>Affiliation - {{ character.Character_Affiliation }}</p>
+                <p>Rarity - {{ character.Character_Rarity }}</p>
+                <p>Weapon - {{ character.Character_Weapon_Type }}</p>
+            </div>
         </div>
     </div>
+    <img src="/static/images/character_splash_images/Ningguang_Splash.png" alt="Ningguang" class="img_splash hidden lg:flex self-center justify-self-center m-5">
 </div>
 <h2 class="text-3xl font-bold p-5 bg-white m-4 shadow">{{ character.Character_Name }} Team Compositions</h2>
 <div class="lg:grid grid-cols-2">

@@ -1,36 +1,36 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="flex flex-col bg-white m-4 shadow">
-    <h1 class="text-3xl font-bold p-4">{{ artifacts.Artifact_Set_Name }}</h1>
-    <p class="p-2">Set Bonus (2) - {{ artifacts['2PC_Set_Bonus'] }}</p>
-    <p class="p-2">Set Bonus (4) - {{ artifacts['4PC_Set_Bonus'] }}</p>
+    <h1 class="text-3xl font-bold p-4 lg:text-4xl pt-9">{{ artifacts.Artifact_Set_Name }}</h1>
+    <p class="p-2 lg:p-4"><b>Set Bonus (2)</b> -<br>{{ artifacts['2PC_Set_Bonus'] }}</p>
+    <p class="p-2 lg:p-4"><b>Set Bonus (4)</b> -<br>{{ artifacts['4PC_Set_Bonus'] }}</p>
 </div>
-<div class="grid grid-cols-2 flex flex-col bg-white m-4 shadow pt-3">
-    <div class="flex flex-col items-center justify-start p-4">
-        <img src="{{ artifacts.Flower_Image_URI }}" alt="{{ artifacts.Artifact_Name }}" class="img_icon">
+<div class="grid grid-cols-2 flex flex-col bg-white m-4 shadow pt-3 lg:grid-cols-5">
+    <div class="flex flex-col items-center justify-start p-4 lg:m-5">
+        <img src="{{ artifacts.Flower_Image_URI }}" alt="{{ artifacts.Artifact_Name }}" class="img_icon lg:m-2">
         <p>{{ artifacts.Flower_Piece }}</p>
     </div>
-    <div class="flex flex-col items-center justify-start p-4">
-        <img src="{{ artifacts.Plume_Image_URI }}" alt="{{ artifacts.Artifact_Name }}" class="img_icon">
+    <div class="flex flex-col items-center justify-start p-4 lg:m-5">
+        <img src="{{ artifacts.Plume_Image_URI }}" alt="{{ artifacts.Artifact_Name }}" class="img_icon lg:m-2">
         <p>{{ artifacts.Plume_Piece }}</p>
     </div>
-    <div class="flex flex-col items-center justify-start p-4">
-        <img src="{{ artifacts.Sands_Image_URI }}" alt="{{ artifacts.Artifact_Name }}" class="img_icon">
+    <div class="flex flex-col items-center justify-start p-4 lg:m-5">
+        <img src="{{ artifacts.Sands_Image_URI }}" alt="{{ artifacts.Artifact_Name }}" class="img_icon lg:m-2">
         <p>{{ artifacts.Sands_Piece }}</p>
     </div>
-    <div class="flex flex-col items-center justify-start p-4">
-        <img src="{{ artifacts.Goblet_Image_URI }}" alt="{{ artifacts.Artifact_Name }}" class="img_icon">
+    <div class="flex flex-col items-center justify-start p-4 lg:m-5">
+        <img src="{{ artifacts.Goblet_Image_URI }}" alt="{{ artifacts.Artifact_Name }}" class="img_icon lg:m-2">
         <p>{{ artifacts.Goblet_Piece }}</p>
     </div>
-    <div class="flex flex-col items-center justify-start p-4">
-        <img src="{{ artifacts.Circlet_Image_URI }}" alt="{{ artifacts.Artifact_Name }}" class="img_icon">
+    <div class="flex flex-col items-center justify-start p-4 lg:m-5">
+        <img src="{{ artifacts.Circlet_Image_URI }}" alt="{{ artifacts.Artifact_Name }}" class="img_icon lg:m-2">
         <p>{{ artifacts.Circlet_Piece }}</p>
     </div>
 </div>
 <div class="bg-white m-4 shadow p-3">
     <h2 class="text-2xl font-bold p-2 pt-3">Characters who use<br>{{ artifacts.Artifact_Set_Name }}</h2>
     {% if characters|length > 0 %}
-    <div class="grid grid-cols-2 pt-5">
+    <div class="grid grid-cols-2 pt-5 lg:grid-cols-6">
         {% for character_id, character_details in characters.items() %}
         <div class="flex flex-col self-start justify-self-center p-3">
             <a href="/characters/{{ character_details.Character_URL }}">

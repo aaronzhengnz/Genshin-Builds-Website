@@ -26,21 +26,21 @@ html, body {
 }
 
 #head {
-    background-color: #fcd34d;
+    background-color: #A083E9;
     width: 100%;
 }
 
 #foot {
-    background-color: #fcd34d;
+    background-color: #A083E9;
     width: 100%;
 }
 
 /* Nav.html */
 
 .hidden-menu {
-    background-color: #fcd34d;
+    background-color: #A083E9;
     border-width: 3px;
-    border-color: #d9b42f;
+    border-color: #8056ea;
     height: 100;
     width: 100%;
     max-width: 450px;
@@ -111,4 +111,8 @@ html, body {
     .stack-menu {
         display: none;
     }
+}
+
+.nav-button :hover {
+    background-color: #a182f0;
 }

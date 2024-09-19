@@ -1,8 +1,8 @@
 /* Font */
 
 @font-face {
-    font-family: Josefin Sans;
-    src: url('JosefinSans-VariableFont_wght.ttf');
+    font-family: Exo2;
+    src: url('../static/Exo2-VariableFont_wght.ttf');
 }
 
 /* General */
@@ -15,7 +15,7 @@
 /* Layout.html */
 
 body#default {
-    font-family: Josefin Sans;
+    font-family: Exo2;
     text-align: center;
 }
 

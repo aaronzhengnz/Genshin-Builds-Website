@@ -14,7 +14,9 @@
 
 .img_splash {
     width: auto;
-    height: 420px;
+    height: auto;
+    max-height: 420px;
+    max-width: auto;
 }
 
 /* Layout.html */

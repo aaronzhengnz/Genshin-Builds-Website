@@ -471,6 +471,7 @@ def character(Character_URL):
         Characters.Character_Image_URI AS Character_Image_URI,
         Characters.Character_URL AS Character_URL,
         Characters.Character_Rarity AS Character_Rarity,
+        Characters.Character_Splash_Image_URI AS Character_Splash_Image_URI,
         WeaponTypes.Weapon_Type_Name AS Character_Weapon_Type
 
     FROM Characters
@@ -496,6 +497,7 @@ def character(Character_URL):
         "Character_Image_URI": character["Character_Image_URI"],
         "Character_URL": character["Character_URL"],
         "Character_Rarity": character["Character_Rarity"] * "★",
+        "Character_Splash_Image_URI": character["Character_Splash_Image_URI"],
         "Character_Weapon_Type": character["Character_Weapon_Type"]
     }
 

@@ -182,7 +182,7 @@ def team(Team_URL):
     INNER JOIN Weapons
         ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
 
-    WHERE TeamCharacters.Team_ID = ?
+    WHERE CharacterWeapons.Team_ID = ?
     """
 
     cur.execute(character_weapon_query, (Team_ID,))
@@ -316,7 +316,7 @@ def team(Team_URL):
         ON RecommendedArtifacts.Artifact_Set_ID_2 =
         ArtifactSet2.Artifact_Set_ID
 
-    WHERE TeamCharacters.Team_ID = ?
+    WHERE CharacterArtifacts.Team_ID = ?
     """
 
     cur.execute(character_artifact_query, (Team_ID,))
@@ -398,7 +398,7 @@ def team(Team_URL):
     INNER JOIN Stats
         ON CharacterSubStats.Stat_ID = Stats.Stat_ID
 
-    WHERE TeamCharacters.Team_ID = ?
+    WHERE CharacterSubStats.Team_ID = ?
     """
 
     cur.execute(character_substats_query, (Team_ID,))

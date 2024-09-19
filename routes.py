@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
 import sqlite3
 
 app = Flask(__name__)
@@ -8,6 +8,11 @@ def get_db_connection():
     conn = sqlite3.connect("Genshin Impact Builds Website.db")
     conn.row_factory = sqlite3.Row
     return conn
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("404.html"), 404
 
 
 @app.route("/")
@@ -52,6 +57,10 @@ def teams():
     else:
         team_rows = cur.execute(teams_query).fetchall()
 
+    if not team_rows:
+        conn.close()
+        abort(404)
+
     teams_dict = {}
 
     for row in team_rows:
@@ -73,7 +82,6 @@ def teams():
 
         teams_dict[team_id]["Characters"].append(character_details)
 
-    # Fetch all characters for the filter dropdown
     characters_query = "SELECT * FROM Characters ORDER BY Character_Name"
     character_rows = cur.execute(characters_query).fetchall()
 
@@ -134,7 +142,7 @@ def team(Team_URL):
 
     if not team_characters:
         conn.close()
-        return render_template("404.html"), 404
+        abort(404)
 
     characters_dict = {}
     Team_ID = team_characters[0]["Team_ID"]
@@ -182,7 +190,7 @@ def team(Team_URL):
 
     if not character_weapons:
         conn.close()
-        return render_template("404.html"), 404
+        abort(404)
 
     character_weapon_dict = {}
     for row in character_weapons:
@@ -316,7 +324,7 @@ def team(Team_URL):
 
     if not character_artifacts:
         conn.close()
-        return render_template("404.html"), 404
+        abort(404)
 
     character_artifacts_dict = {}
     for row in character_artifacts:
@@ -398,7 +406,7 @@ def team(Team_URL):
 
     if not character_artifacts:
         conn.close()
-        return render_template("404.html"), 404
+        abort(404)
 
     character_substats_dict = {}
     for row in character_artifacts:
@@ -478,7 +486,7 @@ def character(Character_URL):
 
     if not character:
         conn.close()
-        return render_template("404.html"), 404
+        abort(404)
 
     character_info = {
         "Character_ID": character["Character_ID"],
@@ -601,6 +609,10 @@ def weapon(Weapon_URL):
     cur.execute(weapon_query, (Weapon_URL,))
     weapon = cur.fetchone()
 
+    if not weapon:
+        conn.close()
+        abort(404)
+
     weapon_info = {
         "Weapon_ID": weapon["Weapon_ID"],
         "Weapon_Name": weapon["Weapon_Name"],
@@ -717,6 +729,10 @@ def artifact(Artifact_Set_URL):
 
     cur.execute(artifact_query, (Artifact_Set_URL,))
     artifact_rows = cur.fetchall()
+
+    if not artifact_rows:
+        conn.close()
+        abort(404)
 
     artifacts = {
         "Artifact_Set_ID": artifact_rows[0]["Artifact_Set_ID"],

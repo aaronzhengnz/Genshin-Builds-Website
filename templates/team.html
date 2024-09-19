@@ -108,7 +108,11 @@
                 <div class="flex flex-col items-center lg: py-4">
                     <a href="/weapons/{{ weapon['Weapon_URL'] }}" class="flex flex-col items-center justify-center">
                         <img src="{{ weapon['Weapon_Image_URI'] }}" alt="{{ weapon['Weapon_Name'] }}" class="img_icon">
-                        {% if weapon['Best_In_Slot'] %}
+                        {% if weapon['Free_To_Play'] and weapon['Best_In_Slot'] %}
+                        <p class="pt-3"><b>Best In Slot / Free To Play - </b>{{ weapon['Weapon_Name'] }}</p>
+                        {% elif weapon['Free_To_Play'] %}
+                        <p class="pt-3"><b>Free To Play - </b>{{ weapon['Weapon_Name'] }}</p>
+                        {% elif weapon['Best_In_Slot'] %}
                         <p class="pt-3"><b>Best In Slot - </b>{{ weapon['Weapon_Name'] }}</p>
                         {% else %}
                         <p class="pt-3">{{ weapon['Weapon_Name'] }}</p>

@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="flex flex-col bg-white m-4 shadow">
-    <h1 class="text-3xl font-bold p-4">{{ weapon.Weapon_Name }}</h1>
+    <h1 class="text-3xl font-bold p-4 lg:text-4xl pt-9">{{ weapon.Weapon_Name }}</h1>
     <div class="flex items-center justify-center p-4">
-        <img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}" class="img_icon">
-        <div class="pl-2">
+        <img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}" class="img_icon lg:m-5">
+        <div class="pl-2 lg:p-5">
             <p><b>Weapon Type -</b> {{ weapon.Weapon_Type }}</p>
             <p><b>Base Attack -</b> {{ weapon.MainStat_Value }}</p>
             <p><b>Rarity -</b> {{ weapon.Weapon_Rarity }}</p>
@@ -13,13 +13,13 @@
     </div>
 </div>
 <div class="flex flex-col bg-white m-4 shadow p-3">
-    <h3 class="text-2xl font-bold p-2">{{ weapon.Weapon_Ability_Name }}</h3>
-    <p>{{ weapon.Weapon_Ability }}</p>
+    <h3 class="text-2xl font-bold p-2 lg:p-4">{{ weapon.Weapon_Ability_Name }}</h3>
+    <p class="lg:p-2">{{ weapon.Weapon_Ability }}</p>
 </div>
 <div class="bg-white m-4 shadow p-3">
     <h2 class="text-2xl font-bold p-2 pt-3">Character who use<br>{{ weapon.Weapon_Name }}</h2>
     {% if characters|length > 0 %}
-    <div class="grid grid-cols-2 pt-5">
+    <div class="grid grid-cols-2 pt-5 lg:grid-cols-6">
         {% for character, character_details in characters.items() %}
             {% if character != None %}
             <div class="flex flex-col self-start justify-self-center p-3">

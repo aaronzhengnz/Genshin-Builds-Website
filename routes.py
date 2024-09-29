@@ -652,7 +652,8 @@ def artifact(Artifact_Set_URL):
         conn.close()
         abort(404)
 
-    artifacts = {   # Dictionary to store artifact details
+    # Dictionary to store artifact details for easy access in HTML
+    artifacts = {
         "Artifact_Set_ID": artifact_rows[0]["Artifact_Set_ID"],
         "Artifact_Set_Name": artifact_rows[0]["Artifact_Set_Name"],
         "2PC_Set_Bonus": artifact_rows[0]["2PC_Set_Bonus"],
@@ -697,7 +698,7 @@ def artifact(Artifact_Set_URL):
     cur.execute(characters_query, (Artifact_Set_URL,))
     characters = cur.fetchall()
 
-    # Dictionary to store characters that use the artifact
+    # Dictionary to store characters that use the artifact for easy access
     characters_dict = {}
     for row in characters:
         characters_dict[row["Character_ID"]] = {

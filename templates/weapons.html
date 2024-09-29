@@ -3,8 +3,8 @@
 <div class="bg-white m-4 shadow lg:mt-8 m-4">
     <h1 class="text-3xl pt-6 pb-2 font-bold lg:text-4xl pt-9">Weapons</h1>
     <form method="GET" action="{{ url_for('weapons') }}" class="flex flex-col items-center justify-center pb-5">
-        <input type="text" name="query" maxlength="20" placeholder="Search weapons..."
-            value="{{ request.args.get('query', '') }}" class="p-3 m-2.5 text-center border-2 lg:pt-4">
+        <input type="text" name="query" maxlength="40" placeholder="Search weapons..."
+            value="{{ request.args.get('query', '') }}" class="p-3 m-2.5 text-center border-2 lg:pt-4 w-96">
         <button type="submit"
             class="text-center self-center border-2 p-2 bg-purple-300 rounded-2xl hover:bg-purple-400 lg:p-3 mb-2">Search</button>
     </form>

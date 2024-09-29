@@ -182,10 +182,11 @@ def team(Team_URL):
     INNER JOIN Weapons
         ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
 
-    WHERE CharacterWeapons.Team_ID = ?
+    WHERE TeamCharacters.Team_ID = ?
+        AND CharacterWeapons.Team_ID = ?
     """
 
-    cur.execute(character_weapon_query, (Team_ID,))
+    cur.execute(character_weapon_query, (Team_ID, Team_ID))
     character_weapons = cur.fetchall()
 
     if not character_weapons:
@@ -401,10 +402,11 @@ def team(Team_URL):
     INNER JOIN Stats
         ON CharacterSubStats.Stat_ID = Stats.Stat_ID
 
-    WHERE CharacterSubStats.Team_ID = ?
+    WHERE TeamCharacters.Team_ID = ?
+        AND CharacterSubStats.Team_ID = ?
     """
 
-    cur.execute(character_substats_query, (Team_ID,))
+    cur.execute(character_substats_query, (Team_ID, Team_ID))
     character_artifacts = cur.fetchall()
 
     if not character_artifacts:

@@ -7,12 +7,12 @@
 
 /* General */
 
-.img_icon {
+.img_icon {        /* This styling is to ensure that all icon images are square shaped and the same size */
     width: 106px;
     height: 106px;
 }
 
-.img_splash {
+.img_splash {        /* This styling is for the splash art to make sure the actual page doesn't have its height affected */
     width: auto;
     height: auto;
     max-height: 420px;
@@ -67,7 +67,7 @@ html, body {
     right: 0;
 }
 
-.stack-menu {
+.stack-menu {       /* This is the hamburger menu which moves based on its current state */
     height: 50px;
     width: 50px;
     position: fixed;

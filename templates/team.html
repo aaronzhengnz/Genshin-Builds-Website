@@ -44,19 +44,16 @@
             {% if artifact['Best_In_Slot'] %}
             <div class="flex flex-col items-center justify-self-center w-full pt-3">
                 <div class="grid grid-cols-2 gap-14 p-2 justify-items-center">
-                    <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}"
-                        class="flex flex-col items-center w-full text-center">
+                    <a href="/artifacts/{{ artifact['Artifact_Set_1_URL'] }}" class="flex flex-col items-center w-full text-center">
                         <img src="{{ artifact['Artifact_Set_1_Flower_Image_URI'] }}"
                             alt="{{ artifact['Artifact_Set_Name_1'] }}" class="img_icon">
                     </a>
-                    <a href="/artifacts/{{ artifact['Artifact_Set_2_URL'] }}"
-                        class="flex flex-col items-center w-full text-center">
+                    <a href="/artifacts/{{ artifact['Artifact_Set_2_URL'] }}" class="flex flex-col items-center w-full text-center">
                         <img src="{{ artifact['Artifact_Set_2_Flower_Image_URI'] }}"
                             alt="{{ artifact['Artifact_Set_Name_2'] }}" class="img_icon">
                     </a>
                 </div>
-                <p class="p-2 lg:col-span-2 text-center"><b>Best In Slot - </b>2PC {{ artifact['Artifact_Set_Name_1'] }}
-                    + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
+                <p class="p-2 lg:col-span-2 text-center"><b>Best In Slot - </b>2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
             </div>
             {% else %}
             <div class="flex flex-col items-center justify-self-center w-full pt-3">
@@ -70,8 +67,7 @@
                             alt="{{ artifact['Artifact_Set_Name_2'] }}" class="img_icon">
                     </a>
                 </div>
-                <p class="p-2 lg:col-span-2 text-center">2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{
-                    artifact['Artifact_Set_Name_2'] }}</p>
+                <p class="p-2 lg:col-span-2 text-center">2PC {{ artifact['Artifact_Set_Name_1'] }} + 2PC {{ artifact['Artifact_Set_Name_2'] }}</p>
             </div>
             {% endif %}
             {% else %}

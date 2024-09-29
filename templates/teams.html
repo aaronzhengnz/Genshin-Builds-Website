@@ -5,19 +5,19 @@
     <div class="p-3">
         <form method="GET" action="{{ url_for('teams') }}">
             <div class="flex flex-col items-center justify-center">
-                <label for="character" class="text-2xl text-center self-center pt-2 font-medium lg:pt-4">Filter by Character:</label>
+                <label for="character" class="text-2xl text-center self-center pt-2 font-medium lg:pt-4">Filter by
+                    Character:</label>
                 <select name="query" class="p-2 m-2 text-center focus:outline-none lg:m-5">
                     <option value="">None</option>
                     {% for character_id, character_info in characters.items() %}
-                    <option value="{{ character_info.Character_Name }}"
-                    {% if selected_character == character_info.Character_Name %}
-                    selected
-                    {% endif %}>
-                            {{ character_info.Character_Name }}
+                    <option value="{{ character_info.Character_Name }}" {% if
+                        selected_character==character_info.Character_Name %} selected {% endif %}>
+                        {{ character_info.Character_Name }}
                     </option>
                     {% endfor %}
                 </select>
-                <button type="submit" class="text-center self-center border-2 p-2 bg-purple-300 rounded-2xl hover:bg-purple-400 lg:p-3 mb-2">Search</button>
+                <button type="submit"
+                    class="text-center self-center border-2 p-2 bg-purple-300 rounded-2xl hover:bg-purple-400 lg:p-3 mb-2">Search</button>
             </div>
         </form>
     </div>
@@ -27,13 +27,15 @@
     {% for team_id, team_info in teams.items() %}
     <div class="bg-white shadow mb-4 lg: m-5">
         <a href="/teams/{{ team_info['Team_URL'] }}">
-            <h2 class="text-2xl font-medium p-4 hover:bg-gray-100 lg:text-3xl font-bold pt-7">{{ team_info['Team_Name'] }}</h2>
+            <h2 class="text-2xl font-medium p-4 hover:bg-gray-100 lg:text-3xl font-bold pt-7">{{ team_info['Team_Name']
+                }}</h2>
         </a>
         <div class="grid grid-cols-2 gap-4 lg:grid-cols-4 gap-2">
             {% for character_info in team_info['Characters'] %}
             <a href="/characters/{{ character_info['Character_URL'] }}">
                 <div class="flex flex-col items-center justify-center p-4">
-                    <img src="{{ character_info['Character_Image_URI'] }}" alt="{{ character_info['Character_Name'] }}" class="teams_character-image">
+                    <img src="{{ character_info['Character_Image_URI'] }}" alt="{{ character_info['Character_Name'] }}"
+                        class="teams_character-image">
                     <h3>{{ character_info['Character_Name'] }}</h3>
                 </div>
             </a>

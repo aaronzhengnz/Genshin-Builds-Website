@@ -21,16 +21,16 @@
     {% if characters|length > 0 %}
     <div class="grid grid-cols-2 pt-5 lg:grid-cols-6">
         {% for character, character_details in characters.items() %}
-            {% if character != None %}
-            <div class="flex flex-col self-start justify-self-center p-3">
-                <a href="/characters/{{ character_details.Character_URL }}">
-                    <div class="flex flex-col items-center justify-center">
-                        <img src="{{ character_details.Character_Image_URI }}" alt="{{ character_details.Character_Name }}">
-                        <h2>{{ character }}</h2>
-                    </div>
-                </a>
-            </div>
-            {% endif %}
+        {% if character != None %}
+        <div class="flex flex-col self-start justify-self-center p-3">
+            <a href="/characters/{{ character_details.Character_URL }}">
+                <div class="flex flex-col items-center justify-center">
+                    <img src="{{ character_details.Character_Image_URI }}" alt="{{ character_details.Character_Name }}">
+                    <h2>{{ character }}</h2>
+                </div>
+            </a>
+        </div>
+        {% endif %}
         {% endfor %}
     </div>
     {% else %}

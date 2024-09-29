@@ -17,7 +17,8 @@
             <p>{{ character.Character_Description }}</p>
         </div>
     </div>
-    <img src="{{ character.Character_Splash_Image_URI }}" alt="{{ character.Character_Name }}" class="img_splash hidden lg:flex self-center justify-self-center m-5">
+    <img src="{{ character.Character_Splash_Image_URI }}" alt="{{ character.Character_Name }}"
+        class="img_splash hidden lg:flex self-center justify-self-center m-5">
 </div>
 <h2 class="text-3xl font-bold p-5 bg-white m-4 shadow">{{ character.Character_Name }} Team Compositions</h2>
 <div class="lg:grid grid-cols-2">
@@ -30,7 +31,8 @@
             {% for character_info in team_info['Characters'] %}
             <a href="/characters/{{ character_info['Character_URL'] }}">
                 <div class="flex flex-col items-center justify-center p-1">
-                    <img src="{{ character_info['Character_Image_URI'] }}" alt="{{ character_info['Character_Name'] }}" class="img_icon">
+                    <img src="{{ character_info['Character_Image_URI'] }}" alt="{{ character_info['Character_Name'] }}"
+                        class="img_icon">
                     <h3>{{ character_info['Character_Name'] }}</h3>
                 </div>
             </a>

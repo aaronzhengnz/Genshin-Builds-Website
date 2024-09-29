@@ -4,44 +4,51 @@
 <div>
     <div>
         <a href="/characters/{{ team_character.Character_URL }}">
-            <img src="{{ team_character.Character_Image_URI }}" alt="{{ team_character.Character_Name }}" style="width: 200px; height: 200px;">
+            <img src="{{ team_character.Character_Image_URI }}" alt="{{ team_character.Character_Name }}"
+                style="width: 200px; height: 200px;">
         </a>
     </div>
     <div>
         <h2>Artifacts</h2>
         <div>
             {% for artifact_id, artifact in character_artifacts.items() %}
-                {% if artifact.Artifact_Set_Name_2 is not none %}
-                    {% if artifact.Best_In_Slot %}
-                    <a href="/artifacts/{{ artifact.Artifact_Set_1_URL }}">
-                        <img src="{{ artifact.Artifact_Set_1_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_1 }}" style="width: 100px; height: 100px;">
-                    </a>
-                    <a href="/artifacts/{{ artifact.Artifact_Set_2_URL }}">
-                        <img src="{{ artifact.Artifact_Set_2_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_2 }}" style="width: 100px; height: 100px;">
-                    </a>
-                    <p>Best In Slot - 2PC {{ artifact.Artifact_Set_Name_1 }} + 2PC {{ artifact.Artifact_Set_Name_2 }}</p>
-                    {% else %}
-                    <a href="/artifacts/{{ artifact.Artifact_Set_1_URL }}">
-                        <img src="{{ artifact.Artifact_Set_1_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_1 }}" style="width: 100px; height: 100px;">
-                    </a>
-                    <a href="/artifacts/{{ artifact.Artifact_Set_2_URL }}">
-                        <img src="{{ artifact.Artifact_Set_2_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_2 }}" style="width: 100px; height: 100px;">
-                    </a>
-                    <p>2PC {{ artifact.Artifact_Set_Name_1 }} + 2PC {{ artifact.Artifact_Set_Name_2 }}</p>
-                    {% endif %}
-                {% else %}
-                    {% if artifact.Best_In_Slot %}
-                    <a href="/artifacts/{{ artifact.Artifact_Set_1_URL }}">
-                        <img src="{{ artifact.Artifact_Set_1_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_1 }}" style="width: 100px; height: 100px;">
-                    </a>
-                    <p>Best In Slot - {{ artifact.Artifact_Set_Name_1 }}</p>
-                    {% else %}
-                    <a href="/artifacts/{{ artifact.Artifact_Set_1_URL }}">
-                        <img src="{{ artifact.Artifact_Set_1_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_1 }}" style="width: 100px; height: 100px;">
-                    </a>
-                    <p>{{ artifact.Artifact_Set_Name_1 }}</p>
-                    {% endif %}
-                {% endif %}
+            {% if artifact.Artifact_Set_Name_2 is not none %}
+            {% if artifact.Best_In_Slot %}
+            <a href="/artifacts/{{ artifact.Artifact_Set_1_URL }}">
+                <img src="{{ artifact.Artifact_Set_1_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_1 }}"
+                    style="width: 100px; height: 100px;">
+            </a>
+            <a href="/artifacts/{{ artifact.Artifact_Set_2_URL }}">
+                <img src="{{ artifact.Artifact_Set_2_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_2 }}"
+                    style="width: 100px; height: 100px;">
+            </a>
+            <p>Best In Slot - 2PC {{ artifact.Artifact_Set_Name_1 }} + 2PC {{ artifact.Artifact_Set_Name_2 }}</p>
+            {% else %}
+            <a href="/artifacts/{{ artifact.Artifact_Set_1_URL }}">
+                <img src="{{ artifact.Artifact_Set_1_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_1 }}"
+                    style="width: 100px; height: 100px;">
+            </a>
+            <a href="/artifacts/{{ artifact.Artifact_Set_2_URL }}">
+                <img src="{{ artifact.Artifact_Set_2_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_2 }}"
+                    style="width: 100px; height: 100px;">
+            </a>
+            <p>2PC {{ artifact.Artifact_Set_Name_1 }} + 2PC {{ artifact.Artifact_Set_Name_2 }}</p>
+            {% endif %}
+            {% else %}
+            {% if artifact.Best_In_Slot %}
+            <a href="/artifacts/{{ artifact.Artifact_Set_1_URL }}">
+                <img src="{{ artifact.Artifact_Set_1_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_1 }}"
+                    style="width: 100px; height: 100px;">
+            </a>
+            <p>Best In Slot - {{ artifact.Artifact_Set_Name_1 }}</p>
+            {% else %}
+            <a href="/artifacts/{{ artifact.Artifact_Set_1_URL }}">
+                <img src="{{ artifact.Artifact_Set_1_Flower_Image_URI }}" alt="{{ artifact.Artifact_Set_Name_1 }}"
+                    style="width: 100px; height: 100px;">
+            </a>
+            <p>{{ artifact.Artifact_Set_Name_1 }}</p>
+            {% endif %}
+            {% endif %}
             {% endfor %}
         </div>
     </div>
@@ -51,12 +58,14 @@
         <div>
             {% if weapon.Best_In_Slot %}
             <a href="/weapons/{{ weapon.Weapon_URL }}">
-                <img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}" style="width: 100px; height: 100px;">
+                <img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}"
+                    style="width: 100px; height: 100px;">
                 <p><b>Best In Slot - </b>{{ weapon.Weapon_Name }}</p>
             </a>
             {% else %}
             <a href="/weapons/{{ weapon.Weapon_URL }}">
-                <img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}" style="width: 100px; height: 100px;">
+                <img src="{{ weapon.Weapon_Image_URI }}" alt="{{ weapon.Weapon_Name }}"
+                    style="width: 100px; height: 100px;">
                 <p>{{ weapon.Weapon_Name }}</p>
             </a>
             {% endif %}

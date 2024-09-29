@@ -1,8 +1,8 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} <!-- Inherits the code from layout.html. Allows the page to have items from layout.html -->
+{% block content %} <!-- Content starts -->
 <div class="bg-white m-4 shadow lg:mt-8 m-4">
     <h1 class="text-3xl pt-6 pb-2 font-bold lg:text-4xl pt-9">Characters</h1>
-    <form method="GET" action="{{ url_for('characters') }}" class="flex flex-col items-center justify-center pb-5">
+    <form method="GET" action="{{ url_for('characters') }}" class="flex flex-col items-center justify-center pb-5"> <!-- Form to search for characters -->
         <input type="text" name="query" placeholder="Search characters" maxlength="40"
             value="{{ request.args.get('query', '') }}" class="p-3 m-2.5 text-center border-2 lg:pt-4 w-96">
         <button type="submit"
@@ -11,13 +11,13 @@
 </div>
 
 <div class="bg-white m-4 shadow">
-    {% if characters|length > 0 %}
+    {% if characters|length > 0 %} <!-- Looking for characters that match the query -->
     <div class="grid grid-cols-2 pt-5 lg:grid-cols-6">
         {% for character in characters %}
         <div class="flex flex-col self-start justify-self-center">
             <div class="p-3 lg:p-7">
                 <a href="/characters/{{ character.Character_URL }}">
-                    <div class="flex flex-col items-center justify-center">
+                    <div class="flex flex-col items-center justify-center"> <!-- Displaying the character's image and name -->
                         <img src="{{ character.Character_Image_URI }}" alt="{{ character.Character_Name }}"
                             class="img_icon">
                         <h2 class="lg:text-2xl pt-3">{{ character.Character_Name }}</h2>
@@ -33,4 +33,4 @@
     </div>
     {% endif %}
 </div>
-{% endblock %}
+{% endblock %} <!-- Content end -->

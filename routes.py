@@ -10,21 +10,24 @@ def get_db_connection():
     return conn
 
 
+# 404 error handler when page is not found can be aborted
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template("404.html"), 404
+    abort(404)
 
 
-@app.route("/")
+@app.route("/")  # Home page / lobby page
 def home():
     return render_template("home.html")
 
 
+# Teams page to allow users to view teams
 @app.route("/teams", methods=["GET"])
 def teams():
     conn = get_db_connection()
     cur = conn.cursor()
 
+    # Query to search for a specific character
     selected_character = request.args.get("query", None)
 
     teams_query = """
@@ -44,6 +47,7 @@ def teams():
             ON TeamCharacters.Character_ID = Characters.Character_ID
     """
 
+    # If a character is selected, filter teams by character
     if selected_character:
         teams_query += """
             WHERE TeamCharacters.Team_ID IN (
@@ -61,8 +65,10 @@ def teams():
         conn.close()
         abort(404)
 
-    teams_dict = {}
+    teams_dict = {}  # Dictionary to store teams and their characters
 
+    # Transformation of data retireved from database to make it easier to use
+    # in HTML
     for row in team_rows:
         team_id = row["Team_ID"]
 
@@ -80,12 +86,13 @@ def teams():
                 "Characters": []
             }
 
+        # Append character details to team
         teams_dict[team_id]["Characters"].append(character_details)
 
     characters_query = "SELECT * FROM Characters ORDER BY Character_Name"
     character_rows = cur.execute(characters_query).fetchall()
 
-    characters_dict = {}
+    characters_dict = {}  # Dictionary to store characters
 
     for row in character_rows:
         character_id = row["Character_ID"]
@@ -104,13 +111,15 @@ def teams():
                            teams=teams_dict,
                            characters=characters_dict,
                            selected_character=selected_character)
+    # Pass data to HTML
 
 
-@app.route("/teams/<string:Team_URL>")
+@app.route("/teams/<string:Team_URL>")  # Team page to view team details
 def team(Team_URL):
     conn = get_db_connection()
     cur = conn.cursor()
 
+    # Query to retrieve team details
     team_character_query = """
     SELECT
         Teams.Team_ID AS Team_ID,
@@ -140,7 +149,7 @@ def team(Team_URL):
     cur.execute(team_character_query, (Team_URL,))
     team_characters = cur.fetchall()
 
-    if not team_characters:
+    if not team_characters:  # If team is not found, return 404 error
         conn.close()
         abort(404)
 
@@ -189,11 +198,12 @@ def team(Team_URL):
     cur.execute(character_weapon_query, (Team_ID, Team_ID))
     character_weapons = cur.fetchall()
 
+    # If character weapons are not found, return 404 error
+    conn.close()
     if not character_weapons:
-        conn.close()
         abort(404)
 
-    character_weapon_dict = {}
+    character_weapon_dict = {}  # Dictionary to store character weapons
     for row in character_weapons:
         character_id = row["Character_ID"]
 
@@ -215,6 +225,7 @@ def team(Team_URL):
             character_weapon_dict[character_id]["weapons"].append(
                 weapon_details)
 
+    # Query to retrieve character artifacts
     character_artifact_query = """
     SELECT
         TeamCharacters.Team_ID AS Team_ID,
@@ -250,11 +261,11 @@ def team(Team_URL):
     """
 
     cur.execute(character_artifact_query, (Team_ID, Team_ID))
-    character_artifacts = cur.fetchall()
+    character_artifacts = cur.fetchall()   # Retrieve character artifacts
 
     if not character_artifacts:
         conn.close()
-        abort(404)
+        abort(404)    # If character artifacts are not found, return 404 error
 
     character_artifacts_dict = {}
     for row in character_artifacts:
@@ -303,11 +314,12 @@ def team(Team_URL):
     cur.execute(character_substats_query, (Team_ID, Team_ID))
     character_artifacts = cur.fetchall()
 
+    # If character substats are not found, return 404 error
     if not character_artifacts:
         conn.close()
         abort(404)
 
-    character_substats_dict = {}
+    character_substats_dict = {}    # Dictionary to store character substats
     for row in character_artifacts:
         character_id = row["Character_ID"]
 
@@ -332,16 +344,17 @@ def team(Team_URL):
         "Character_Substats": character_substats_dict
     }
 
-    return render_template("team.html", team=team_dict)
+    return render_template("team.html", team=team_dict)  # Pass data to HTML
 
 
 @app.route("/characters")
 def characters():
+    # Query to search for a specific character
     query = request.args.get('query', '')
     conn = get_db_connection()
     cur = conn.cursor()
 
-    if query:
+    if query:  # Subquery
         cur.execute("""
                     SELECT * FROM characters WHERE Character_Name LIKE ?
                     ORDER BY Character_Name
@@ -385,11 +398,11 @@ def character(Character_URL):
     cur.execute(character_query, (Character_URL,))
     character = cur.fetchone()
 
-    if not character:
+    if not character:   # If character is not found, return 404 error
         conn.close()
         abort(404)
 
-    character_info = {
+    character_info = {  # Dictionary to store character details
         "Character_ID": character["Character_ID"],
         "Character_Name": character["Character_Name"],
         "Character_Vision": character["Character_Vision"],
@@ -402,6 +415,7 @@ def character(Character_URL):
         "Character_Weapon_Type": character["Character_Weapon_Type"]
     }
 
+    # Query to retrieve teams that the character is in
     teams_query = """
     SELECT
         Teams.Team_ID AS Team_ID,
@@ -432,7 +446,7 @@ def character(Character_URL):
     cur.execute(teams_query, (Character_URL,))
     teams = cur.fetchall()
 
-    teams_dict = {}
+    teams_dict = {}  # Dictionary to store teams that the character is in
     for row in teams:
         team_id = row["Team_ID"]
 
@@ -454,7 +468,7 @@ def character(Character_URL):
     conn.close()
     return render_template("character.html",
                            character=character_info,
-                           teams=teams_dict)
+                           teams=teams_dict)    # Pass data to HTML
 
 
 @app.route("/weapons")
@@ -550,6 +564,7 @@ def weapon(Weapon_URL):
     cur.execute(characters_query, (Weapon_URL,))
     characters = cur.fetchall()
 
+    # Dictionary to store characters that use the weapon
     characters_dict = {}
     for row in characters:
         character_details = {
@@ -637,7 +652,7 @@ def artifact(Artifact_Set_URL):
         conn.close()
         abort(404)
 
-    artifacts = {
+    artifacts = {   # Dictionary to store artifact details
         "Artifact_Set_ID": artifact_rows[0]["Artifact_Set_ID"],
         "Artifact_Set_Name": artifact_rows[0]["Artifact_Set_Name"],
         "2PC_Set_Bonus": artifact_rows[0]["2PC_Set_Bonus"],
@@ -682,6 +697,7 @@ def artifact(Artifact_Set_URL):
     cur.execute(characters_query, (Artifact_Set_URL,))
     characters = cur.fetchall()
 
+    # Dictionary to store characters that use the artifact
     characters_dict = {}
     for row in characters:
         characters_dict[row["Character_ID"]] = {
@@ -693,8 +709,8 @@ def artifact(Artifact_Set_URL):
     conn.close()
     return render_template("artifact.html",
                            artifacts=artifacts,
-                           characters=characters_dict)
+                           characters=characters_dict)  # Pass data to HTML
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True)  # Run the Flask app

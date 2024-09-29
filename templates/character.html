@@ -1,18 +1,18 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} <!-- Inherits the code from layout.html. Allows the page to have items from layout.html -->
+{% block content %} <!-- Content starts -->
 <div class="flex items-center justify-center bg-white m-4 shadow lg:grid grid-cols-2">
     <div class="flex flex-col items-center justify-center">
         <h1 class="text-3xl font-bold pt-6 lg:text-4xl">{{ character.Character_Name }}</h1>
         <div class="flex items-center justify-evenly p-3 lg:justify-center">
             <img src="{{ character.Character_Image_URI }}" alt="{{ character.Character_Name }}" class="img_icon lg:m-5">
-            <div class="p-3 lg:p-5">
+            <div class="p-3 lg:p-5"> <!-- Display character information -->
                 <p><b>Vision</b> - {{ character.Character_Vision }}</p>
                 <p><b>Affiliation</b> - {{ character.Character_Affiliation }}</p>
                 <p><b>Rarity</b> - {{ character.Character_Rarity }}</p>
                 <p><b>Weapon</b> - {{ character.Character_Weapon_Type }}</p>
             </div>
         </div>
-        <div class="lg:px-14 py-5">
+        <div class="lg:px-14 py-5"> <!-- Display character description -->
             <p class="font-bold">Description -</p>
             <p>{{ character.Character_Description }}</p>
         </div>
@@ -22,7 +22,7 @@
 </div>
 <h2 class="text-3xl font-bold p-5 bg-white m-4 shadow">{{ character.Character_Name }} Team Compositions</h2>
 <div class="lg:grid grid-cols-2">
-    {% for team_id, team_info in teams.items() %}
+    {% for team_id, team_info in teams.items() %} <!-- Retrieve data for all teams the character is in -->
     <div class="bg-white m-4 shadow">
         <a href="/teams/{{ team_info['Team_URL'] }}">
             <h3 class="text-2xl font-medium p-4 hover:bg-gray-100">{{ team_info['Team_Name'] }}</h3>
@@ -41,4 +41,4 @@
     </div>
     {% endfor %}
 </div>
-{% endblock %}
+{% endblock %} <!-- Content end -->

@@ -1,31 +1,31 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} <!-- Inherits the code from layout.html. Allows the page to have items from layout.html -->
+{% block content %} <!-- Content starts -->
 <h1 class="text-3xl p-6 font-bold bg-white my-6 mx-3.5 shadow-xl lg:text-5xl p-9">{{ team.Team_Name }}</h1>
 <div>
     {% for character_id, characters in team.Team_Characters.items() %}
     {% if character_id in team.Character_Weapons %}
     {% set character_weapons = team.Character_Weapons[character_id]['weapons'] %}
     {% else %}
-    <p>No weapons found for character ID {{ character_id }}</p>
+    <p>No weapons found for character ID {{ character_id }}</p> <!-- Display message if no weapons are found -->
     {% set character_weapons = [] %}
     {% endif %}
 
     {% if character_id in team.Character_Artifacts and 'artifacts' in team.Character_Artifacts[character_id] %}
     {% set character_artifacts = team.Character_Artifacts[character_id]['artifacts'] %}
     {% else %}
-    <p>No artifacts found for character ID {{ character_id }}</p>
+    <p>No artifacts found for character ID {{ character_id }}</p>   <!-- Display message if no artifacts are found -->
     {% set character_artifacts = [] %}
     {% endif %}
 
     {% if character_id in team.Character_Substats and 'substats' in team.Character_Substats[character_id] %}
     {% set character_substats = team.Character_Substats[character_id]['substats'] %}
     {% else %}
-    <p>No substats found for character ID {{ character_id }}</p>
+    <p>No substats found for character ID {{ character_id }}</p>    <!-- Display message if no substats are found -->
     {% set character_substats = [] %}
     {% endif %}
 
     <div class="bg-white my-6 mx-3.5 shadow-xl lg:grid grid-cols-[2fr_3fr_2fr_2fr] justify-items-center p-6">
-        <div class="flex items-center justify-center p-3 lg:flex-col">
+        <div class="flex items-center justify-center p-3 lg:flex-col">  <!-- Display character information -->
             <a href="/characters/{{ characters['Character_URL'] }}">
                 <img src="{{ characters['Character_Image_URI'] }}" alt="{{ characters['Character_Name'] }}"
                     class="p-2 lg:p-4">
@@ -37,7 +37,7 @@
                 <p class="lg:text-2xl p-2"><b>Weapon - </b>{{ characters['Character_Weapon_Type'] }}</p>
             </div>
         </div>
-        <div class="flex flex-col items-center lg:justify-center p-5">
+        <div class="flex flex-col items-center lg:justify-center p-5">  <!-- Display artifacts -->
             <h3 class="text-2xl lg:text-4xl font-bold p-5">Artifacts</h3>
             {% for artifact in character_artifacts %}
             {% if artifact['Artifact_Set_Name_2'] is not none %}
@@ -91,7 +91,7 @@
             {% endif %}
             {% endfor %}
         </div>
-        <div class="flex flex-col items-center lg:justify-center p-5">
+        <div class="flex flex-col items-center lg:justify-center p-5">  <!-- Display substats -->
             {% if character_substats %}
             <h3 class="text-2xl lg:text-4xl font-bold p-5">Substats</h3>
             <div class="py-2">
@@ -101,7 +101,7 @@
             </div>
             {% endif %}
         </div>
-        <div class="flex flex-col items-center lg:justify-center p-5">
+        <div class="flex flex-col items-center lg:justify-center p-5">  <!-- Display weapons -->
             <h3 class="text-2xl lg:text-4xl font-bold p-5">Weapons</h3>
             <div class="grid grid-cols-1 pt-4 lg:grid-cols-2 justify-items-center">
                 {% for weapon in character_weapons %}
@@ -126,4 +126,4 @@
     </div>
     {% endfor %}
 </div>
-{% endblock %}
+{% endblock %} <!-- Content end -->

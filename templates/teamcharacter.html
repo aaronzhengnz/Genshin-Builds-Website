@@ -1,5 +1,5 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} <!-- Inherits the code from layout.html. Allows the page to have items from layout.html -->
+{% block content %} <!-- Content starts -->
 <h1>{{ team_character.Character_Name }} Build for {{ team_character.Team_Name }} Team</h1>
 <div>
     <div>
@@ -73,4 +73,4 @@
         {% endfor %}
     </div>
 </div>
-{% endblock %}
+{% endblock %} <!-- Content end -->

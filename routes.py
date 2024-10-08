@@ -119,233 +119,219 @@ def team(Team_URL):
     conn = get_db_connection()
     cur = conn.cursor()
 
-    try:
-        # Query to retrieve team details
-        team_character_query = """
-        SELECT
-            Teams.Team_ID AS Team_ID,
-            Teams.Team_Name AS Team_Name,
-            Characters.Character_ID AS Character_ID,
-            Characters.Character_Name AS Character_Name,
-            Characters.Character_Vision_ID AS Character_Vision_ID,
-            Characters.Character_Affiliation AS Character_Affiliation,
-            Characters.Character_Image_URI AS Character_Image_URI,
-            Characters.Character_URL AS Character_URL,
-            WeaponTypes.Weapon_Type_Name AS Character_Weapon_Type,
-            Visions.Vision_Name AS Character_Vision
+    # Query to retrieve team details
+    team_character_query = """
+    SELECT
+        Teams.Team_ID AS Team_ID,
+        Teams.Team_Name AS Team_Name,
+        Characters.Character_ID AS Character_ID,
+        Characters.Character_Name AS Character_Name,
+        Characters.Character_Vision_ID AS Character_Vision_ID,
+        Characters.Character_Affiliation AS Character_Affiliation,
+        Characters.Character_Image_URI AS Character_Image_URI,
+        Characters.Character_URL AS Character_URL,
+        WeaponTypes.Weapon_Type_Name AS Character_Weapon_Type,
+        Visions.Vision_Name AS Character_Vision
 
-        FROM TeamCharacters
-        INNER JOIN Teams
-            ON TeamCharacters.Team_ID = Teams.Team_ID
-        INNER JOIN Characters
-            ON TeamCharacters.Character_ID = Characters.Character_ID
-        INNER JOIN Visions
-            ON Vision_ID = Characters.Character_Vision_ID
-        INNER JOIN WeaponTypes
-            ON Characters.Character_Weapon_Type_ID = WeaponTypes.Weapon_Type_ID
+    FROM TeamCharacters
+    INNER JOIN Teams
+        ON TeamCharacters.Team_ID = Teams.Team_ID
+    INNER JOIN Characters
+        ON TeamCharacters.Character_ID = Characters.Character_ID
+    INNER JOIN Visions
+        ON Vision_ID = Characters.Character_Vision_ID
+    INNER JOIN WeaponTypes
+        ON Characters.Character_Weapon_Type_ID = WeaponTypes.Weapon_Type_ID
 
-        WHERE Teams.Team_URL = ?
-        """
+    WHERE Teams.Team_URL = ?
+    """
 
-        cur.execute(team_character_query, (Team_URL,))
-        team_characters = cur.fetchall()
+    cur.execute(team_character_query, (Team_URL,))
+    team_characters = cur.fetchall()
 
-        if not team_characters:  # If team is not found, return 404 error
-            abort(404)
+    if not team_characters:  # If team is not found, return 404 error
+        conn.close()
+        abort(404)
 
-        characters_dict = {}
-        Team_ID = team_characters[0]["Team_ID"]
+    characters_dict = {}
+    Team_ID = team_characters[0]["Team_ID"]
 
-        for row in team_characters:
-            character_id = row["Character_ID"]
+    for row in team_characters:
+        character_id = row["Character_ID"]
 
-            character_details = {
-                "Character_Name": row["Character_Name"],
-                "Character_Vision": row["Character_Vision"],
-                "Character_Affiliation": row["Character_Affiliation"],
-                "Character_Image_URI": row["Character_Image_URI"],
-                "Character_URL": row["Character_URL"],
-                "Character_Weapon_Type": row["Character_Weapon_Type"]
-            }
-
-            if character_id not in characters_dict:
-                characters_dict[character_id] = character_details
-
-        # Query to retrieve character weapons
-        character_weapon_query = """
-        SELECT
-            TeamCharacters.Team_ID AS Team_ID,
-            TeamCharacters.Character_ID AS Character_ID,
-            Weapons.Weapon_ID AS Weapon_ID,
-            Weapons.Weapon_Name AS Weapon_Name,
-            Weapons.Weapon_Rarity AS Weapon_Rarity,
-            Weapons.Weapon_Image_URI AS Weapon_Image_URI,
-            Weapons.Weapon_URL AS Weapon_URL,
-            CharacterWeapons.Best_In_Slot AS Best_In_Slot,
-            CharacterWeapons.Free_To_Play AS Free_To_Play
-
-        FROM TeamCharacters
-        INNER JOIN Characters
-            ON TeamCharacters.Character_ID = Characters.Character_ID
-        INNER JOIN CharacterWeapons
-            ON TeamCharacters.Character_ID = CharacterWeapons.Character_ID
-        INNER JOIN Weapons
-            ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
-
-        WHERE TeamCharacters.Team_ID = ?
-            AND CharacterWeapons.Team_ID = ?
-        """
-
-        cur.execute(character_weapon_query, (Team_ID, Team_ID))
-        character_weapons = cur.fetchall()
-
-        if not character_weapons:
-            abort(404)
-
-        character_weapon_dict = {}
-        for row in character_weapons:
-            character_id = row["Character_ID"]
-
-            weapon_details = {
-                "Weapon_ID": row["Weapon_ID"],
-                "Weapon_Name": row["Weapon_Name"],
-                "Weapon_Rarity": row["Weapon_Rarity"],
-                "Weapon_Image_URI": row["Weapon_Image_URI"],
-                "Best_In_Slot": row["Best_In_Slot"],
-                "Weapon_URL": row["Weapon_URL"],
-                "Free_To_Play": row["Free_To_Play"]
-            }
-
-            if character_id not in character_weapon_dict:
-                character_weapon_dict[character_id] = {
-                    "weapons": [weapon_details]
-                }
-            else:
-                character_weapon_dict[character_id]["weapons"].append(
-                    weapon_details)
-
-        # Query to retrieve character artifacts
-        character_artifact_query = """
-        SELECT
-            TeamCharacters.Team_ID AS Team_ID,
-            TeamCharacters.Character_ID AS Character_ID,
-            Characters.Character_Name AS Character_Name,
-            ArtifactSet1.Artifact_Set_Name AS Artifact_Set_1,
-            ArtifactSet1.Artifact_Set_URL as Artifact_Set_1_URL,
-            ArtifactSet2.Artifact_Set_Name AS Artifact_Set_2,
-            ArtifactSet2.Artifact_Set_URL as Artifact_Set_2_URL,
-            CharacterArtifacts.Best_In_Slot AS Best_In_Slot,
-            ArtifactSet1.Flower_Image_URI AS Artifact_Set_1_Flower_Image_URI,
-            ArtifactSet2.Flower_Image_URI AS Artifact_Set_2_Flower_Image_URI
-
-        FROM TeamCharacters
-            INNER JOIN Characters
-                ON TeamCharacters.Character_ID = Characters.Character_ID
-            INNER JOIN CharacterArtifacts
-                ON TeamCharacters.Character_ID =
-                CharacterArtifacts.Character_ID
-                AND TeamCharacters.Team_ID = CharacterArtifacts.Team_ID
-            INNER JOIN RecommendedArtifacts
-                ON CharacterArtifacts.Recommended_Artifact_ID =
-                RecommendedArtifacts.Recommended_Artifact_ID
-            INNER JOIN ArtifactSets AS ArtifactSet1
-                ON RecommendedArtifacts.Artifact_Set_ID_1 =
-                ArtifactSet1.Artifact_Set_ID
-            LEFT JOIN ArtifactSets AS ArtifactSet2
-                ON RecommendedArtifacts.Artifact_Set_ID_2 =
-                ArtifactSet2.Artifact_Set_ID
-
-        WHERE TeamCharacters.Team_ID = ?
-            AND CharacterArtifacts.Team_ID = ?;
-        """
-
-        cur.execute(character_artifact_query, (Team_ID, Team_ID))
-        character_artifacts = cur.fetchall()
-
-        if not character_artifacts:
-            abort(404)
-
-        character_artifacts_dict = {}
-        for row in character_artifacts:
-            character_id = row["Character_ID"]
-
-            artifact_details = {
-                "Artifact_Set_Name_1": row["Artifact_Set_1"],
-                "Artifact_Set_1_Flower_Image_URI":
-                    row["Artifact_Set_1_Flower_Image_URI"],
-                "Artifact_Set_1_URL": row["Artifact_Set_1_URL"],
-                "Artifact_Set_Name_2": row["Artifact_Set_2"],
-                "Artifact_Set_2_Flower_Image_URI":
-                    row["Artifact_Set_2_Flower_Image_URI"],
-                "Artifact_Set_2_URL": row["Artifact_Set_2_URL"],
-                "Best_In_Slot": row["Best_In_Slot"]
-            }
-
-            if character_id not in character_artifacts_dict:
-                character_artifacts_dict[character_id] = {
-                    "artifacts": [artifact_details]
-                }
-            else:
-                character_artifacts_dict[character_id]["artifacts"].append(
-                    artifact_details)
-
-        # Query to retrieve character substats
-        character_substats_query = """
-        SELECT
-            TeamCharacters.Team_ID AS Team_ID,
-            TeamCharacters.Character_ID AS Character_ID,
-            Characters.Character_Name AS Character_Name,
-            Stats.Stat_Name AS SubStat_Name,
-            CharacterSubStats.Rating AS SubStat_Rating
-
-        FROM TeamCharacters
-        INNER JOIN Characters
-            ON TeamCharacters.Character_ID = Characters.Character_ID
-        INNER JOIN CharacterSubStats
-            ON Characters.Character_ID = CharacterSubStats.Character_ID
-        INNER JOIN Stats
-            ON CharacterSubStats.Stat_ID = Stats.Stat_ID
-
-        WHERE TeamCharacters.Team_ID = ?
-            AND CharacterSubStats.Team_ID = ?
-        """
-
-        cur.execute(character_substats_query, (Team_ID, Team_ID))
-        character_substats = cur.fetchall()
-
-        if not character_substats:
-            abort(404)
-
-        character_substats_dict = {}
-        for row in character_substats:
-            character_id = row["Character_ID"]
-
-            substat_details = {
-                "SubStat_Name": row["SubStat_Name"],
-                "SubStat_Rating": row["SubStat_Rating"]
-            }
-
-            if character_id not in character_substats_dict:
-                character_substats_dict[character_id] = {
-                    "substats": [substat_details]
-                }
-            else:
-                character_substats_dict[character_id]["substats"].append(
-                    substat_details)
-
-        team_dict = {
-            "Team_Name": team_characters[0]["Team_Name"],
-            "Team_Characters": characters_dict,
-            "Character_Weapons": character_weapon_dict,
-            "Character_Artifacts": character_artifacts_dict,
-            "Character_Substats": character_substats_dict
+        character_details = {
+            "Character_Name": row["Character_Name"],
+            "Character_Vision": row["Character_Vision"],
+            "Character_Affiliation": row["Character_Affiliation"],
+            "Character_Image_URI": row["Character_Image_URI"],
+            "Character_URL": row["Character_URL"],
+            "Character_Weapon_Type": row["Character_Weapon_Type"]
         }
 
-        # Pass data to HTML
-        return render_template("team.html", team=team_dict)
+        if character_id not in characters_dict:
+            characters_dict[character_id] = character_details
 
-    finally:
-        conn.close()  # Ensure the connection is closed after all queries
+    character_weapon_query = """
+    SELECT
+        TeamCharacters.Team_ID AS Team_ID,
+        TeamCharacters.Character_ID AS Character_ID,
+        Weapons.Weapon_ID AS Weapon_ID,
+        Weapons.Weapon_Name AS Weapon_Name,
+        Weapons.Weapon_Rarity AS Weapon_Rarity,
+        Weapons.Weapon_Image_URI AS Weapon_Image_URI,
+        Weapons.Weapon_URL AS Weapon_URL,
+        CharacterWeapons.Best_In_Slot AS Best_In_Slot,
+        CharacterWeapons.Free_To_Play AS Free_To_Play
+
+    FROM TeamCharacters
+    INNER JOIN Characters
+        ON TeamCharacters.Character_ID = Characters.Character_ID
+    INNER JOIN CharacterWeapons
+        ON TeamCharacters.Character_ID = CharacterWeapons.Character_ID
+    INNER JOIN Weapons
+        ON CharacterWeapons.Weapon_ID = Weapons.Weapon_ID
+
+    WHERE TeamCharacters.Team_ID = ?
+        AND CharacterWeapons.Team_ID = ?
+    """
+
+    cur.execute(character_weapon_query, (Team_ID, Team_ID))
+    character_weapons = cur.fetchall()
+
+    character_weapon_dict = {}  # Dictionary to store character weapons
+    for row in character_weapons:
+        character_id = row["Character_ID"]
+
+        weapon_details = {
+            "Weapon_ID": row["Weapon_ID"],
+            "Weapon_Name": row["Weapon_Name"],
+            "Weapon_Rarity": row["Weapon_Rarity"],
+            "Weapon_Image_URI": row["Weapon_Image_URI"],
+            "Best_In_Slot": row["Best_In_Slot"],
+            "Weapon_URL": row["Weapon_URL"],
+            "Free_To_Play": row["Free_To_Play"]
+        }
+
+        if character_id not in character_weapon_dict:
+            character_weapon_dict[character_id] = {
+                "weapons": [weapon_details]
+            }
+        else:
+            character_weapon_dict[character_id]["weapons"].append(
+                weapon_details)
+
+    # Query to retrieve character artifacts
+    character_artifact_query = """
+    SELECT
+        TeamCharacters.Team_ID AS Team_ID,
+        TeamCharacters.Character_ID AS Character_ID,
+        Characters.Character_Name AS Character_Name,
+        ArtifactSet1.Artifact_Set_Name AS Artifact_Set_1,
+        ArtifactSet1.Artifact_Set_URL as Artifact_Set_1_URL,
+        ArtifactSet2.Artifact_Set_Name AS Artifact_Set_2,
+        ArtifactSet2.Artifact_Set_URL as Artifact_Set_2_URL,
+        CharacterArtifacts.Best_In_Slot AS Best_In_Slot,
+        ArtifactSet1.Flower_Image_URI AS Artifact_Set_1_Flower_Image_URI,
+        ArtifactSet2.Flower_Image_URI AS Artifact_Set_2_Flower_Image_URI
+
+    FROM TeamCharacters
+        INNER JOIN Characters
+            ON TeamCharacters.Character_ID = Characters.Character_ID
+        INNER JOIN CharacterArtifacts
+            ON TeamCharacters.Character_ID = CharacterArtifacts.Character_ID
+            AND TeamCharacters.Team_ID = CharacterArtifacts.Team_ID
+        INNER JOIN RecommendedArtifacts
+            ON CharacterArtifacts.Recommended_Artifact_ID =
+            RecommendedArtifacts.Recommended_Artifact_ID
+
+        INNER JOIN ArtifactSets AS ArtifactSet1
+            ON RecommendedArtifacts.Artifact_Set_ID_1 =
+            ArtifactSet1.Artifact_Set_ID
+        LEFT JOIN ArtifactSets AS ArtifactSet2
+            ON RecommendedArtifacts.Artifact_Set_ID_2 =
+            ArtifactSet2.Artifact_Set_ID
+
+    WHERE TeamCharacters.Team_ID = ?
+        AND CharacterArtifacts.Team_ID = ?;
+    """
+
+    cur.execute(character_artifact_query, (Team_ID, Team_ID))
+    character_artifacts = cur.fetchall()   # Retrieve character artifacts
+
+    character_artifacts_dict = {}
+    for row in character_artifacts:
+        character_id = row["Character_ID"]
+
+        artifact_details = {
+            "Artifact_Set_Name_1": row["Artifact_Set_1"],
+            "Artifact_Set_1_Flower_Image_URI":
+                row["Artifact_Set_1_Flower_Image_URI"],
+            "Artifact_Set_1_URL": row["Artifact_Set_1_URL"],
+            "Artifact_Set_Name_2": row["Artifact_Set_2"],
+            "Artifact_Set_2_Flower_Image_URI":
+                row["Artifact_Set_2_Flower_Image_URI"],
+            "Artifact_Set_2_URL": row["Artifact_Set_2_URL"],
+            "Best_In_Slot": row["Best_In_Slot"]
+        }
+
+        if character_id not in character_artifacts_dict:
+            character_artifacts_dict[character_id] = {
+                "artifacts": [artifact_details]
+            }
+        else:
+            character_artifacts_dict[character_id]["artifacts"].append(
+                artifact_details)
+
+    character_substats_query = """
+    SELECT
+        TeamCharacters.Team_ID AS Team_ID,
+        TeamCharacters.Character_ID AS Character_ID,
+        Characters.Character_Name AS Character_Name,
+        Stats.Stat_Name AS SubStat_Name,
+        CharacterSubStats.Rating AS SubStat_Rating
+
+    FROM TeamCharacters
+    INNER JOIN Characters
+        ON TeamCharacters.Character_ID = Characters.Character_ID
+    INNER JOIN CharacterSubStats
+        ON Characters.Character_ID = CharacterSubStats.Character_ID
+    INNER JOIN Stats
+        ON CharacterSubStats.Stat_ID = Stats.Stat_ID
+
+    WHERE TeamCharacters.Team_ID = ?
+        AND CharacterSubStats.Team_ID = ?
+    """
+
+    cur.execute(character_substats_query, (Team_ID, Team_ID))
+    character_artifacts = cur.fetchall()
+
+    character_substats_dict = {}    # Dictionary to store character substats
+    for row in character_artifacts:
+        character_id = row["Character_ID"]
+
+        substat_details = {
+            "SubStat_Name": row["SubStat_Name"],
+            "SubStat_Rating": row["SubStat_Rating"]
+        }
+
+        if character_id not in character_substats_dict:
+            character_substats_dict[character_id] = {
+                "substats": [substat_details]
+            }
+        else:
+            character_substats_dict[character_id]["substats"].append(
+                substat_details)
+
+    team_dict = {
+        "Team_Name": team_characters[0]["Team_Name"],
+        "Team_Characters": characters_dict,
+        "Character_Weapons": character_weapon_dict,
+        "Character_Artifacts": character_artifacts_dict,
+        "Character_Substats": character_substats_dict
+    }
+
+    conn.close()  # Close the connection after all queries are done
+    return render_template("team.html", team=team_dict)  # Pass data to HTML
 
 
 @app.route("/characters")

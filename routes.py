@@ -183,7 +183,12 @@ def team(Team_URL):
     cur.execute(team_character_query, (Team_URL,))
     team_characters = cur.fetchall()
 
-    if not team_characters:  # If team is not found, return 404 error
+    '''
+    This aborts a 404 error if there is an issue with the query. This allows
+    my website to address issues with the links and prevents the user from
+    recieving SQL errors
+    '''
+    if not team_characters:
         conn.close()
         abort(404)
 
@@ -239,8 +244,8 @@ def team(Team_URL):
 
     '''
     Dictionary to store weapons. This
-    makes it easy to display in HTML because I know what each piece of data is
-    called
+    makes it easy to display the data in the HTML because I know what each
+    piece of data is called
     '''
     character_weapon_dict = {}
     for row in character_weapons:

@@ -10,18 +10,26 @@ def get_db_connection():
     return conn
 
 
-# 404 error handler when page is not found can be aborted
 @app.errorhandler(404)
 def page_not_found(error):
-    abort(404)
+    '''
+    404 error handler which displays the 404 page. This is used when a page
+    url is incorrect and doesn't match with any of the routes
+    '''
+    return render_template("404.html"), 404
 
 
 @app.route("/")  # Home page / lobby page
 def home():
+    '''
+    This route returns a HTML page which is the home page of the website. No
+    query is required because no data is being retrieved and displayed from
+    the database.
+    '''
     return render_template("home.html")
 
 
-# Teams page to allow users to view teams
+# Teams page to allow users to view teams which I have created
 @app.route("/teams", methods=["GET"])
 def teams():
     conn = get_db_connection()
@@ -31,7 +39,10 @@ def teams():
     selected_character = request.args.get("query", None)
 
     teams_query = """
-        SELECT
+    /* Specific columns to be selected so that the data can be displayed
+    in the HTML page */
+
+    SELECT
         TeamCharacters.Team_ID,
         Team_Name,
         Character_Name,
@@ -40,6 +51,10 @@ def teams():
         Character_URL,
         Character_Image_URI
 
+    /* Table joins so that my query can retrieve data from external tables.
+    This query joins the TeamCharacters table to other tables like Teams and
+    Characters. This means that I can  */
+
         FROM TeamCharacters
         INNER JOIN Teams
             ON TeamCharacters.Team_ID = Teams.Team_ID
@@ -47,7 +62,12 @@ def teams():
             ON TeamCharacters.Character_ID = Characters.Character_ID
     """
 
-    # If a character is selected, filter teams by character
+    '''
+    If statement which checks if a character has been searched. This will
+    change the query and filter out teams which don't include the character.
+    This allows my website to have a filter function and choose teams based on
+    the filtered character
+    '''
     if selected_character:
         teams_query += """
             WHERE TeamCharacters.Team_ID IN (
@@ -65,10 +85,12 @@ def teams():
         conn.close()
         abort(404)
 
-    teams_dict = {}  # Dictionary to store teams and their characters
-
-    # Transformation of data retireved from database to make it easier to use
-    # in HTML
+    '''
+    Dictionary to store teams for easy access. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
+    teams_dict = {}
     for row in team_rows:
         team_id = row["Team_ID"]
 
@@ -86,14 +108,21 @@ def teams():
                 "Characters": []
             }
 
-        # Append character details to team
+        '''
+        Append character details to team. This allows the new data to be
+        added to the dictionary and used in the HTML page to display.
+        '''
         teams_dict[team_id]["Characters"].append(character_details)
 
     characters_query = "SELECT * FROM Characters ORDER BY Character_Name"
     character_rows = cur.execute(characters_query).fetchall()
 
-    characters_dict = {}  # Dictionary to store characters
-
+    '''
+    Dictionary to store characters. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
+    characters_dict = {}
     for row in character_rows:
         character_id = row["Character_ID"]
 
@@ -111,15 +140,20 @@ def teams():
                            teams=teams_dict,
                            characters=characters_dict,
                            selected_character=selected_character)
-    # Pass data to HTML
+    # Pass data to HTML to display on the website
 
 
 @app.route("/teams/<string:Team_URL>")  # Team page to view team details
 def team(Team_URL):
+    '''
+    This page is a large page which requires multiple queries to prevent
+    issues with redundant data and complex queries. The queries are split into
+    Characters, Weapons, Substats, and Artifacts so that displaying and coding
+    is easy and simple.
+    '''
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # Query to retrieve team details
     team_character_query = """
     SELECT
         Teams.Team_ID AS Team_ID,
@@ -153,6 +187,11 @@ def team(Team_URL):
         conn.close()
         abort(404)
 
+    '''
+    Dictionary to store characters. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
     characters_dict = {}
     Team_ID = team_characters[0]["Team_ID"]
 
@@ -198,7 +237,12 @@ def team(Team_URL):
     cur.execute(character_weapon_query, (Team_ID, Team_ID))
     character_weapons = cur.fetchall()
 
-    character_weapon_dict = {}  # Dictionary to store character weapons
+    '''
+    Dictionary to store weapons. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
+    character_weapon_dict = {}
     for row in character_weapons:
         character_id = row["Character_ID"]
 
@@ -222,6 +266,9 @@ def team(Team_URL):
 
     # Query to retrieve character artifacts
     character_artifact_query = """
+    /* Specific columns to be selected so that the required data can be
+    displayed in the HTML page */
+
     SELECT
         TeamCharacters.Team_ID AS Team_ID,
         TeamCharacters.Character_ID AS Character_ID,
@@ -258,6 +305,11 @@ def team(Team_URL):
     cur.execute(character_artifact_query, (Team_ID, Team_ID))
     character_artifacts = cur.fetchall()   # Retrieve character artifacts
 
+    '''
+    Dictionary to store artifacts. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
     character_artifacts_dict = {}
     for row in character_artifacts:
         character_id = row["Character_ID"]
@@ -305,7 +357,12 @@ def team(Team_URL):
     cur.execute(character_substats_query, (Team_ID, Team_ID))
     character_artifacts = cur.fetchall()
 
-    character_substats_dict = {}    # Dictionary to store character substats
+    '''
+    Dictionary to store substats. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
+    character_substats_dict = {}
     for row in character_artifacts:
         character_id = row["Character_ID"]
 
@@ -336,12 +393,17 @@ def team(Team_URL):
 
 @app.route("/characters")
 def characters():
-    # Query to search for a specific character
+    '''
+    This route requires a search function so that users are able to search for
+    characters within the database. This will refresh the page with a new query
+    based on the search so that the new page will return data from the
+    filtered database
+    '''
     query = request.args.get('query', '')
     conn = get_db_connection()
     cur = conn.cursor()
 
-    if query:  # Subquery
+    if query:
         cur.execute("""
                     SELECT * FROM characters WHERE Character_Name LIKE ?
                     ORDER BY Character_Name
@@ -352,6 +414,11 @@ def characters():
     character_rows = cur.fetchall()
     conn.close()
 
+    '''
+    Dictionary to store characters. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
     characters = [dict(row) for row in character_rows]
     return render_template("characters.html", characters=characters)
 
@@ -389,7 +456,12 @@ def character(Character_URL):
         conn.close()
         abort(404)
 
-    character_info = {  # Dictionary to store character details
+    '''
+    Dictionary to store characters and change data like character rarity. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
+    character_info = {
         "Character_ID": character["Character_ID"],
         "Character_Name": character["Character_Name"],
         "Character_Vision": character["Character_Vision"],
@@ -433,7 +505,12 @@ def character(Character_URL):
     cur.execute(teams_query, (Character_URL,))
     teams = cur.fetchall()
 
-    teams_dict = {}  # Dictionary to store teams that the character is in
+    '''
+    Dictionary to store teams. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
+    teams_dict = {}
     for row in teams:
         team_id = row["Team_ID"]
 
@@ -475,6 +552,11 @@ def weapons():
     weapon_rows = cur.fetchall()
     conn.close()
 
+    '''
+    Dictionary to store weapons. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
     weapons = [dict(row) for row in weapon_rows]
     return render_template("weapons.html", weapons=weapons)
 
@@ -551,7 +633,11 @@ def weapon(Weapon_URL):
     cur.execute(characters_query, (Weapon_URL,))
     characters = cur.fetchall()
 
-    # Dictionary to store characters that use the weapon
+    '''
+    Dictionary to store characters. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
     characters_dict = {}
     for row in characters:
         character_details = {
@@ -586,6 +672,11 @@ def artifacts():
     artifact_rows = cur.fetchall()
     conn.close()
 
+    '''
+    Dictionary to store artifacts. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
     artifacts = [dict(row) for row in artifact_rows]
     return render_template("artifacts.html", artifacts=artifacts)
 
@@ -639,7 +730,11 @@ def artifact(Artifact_Set_URL):
         conn.close()
         abort(404)
 
-    # Dictionary to store artifact details for easy access in HTML
+    '''
+    Dictionary to store artifacts. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
     artifacts = {
         "Artifact_Set_ID": artifact_rows[0]["Artifact_Set_ID"],
         "Artifact_Set_Name": artifact_rows[0]["Artifact_Set_Name"],
@@ -685,7 +780,11 @@ def artifact(Artifact_Set_URL):
     cur.execute(characters_query, (Artifact_Set_URL,))
     characters = cur.fetchall()
 
-    # Dictionary to store characters that use the artifact for easy access
+    '''
+    Dictionary to store characters. This
+    makes it easy to display in HTML because I know what each piece of data is
+    called
+    '''
     characters_dict = {}
     for row in characters:
         characters_dict[row["Character_ID"]] = {

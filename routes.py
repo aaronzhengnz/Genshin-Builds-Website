@@ -13,29 +13,27 @@ def get_db_connection():
 @app.errorhandler(404)
 def page_not_found(error):
     '''
-    404 error handler which displays the 404 page. This is used when a page
-    url is incorrect and doesn't match with any of the routes
+    404 error handler which displays the 404 page
+    Addresses errors with the url and prevents the user from seeing SQL errors
     '''
     return render_template("404.html"), 404
 
 
-@app.route("/")  # Home page / lobby page
+@app.route("/")  # Home page / Menu page
 def home():
-    '''
-    This route returns a HTML page which is the home page of the website. No
-    query is required because no data is being retrieved and displayed from
-    the database.
-    '''
     return render_template("home.html")
 
 
 # Teams page to allow users to view teams which I have created
 @app.route("/teams", methods=["GET"])
 def teams():
+    '''
+    Contains 2 queries, one which filters based of character filter.
+    Allows filter function to work and refresh the page with new query and data
+    '''
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # Query to search for a specific character
     selected_character = request.args.get("query", None)
 
     teams_query = """
@@ -52,8 +50,8 @@ def teams():
         Character_Image_URI
 
     /* Table joins so that my query can retrieve data from external tables.
-    This query joins the TeamCharacters table to other tables like Teams and
-    Characters. This means that I can  */
+    Query joins the TeamCharacters table to other tables: Teams and
+    Characters. */
 
         FROM TeamCharacters
         INNER JOIN Teams
@@ -63,10 +61,9 @@ def teams():
     """
 
     '''
-    If statement which checks if a character has been searched. This will
-    change the query and filter out teams which don't include the character.
-    This allows my website to have a filter function and choose teams based on
-    the filtered character
+    If statement which checks if a character has been searched.
+    Changes query and filters out teams which don't include the character.
+    Sends new query so HTMl page can display new data
     '''
     if selected_character:
         teams_query += """
@@ -86,8 +83,8 @@ def teams():
         abort(404)
 
     '''
-    Dictionary to store teams for easy access. This
-    makes it easy to display in HTML because I know what each piece of data is
+    Dictionary to store teams for easy access.
+    Easy to display in HTML because I know what each piece of data is
     called
     '''
     teams_dict = {}
@@ -109,8 +106,8 @@ def teams():
             }
 
         '''
-        Append character details to team. This allows the new data to be
-        added to the dictionary and used in the HTML page to display.
+        Append character details to team dictionary.
+        Allows the new data to be included in final dictionary
         '''
         teams_dict[team_id]["Characters"].append(character_details)
 
@@ -118,8 +115,8 @@ def teams():
     character_rows = cur.execute(characters_query).fetchall()
 
     '''
-    Dictionary to store characters. This
-    makes it easy to display in HTML because I know what each piece of data is
+    Dictionary to store characters for easy access.
+    Easy to display in HTML because I know what each piece of data is
     called
     '''
     characters_dict = {}
@@ -146,10 +143,9 @@ def teams():
 @app.route("/teams/<string:Team_URL>")  # Team page to view team details
 def team(Team_URL):
     '''
-    This page is a large page which requires multiple queries to prevent
-    issues with redundant data and complex queries. The queries are split into
-    Characters, Weapons, Substats, and Artifacts so that displaying and coding
-    is easy and simple.
+    Multiple queries to prevent issues with extra redundant data.
+    Queries split into Characters, Weapons, Substats, and Artifacts.
+    Multiple queries make data management and retrieval easier.
     '''
     conn = get_db_connection()
     cur = conn.cursor()
@@ -184,17 +180,16 @@ def team(Team_URL):
     team_characters = cur.fetchall()
 
     '''
-    This aborts a 404 error if there is an issue with the query. This allows
-    my website to address issues with the links and prevents the user from
-    recieving SQL errors
+    Aborts a 404 error if there is an issue with the query.
+    Prevents the user from seeing SQL errors and displays a 404 page instead
     '''
     if not team_characters:
         conn.close()
         abort(404)
 
     '''
-    Dictionary to store characters. This
-    makes it easy to display in HTML because I know what each piece of data is
+    Dictionary to store characters for easy access.
+    Easy to display in HTML because I know what each piece of data is
     called
     '''
     characters_dict = {}
@@ -243,9 +238,9 @@ def team(Team_URL):
     character_weapons = cur.fetchall()
 
     '''
-    Dictionary to store weapons. This
-    makes it easy to display the data in the HTML because I know what each
-    piece of data is called
+    Dictionary to store weapons for easy access.
+    Easy to display in HTML because I know what each piece of data is
+    called
     '''
     character_weapon_dict = {}
     for row in character_weapons:
@@ -311,8 +306,8 @@ def team(Team_URL):
     character_artifacts = cur.fetchall()   # Retrieve character artifacts
 
     '''
-    Dictionary to store artifacts. This
-    makes it easy to display in HTML because I know what each piece of data is
+    Dictionary to store artifacts for easy access.
+    Easy to display in HTML because I know what each piece of data is
     called
     '''
     character_artifacts_dict = {}
@@ -363,8 +358,8 @@ def team(Team_URL):
     character_artifacts = cur.fetchall()
 
     '''
-    Dictionary to store substats. This
-    makes it easy to display in HTML because I know what each piece of data is
+    Dictionary to store substats for easy access.
+    Easy to display in HTML because I know what each piece of data is
     called
     '''
     character_substats_dict = {}
@@ -420,8 +415,8 @@ def characters():
     conn.close()
 
     '''
-    Dictionary to store characters. This
-    makes it easy to display in HTML because I know what each piece of data is
+    Dictionary to store characters for easy access.
+    Easy to display in HTML because I know what each piece of data is
     called
     '''
     characters = [dict(row) for row in character_rows]
@@ -462,9 +457,11 @@ def character(Character_URL):
         abort(404)
 
     '''
-    Dictionary to store characters and change data like character rarity. This
-    makes it easy to display in HTML because I know what each piece of data is
-    called
+    Dictionary to store characters for easy access.
+    Easy to display in HTML because I know what each piece of data is
+    called.
+    Changes Rarity data to stars becuase character rarities are shown as stars
+    in game
     '''
     character_info = {
         "Character_ID": character["Character_ID"],
@@ -558,8 +555,8 @@ def weapons():
     conn.close()
 
     '''
-    Dictionary to store weapons. This
-    makes it easy to display in HTML because I know what each piece of data is
+    Dictionary to store weapons.
+    Makes it easy to display in HTML because I know what each piece of data is
     called
     '''
     weapons = [dict(row) for row in weapon_rows]
@@ -639,8 +636,8 @@ def weapon(Weapon_URL):
     characters = cur.fetchall()
 
     '''
-    Dictionary to store characters. This
-    makes it easy to display in HTML because I know what each piece of data is
+    Dictionary to store characters.
+    Makes it easy to display in HTML because I know what each piece of data is
     called
     '''
     characters_dict = {}
@@ -678,8 +675,8 @@ def artifacts():
     conn.close()
 
     '''
-    Dictionary to store artifacts. This
-    makes it easy to display in HTML because I know what each piece of data is
+    Dictionary to store artifacts.
+    Makes it easy to display in HTML because I know what each piece of data is
     called
     '''
     artifacts = [dict(row) for row in artifact_rows]
@@ -736,8 +733,8 @@ def artifact(Artifact_Set_URL):
         abort(404)
 
     '''
-    Dictionary to store artifacts. This
-    makes it easy to display in HTML because I know what each piece of data is
+    Dictionary to store artifacts.
+    Makes it easy to display in HTML because I know what each piece of data is
     called
     '''
     artifacts = {
@@ -786,8 +783,8 @@ def artifact(Artifact_Set_URL):
     characters = cur.fetchall()
 
     '''
-    Dictionary to store characters. This
-    makes it easy to display in HTML because I know what each piece of data is
+    Dictionary to store characters.
+    Makes it easy to display in HTML because I know what each piece of data is
     called
     '''
     characters_dict = {}

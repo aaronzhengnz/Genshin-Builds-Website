@@ -49,7 +49,7 @@ def teams():
         Character_URL,
         Character_Image_URI
 
-    /* Table joins so that my query can retrieve data from external tables.
+    /* Table joins so that my query can retrieve data from other tables.
     Query joins the TeamCharacters table to other tables: Teams and
     Characters. */
 
@@ -150,6 +150,7 @@ def team(Team_URL):
     conn = get_db_connection()
     cur = conn.cursor()
 
+    # First query which retrieves team characters
     team_character_query = """
     SELECT
         Teams.Team_ID AS Team_ID,
@@ -210,6 +211,7 @@ def team(Team_URL):
         if character_id not in characters_dict:
             characters_dict[character_id] = character_details
 
+    # Second query to retrieve character weapons
     character_weapon_query = """
     SELECT
         TeamCharacters.Team_ID AS Team_ID,
@@ -264,7 +266,7 @@ def team(Team_URL):
             character_weapon_dict[character_id]["weapons"].append(
                 weapon_details)
 
-    # Query to retrieve character artifacts
+    # Third query to retrieve character artifacts
     character_artifact_query = """
     /* Specific columns to be selected so that the required data can be
     displayed in the HTML page */
@@ -334,6 +336,7 @@ def team(Team_URL):
             character_artifacts_dict[character_id]["artifacts"].append(
                 artifact_details)
 
+    # Fourth query to retrieve character substats
     character_substats_query = """
     SELECT
         TeamCharacters.Team_ID AS Team_ID,
